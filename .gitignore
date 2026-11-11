@@ -1,0 +1,49 @@
+# ---------- 构建产物 ----------
+bin/
+obj/
+build/out/
+*.user
+*.suo
+.vs/
+[Dd]ebug/
+[Rr]elease/
+TestResults/
+
+# ---------- 本地工具链（体积大，勿入库） ----------
+.dotnet/
+.dotnet-sdk.zip
+.nuget/
+playwright-driver/
+**/.playwright/
+
+# ---------- 敏感：账号凭据与浏览器 Profile（S0 硬约束） ----------
+# 仓库内不得出现任何 Cookie / 登录态 / 账号密码文件
+data.ini
+profiles/
+**/Profile*/
+User Data/
+*.cookie
+*.cookies
+cookies*.json
+cookies*.sqlite
+Local State
+Login Data
+secrets/
+*.secret.json
+config.local.json
+
+# ---------- 运行产物 ----------
+logs/
+*.log
+screenshots/
+captures/
+*.tmp
+*.bak
+*.db-journal
+*.db-wal
+
+# ---------- 原版二进制（体积大，不入库；见 docs/evidence/EVIDENCE-INDEX.md） ----------
+*.rar
+*.7z
+_orig/
+_runtest/

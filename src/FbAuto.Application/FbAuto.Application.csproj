@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\FbAuto.Core\FbAuto.Core.csproj" />
+    <ProjectReference Include="..\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj" />
+    <ProjectReference Include="..\FbAuto.Browser\FbAuto.Browser.csproj" />
+    <ProjectReference Include="..\FbAuto.Automation\FbAuto.Automation.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

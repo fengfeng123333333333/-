@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FbAuto.Core\FbAuto.Core.csproj" />
+    <ProjectReference Include="..\..\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\FbAuto.Browser\FbAuto.Browser.csproj" />
+    <ProjectReference Include="..\..\src\FbAuto.Automation\FbAuto.Automation.csproj" />
+    <ProjectReference Include="..\..\src\FbAuto.Application\FbAuto.Application.csproj" />
+  </ItemGroup>
+
+</Project>

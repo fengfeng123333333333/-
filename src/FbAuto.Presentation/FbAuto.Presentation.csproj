@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\FbAuto.Core\FbAuto.Core.csproj" />
+    <ProjectReference Include="..\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj" />
+    <ProjectReference Include="..\FbAuto.Browser\FbAuto.Browser.csproj" />
+    <ProjectReference Include="..\FbAuto.Automation\FbAuto.Automation.csproj" />
+    <ProjectReference Include="..\FbAuto.Application\FbAuto.Application.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+</Project>

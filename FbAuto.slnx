@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FbAuto.Application/FbAuto.Application.csproj" />
+    <Project Path="src/FbAuto.Automation/FbAuto.Automation.csproj" />
+    <Project Path="src/FbAuto.Browser/FbAuto.Browser.csproj" />
+    <Project Path="src/FbAuto.Core/FbAuto.Core.csproj" />
+    <Project Path="src/FbAuto.Infrastructure/FbAuto.Infrastructure.csproj" />
+    <Project Path="src/FbAuto.Presentation/FbAuto.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FbAuto.Tests/FbAuto.Tests.csproj" />
+  </Folder>
+</Solution>
