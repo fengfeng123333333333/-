@@ -30,13 +30,19 @@
 
 不用装任何东西，一条命令就能开一个完全隔离的浏览器（首次需要手动登录一次 Facebook）：
 
+**已备好双击脚本**：`D:\FbProfiles\启动acc01.cmd`，双击即开。
+
+等价命令：
+
 ```bat
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="D:\FbProfiles\acc01"
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="D:\FbProfiles\acc01" --no-first-run --no-default-browser-check
 ```
+
+> 后两个参数不能省：少了 `--no-first-run` 每次都会弹"设为默认浏览器"，自动化接管时会被这个弹窗挡住。
 
 打开后登录对应的 Facebook 账号，**然后正常关闭窗口**。目录 `D:\FbProfiles\acc01` 就固化下来了，之后程序每次接管都读这一份，登录态持久保留。
 
-再建第二个账号就换目录名：`acc02` → `D:\FbProfiles\acc02`。
+再建第二个账号就换目录名：`acc02` → 用 `build\new-profile.cmd acc02` 生成同款启动器。
 
 > 程序启动时会自动带上 `--remote-debugging-port`，端口按账号顺序分配（acc01→9222、acc02→9223），你不用填。
 
