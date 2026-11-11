@@ -5,6 +5,11 @@
     <ProjectReference Include="..\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- 与原版同版本 1.41.2：只当浏览器控制底座；反检测不在这一层做 -->
+    <PackageReference Include="Microsoft.Playwright" />
+  </ItemGroup>
+
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

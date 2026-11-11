@@ -14,8 +14,9 @@ namespace FbAuto.Presentation;
 
 /// <summary>
 /// 组合根。S1 不引 DI 容器，依赖手工装配（对象图很短，多一个容器就多一份看不懂）。
+/// 注意：基类要写全名，因为引入了 FbAuto.Application 命名空间后，裸写 Application 会解析成那个命名空间。
 /// </summary>
-public partial class App : Application
+public partial class App : System.Windows.Application
 {
     private IAppLogger? _logger;
 

@@ -21,8 +21,16 @@ public sealed class AppConfig
     /// <summary>结果保存目录。</summary>
     public string SaveDirectory { get; set; } = string.Empty;
 
-    /// <summary>浏览器类型下拉的当前值：谷歌版 / 比特版。</summary>
+    /// <summary>
+    /// 浏览器类型下拉的当前值：谷歌版 / 比特版。
+    /// </summary>
     public string BrowserType { get; set; } = "谷歌版";
+
+    /// <summary>Chrome 可执行文件路径。留空则自动查找（注册表 + 常见安装位置）。</summary>
+    public string ChromePath { get; set; } = string.Empty;
+
+    /// <summary>比特浏览器本地接口地址。端口写错会表现为「客户端未启动」。</summary>
+    public string BitBrowserApiBaseUrl { get; set; } = "http://127.0.0.1:54345";
 
     /// <summary>定时发布日期，对应原版 ScheduledDate。</summary>
     public DateTime? ScheduledDate { get; set; }

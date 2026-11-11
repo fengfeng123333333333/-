@@ -25,6 +25,8 @@ public sealed class JsonConfigServiceTests : IDisposable
         Assert.Equal(1, config.ConcurrentCount);
         Assert.Equal(3, config.BrowserOpenIntervalSeconds);
         Assert.Equal(30, config.LogRetentionDays);
+        Assert.Equal(string.Empty, config.ChromePath);
+        Assert.Equal("http://127.0.0.1:54345", config.BitBrowserApiBaseUrl);
         Assert.Equal(["com", "https", "pn", "dn", "inbox"], config.MessageBlockWords.Select(w => w.TrimStart('.')));
         Assert.True(_logger.Contains("INF", "配置文件不存在"));
     }
