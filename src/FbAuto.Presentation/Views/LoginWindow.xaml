@@ -1,0 +1,98 @@
+﻿<Window x:Class="FbAuto.Presentation.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="自动化工具_Facebook"
+        Width="540" Height="580"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Microsoft YaHei UI" FontSize="13"
+        Background="{StaticResource Brush.Window}">
+
+    <!-- 尺寸 540×580 为 UIA 实测值 -->
+    <Border Background="{StaticResource Brush.Surface}" Margin="16" CornerRadius="6"
+            BorderBrush="{StaticResource Brush.Border}" BorderThickness="1">
+        <StackPanel Margin="28,26,28,20">
+
+            <TextBlock Text="自动化工具_Facebook" FontSize="19" FontWeight="SemiBold"
+                       Foreground="{StaticResource Brush.Text}" />
+            <TextBlock Text="本机未激活，请输入卡密后使用" Style="{StaticResource Muted}"
+                       Margin="0,8,0,22" />
+
+            <!-- 机器码 -->
+            <TextBlock Text="机器码：" Style="{StaticResource FieldLabel}" HorizontalAlignment="Left"
+                       Margin="0,0,0,6" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding MachineCode, Mode=OneWay}" IsReadOnly="True"
+                         Background="{StaticResource Brush.Subtle}"
+                         Foreground="{StaticResource Brush.TextSecondary}"
+                         FontFamily="Consolas" />
+                <Button Grid.Column="1" Content="复制" Style="{StaticResource SecondaryButton}"
+                        Width="56" Height="26" Margin="6,0,0,0"
+                        Command="{Binding CopyMachineCodeCommand}" />
+            </Grid>
+
+            <!-- 卡密：多行，原版为带滚动条的输入框 -->
+            <TextBlock Text="请输入卡密：" Style="{StaticResource FieldLabel}" HorizontalAlignment="Left"
+                       Margin="0,18,0,6" />
+            <TextBox Height="86" AcceptsReturn="True" TextWrapping="Wrap"
+                     VerticalContentAlignment="Top"
+                     VerticalScrollBarVisibility="Auto"
+                     Text="{Binding LicenseKey, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Button Content="登录激活" Height="36" Margin="0,16,0,0"
+                    Command="{Binding ActivateCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- 错误提示区。文案由授权服务返回，客户端不自行改写判定结果 -->
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource Brush.Danger}"
+                       TextWrapping="Wrap" Margin="0,12,0,0"
+                       MinHeight="18">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ErrorMessage}" Value="">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <TextBlock Text="已自动读取本地卡密（启动即自动尝试激活）"
+                       Margin="0,8,0,0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource Muted}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasLocalLicenseKey}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,20,0,14" />
+
+            <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap"
+                       Text="卡密与本机机器码绑定，换机器需重新申请。激活信息仅用于校验，不上传任何账号数据。" />
+        </StackPanel>
+    </Border>
+</Window>

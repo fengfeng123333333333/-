@@ -38,6 +38,7 @@ Facebook 多账号自动化桌面客户端的重写实现。功能与交互对�
 ```bat
 build\dotnet.cmd --version          :: 确认 10.0.404
 build\dotnet.cmd build FbAuto.slnx
+build\run.cmd                       :: 启动调试版（已内置 DOTNET_ROOT）
 ```
 
 `build\dotnet.cmd` 会把本地 SDK 临时加入 PATH 后调用 dotnet，等价于：
@@ -46,6 +47,17 @@ build\dotnet.cmd build FbAuto.slnx
 set PATH=D:\AI\workbuddy\短视频工具\.dotnet;%PATH%
 set DOTNET_ROOT=D:\AI\workbuddy\短视频工具\.dotnet
 ```
+
+## 当前进度
+
+| 步骤 | 状态 | 说明 |
+| :-- | :-- | :-- |
+| S0 准备 | 完成 | 六层骨架、证据归档、SDK 本地化 |
+| S1 骨架与三栏 | 完成 | 三栏 240/400/520、激活窗 540×580、日志与配置落盘，四项验收已实测 |
+| S2 双通道适配器 | 未开始 | 依赖外网出口决策（见 docs/plans/S1-SKELETON-LOG.md） |
+| S3–S10 | 未开始 | 见实施计划 |
+
+> 已知前置条件：Facebook 在境内网络不可达（DNS 正常、TCP 443 超时）。S4 起的页面验证需先确定执行节点位置（境外云主机或跨境专线）。
 
 ## 不可违反的约定
 
