@@ -15,8 +15,18 @@ public sealed class FileAppLogger : IAppLogger
     public FileAppLogger(string logDirectory)
     {
         _logDirectory = logDirectory;
-        Directory.CreateDirectory(_logDirectory);
         LogFilePath = Path.Combine(_logDirectory, $"App_{DateTime.Now:yyyyMMdd}.log");
+
+        // 目录建不出来（只读目录、路径被文件占用等）不能抛到构造点，
+        // 否则程序在写第一行日志之前就崩了，正是原版「静默退出、无日志可查」的成因。
+        try
+        {
+            Directory.CreateDirectory(_logDirectory);
+        }
+        catch
+        {
+            // S9 的首启自检会单独校验日志可写；此处只保证不阻断启动。
+        }
     }
 
     public string LogFilePath { get; }

@@ -35,6 +35,7 @@ config.local.json
 # ---------- 运行产物 ----------
 logs/
 *.log
+build/uia_*.txt
 screenshots/
 captures/
 *.tmp
