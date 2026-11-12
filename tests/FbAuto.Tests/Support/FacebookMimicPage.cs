@@ -371,4 +371,228 @@ public static class FacebookMimicPage
             </html>
             """;
     }
+
+    /// <summary>
+    /// 批量上传页：注入后长出进度条，全部结束才出现「发布」。
+    /// </summary>
+    /// <remarks>
+    /// 结构对着原版串搭：
+    /// <list type="bullet">
+    /// <item>file input 是 <c>display:none</c> 的 —— 真页面就是这样，判可见永远 false。</item>
+    /// <item>进度条必须带齐 <c>role=progressbar</c> + <c>aria-valuemax=100</c> + <c>aria-valuemin=0</c>，
+    /// 原版选择器三个属性都要。</item>
+    /// <item>「发布」按钮的文本必须**只有「发布」两个字**：产品代码用的是
+    /// <c>:text-is('发布')</c>，多一个字就命不中 —— 这正是要防「点到立即发布」的那条改动。</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="failCount">失败的条目数（直接出现「移除」按钮，不走进度条）。</param>
+    /// <param name="gateByAddVideo">
+    /// true 表示初始没有 file input，必须先点「添加视频」才出现 —— 用来覆盖那条分支。
+    /// </param>
+    /// <param name="copyrightReview">进度到 100 后转成「版权审核」文案而不是消失。</param>
+    /// <param name="tickMilliseconds">进度条每次递增的间隔。</param>
+    /// <param name="failRenderDelayMilliseconds">
+    /// 失败条目延迟多久才画出来。用来复现真机上的时序：进度条先消失，
+    /// 失败条目晚几帧才出现 —— 这时候立刻去数失败数会数到 0。
+    /// </param>
+    public static string UploadComposer(
+        int failCount = 0,
+        bool gateByAddVideo = false,
+        bool copyrightReview = false,
+        int tickMilliseconds = 60,
+        int failRenderDelayMilliseconds = 0)
+    {
+        return $$$"""
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8">
+              <title>批量上传</title>
+              <style>
+                body { font-family: sans-serif; padding: 24px; }
+                #addVideo, #publish, #done, #immediate, #timed {
+                  display: inline-block; padding: 8px 16px; border: 1px solid #888;
+                  border-radius: 6px; cursor: pointer; margin: 6px 6px 6px 0;
+                }
+                #publish, #done { display: none; }
+                #desc { min-height: 48px; border: 1px solid #ccc; padding: 8px; margin: 12px 0; }
+                #panel { display: none; margin: 12px 0; }
+                #bars > div { height: 18px; background: #dbeafe; margin: 6px 0; }
+                .failed-item { border: 1px solid #f3b; padding: 6px; margin: 6px 0; }
+                .failed-item > div[role='button'] { display: inline-block; padding: 4px 10px; border: 1px solid #888; }
+              </style>
+            </head>
+            <body>
+              <div id="app">
+                <div role="button" id="addVideo">添加视频</div>
+                <div id="stage"></div>
+                <div id="desc" contenteditable="true" aria-label="在对话框中输入内容"></div>
+                <div>
+                  <div role="button" id="immediate">立即发布</div>
+                  <div role="button" id="timed">定时</div>
+                </div>
+                <div id="panel">
+                  <input id="date" placeholder="年-月-日">
+                  <input id="hour" aria-label="小时">
+                </div>
+                <div id="bars"></div>
+                <div id="failed"></div>
+                <div role="button" id="publish">发布</div>
+                <div role="button" id="done">完成</div>
+              </div>
+              <script>
+                var FAIL_COUNT = {{{failCount}}};
+                var FAIL_DELAY = {{{failRenderDelayMilliseconds}}};
+                var GATE = {{{(gateByAddVideo ? "true" : "false")}}};
+                var COPYRIGHT = {{{(copyrightReview ? "true" : "false")}}};
+                var TICK_MS = {{{tickMilliseconds}}};
+
+                var stage = document.getElementById('stage');
+                var bars = document.getElementById('bars');
+                var failed = document.getElementById('failed');
+                var publish = document.getElementById('publish');
+                var done = document.getElementById('done');
+                var panel = document.getElementById('panel');
+
+                window.__injected = 0;
+                window.__published = false;
+                window.__done = false;
+                window.__removed = 0;
+                window.__uploadFinished = false;
+                window.__description = '';
+
+                var remaining = 0;
+
+                function makeInput() {
+                  var el = document.createElement('input');
+                  el.type = 'file';
+                  el.multiple = true;
+                  el.style.display = 'none';
+                  el.addEventListener('change', onFiles);
+                  return el;
+                }
+
+                function onFiles() {
+                  var n = this.files ? this.files.length : 0;
+                  window.__injected = n;
+                  if (n === 0) { return; }
+
+                  var failN = Math.min(FAIL_COUNT, n);
+                  for (var i = 0; i < failN; i++) {
+                    if (FAIL_DELAY > 0) {
+                      (function () { setTimeout(addFailedItem, FAIL_DELAY); })();
+                    } else {
+                      addFailedItem();
+                    }
+                  }
+
+                  remaining = n - failN;
+                  if (remaining === 0) { finish(); return; }
+
+                  for (var j = 0; j < remaining; j++) {
+                    var bar = document.createElement('div');
+                    bar.setAttribute('role', 'progressbar');
+                    bar.setAttribute('aria-valuemin', '0');
+                    bar.setAttribute('aria-valuemax', '100');
+                    bar.setAttribute('aria-valuenow', '0');
+                    bar.textContent = '0%';
+                    bars.appendChild(bar);
+                    runBar(bar);
+                  }
+                }
+
+                function runBar(bar) {
+                  var timer = setInterval(function () {
+                    var current = Number(bar.getAttribute('aria-valuenow'));
+                    var next = Math.min(100, current + 25);
+                    bar.setAttribute('aria-valuenow', String(next));
+                    bar.textContent = next + '%';
+
+                    if (next < 100) { return; }
+
+                    clearInterval(timer);
+
+                    if (COPYRIGHT) {
+                      bar.textContent = '版权审核';
+                      bar.removeAttribute('aria-valuenow');
+                      remaining--;
+                      if (remaining === 0) { finish(); }
+                      return;
+                    }
+
+                    bar.remove();
+                    remaining--;
+                    if (remaining === 0) { finish(); }
+                  }, TICK_MS);
+                }
+
+                function addFailedItem() {
+                  var row = document.createElement('div');
+                  row.className = 'failed-item';
+                  var btn = document.createElement('div');
+                  btn.setAttribute('role', 'button');
+                  btn.textContent = '移除';
+                  row.appendChild(btn);
+                  failed.appendChild(row);
+                }
+
+                function finish() {
+                  publish.style.display = 'inline-block';
+                  window.__uploadFinished = true;
+                }
+
+                failed.addEventListener('click', function (e) {
+                  var btn = e.target.closest("div[role='button']");
+                  if (!btn) { return; }
+                  var row = btn.closest('.failed-item');
+                  if (!row) { return; }
+                  row.remove();
+                  window.__removed++;
+                });
+
+                publish.addEventListener('click', function () {
+                  window.__published = true;
+                  publish.style.display = 'none';
+                  done.style.display = 'inline-block';
+                });
+
+                done.addEventListener('click', function () {
+                  window.__done = true;
+                  done.style.display = 'none';
+                });
+
+                document.getElementById('immediate').addEventListener('click', function () {
+                  window.__immediate = true;
+                });
+
+                document.getElementById('timed').addEventListener('click', function () {
+                  window.__timed = true;
+                  panel.style.display = 'block';
+                });
+
+                document.getElementById('date').addEventListener('input', function () {
+                  window.__date = this.value;
+                });
+
+                document.getElementById('hour').addEventListener('input', function () {
+                  window.__hour = this.value;
+                });
+
+                document.getElementById('desc').addEventListener('input', function () {
+                  window.__description = this.innerText;
+                });
+
+                if (!GATE) {
+                  stage.appendChild(makeInput());
+                } else {
+                  document.getElementById('addVideo').addEventListener('click', function () {
+                    stage.appendChild(makeInput());
+                    window.__addVideoClicked = true;
+                  });
+                }
+              </script>
+            </body>
+            </html>
+            """;
+    }
 }

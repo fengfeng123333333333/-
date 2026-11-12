@@ -68,6 +68,26 @@ public sealed class PlaywrightPageInterop : IPageInterop
     /// <summary>底层页面，供导航/截图这类不属于本接口的动作使用。</summary>
     public IPage Page => _page;
 
+    public async Task NavigateAsync(string url, CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(url);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        try
+        {
+            await _page.GotoAsync(url, new PageGotoOptions
+            {
+                // 等 DOM 可操作，不等资源全部加载完。
+                WaitUntil = WaitUntilState.DOMContentLoaded,
+                Timeout = (float)_options.EffectiveNavigationTimeout.TotalMilliseconds,
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw WrapActionFailure("导航", url, ex);
+        }
+    }
+
     public async Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(selector);
@@ -80,6 +100,21 @@ public sealed class PlaywrightPageInterop : IPageInterop
         catch (Exception ex) when (IsPageFailure(ex))
         {
             throw PageActionException.EngineFailed("判断可见性", selector, ex);
+        }
+    }
+
+    public async Task<bool> ExistsAsync(string selector, CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        try
+        {
+            return await _page.Locator(selector).CountAsync().ConfigureAwait(false) > 0;
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("判断元素存在", selector, ex);
         }
     }
 
@@ -163,6 +198,160 @@ public sealed class PlaywrightPageInterop : IPageInterop
         }
     }
 
+    public async Task FillAsync(
+        string selector,
+        string text,
+        int index = 0,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var timeout = _options.EffectiveActionTimeout;
+        ILocator? locator;
+        try
+        {
+            locator = await FindVisibleAsync(selector, index, timeout, cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("填写文本", selector, ex);
+        }
+
+        if (locator is null)
+        {
+            throw PageActionException.NotFound("填写文本", selector, index, (int)timeout.TotalSeconds);
+        }
+
+        try
+        {
+            await locator.FillAsync(text, new LocatorFillOptions
+            {
+                Timeout = (float)timeout.TotalMilliseconds,
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw WrapActionFailure("填写文本", selector, ex);
+        }
+    }
+
+    public async Task<IReadOnlyList<string>> ReadAttributesAsync(
+        string selector,
+        string attribute,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentException.ThrowIfNullOrWhiteSpace(attribute);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return await ReadVisibleAsync(
+            selector,
+            item => item.GetAttributeAsync(
+                attribute,
+                new LocatorGetAttributeOptions { Timeout = 0 }),
+            "读取属性",
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<IReadOnlyList<string>> ReadTextsAsync(
+        string selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return await ReadVisibleAsync(
+            selector,
+            async item => await item.InnerTextAsync(
+                new LocatorInnerTextOptions { Timeout = 0 }).ConfigureAwait(false),
+            "读取文本",
+            cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<string> ReadContentAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        try
+        {
+            return await _page.ContentAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("读取页面内容", "*", ex);
+        }
+    }
+
+    /// <summary>
+    /// 逐个读可见匹配，跳过不可见与读不到值的。
+    /// </summary>
+    /// <remarks>
+    /// 没有用 <c>EvaluateAllAsync</c> 一把梭：那样得在 JS 里重写一遍「可见」的定义，
+    /// 而这里的可见性必须与 <see cref="IsVisibleAsync"/> 完全同口径 ——
+    /// 口径一旦分叉，进度条数量会与实际能操作的节点数不符，卡死判定就会误判。
+    /// 元素个数在个位数到十几个之间，多几次往返换来口径一致是值得的。
+    /// </remarks>
+    private async Task<IReadOnlyList<string>> ReadVisibleAsync(
+        string selector,
+        Func<ILocator, Task<string?>> read,
+        string operation,
+        CancellationToken cancellationToken)
+    {
+        var locator = _page.Locator(selector);
+        int count;
+        try
+        {
+            count = await locator.CountAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed(operation, selector, ex);
+        }
+
+        if (count == 0)
+        {
+            return [];
+        }
+
+        var values = new List<string>(count);
+        for (var i = 0; i < count; i++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            try
+            {
+                var item = locator.Nth(i);
+                if (!await item.IsVisibleAsync().ConfigureAwait(false))
+                {
+                    continue;
+                }
+
+                var value = await read(item).ConfigureAwait(false);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    values.Add(value);
+                }
+            }
+            catch (TimeoutException)
+            {
+                // 「判断可见」和「真正读取」之间元素被移除了 —— 轮询进度条时这是常态
+                // （读完这一轮的下一秒进度条就到 100 消失了）。跳过这一个即可，
+                // 让整条任务失败是错的：其余元素明明还能正常读。
+                // 读操作已设成不等待（Timeout = 0），所以这里不会白等 30 秒。
+                continue;
+            }
+            catch (Exception ex) when (IsPageFailure(ex))
+            {
+                throw PageActionException.EngineFailed(operation, selector, ex);
+            }
+        }
+
+        return values;
+    }
+
     public async Task SetFileInputAsync(
         string selector,
         string filePath,
@@ -183,6 +372,43 @@ public sealed class PlaywrightPageInterop : IPageInterop
         {
             await _page.Locator(selector).First.SetInputFilesAsync(
                 filePath,
+                new LocatorSetInputFilesOptions
+                {
+                    Timeout = (float)timeout.TotalMilliseconds,
+                }).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw WrapActionFailure("注入文件", selector, ex);
+        }
+    }
+
+    public async Task SetFileInputsAsync(
+        string selector,
+        IReadOnlyList<string> filePaths,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentNullException.ThrowIfNull(filePaths);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (filePaths.Count == 0)
+        {
+            throw new ArgumentException("没有要注入的文件", nameof(filePaths));
+        }
+
+        // 先把不存在的文件挑出来一次性报全：逐个报会让用户改一个重跑一次。
+        var missing = filePaths.Where(p => !File.Exists(p)).ToArray();
+        if (missing.Length > 0)
+        {
+            throw PageActionException.FilesMissing("注入文件", missing);
+        }
+
+        var timeout = _options.EffectiveActionTimeout;
+        try
+        {
+            await _page.Locator(selector).First.SetInputFilesAsync(
+                filePaths,
                 new LocatorSetInputFilesOptions
                 {
                     Timeout = (float)timeout.TotalMilliseconds,

@@ -32,6 +32,25 @@ public sealed class PageActionException : Exception
     public static PageActionException FileMissing(string operation, string filePath)
         => new(operation, null, $"{operation}失败：文件不存在（{filePath}）。请检查路径是否仍然有效。");
 
+    /// <summary>
+    /// 批量注入时有文件不存在。
+    /// </summary>
+    /// <remarks>
+    /// 一次把所有缺失文件列出来，而不是只报第一个：真实场景里视频目录被移动过，
+    /// 往往整批都失效，逐个报会让人改一个、跑一次、再报下一个。
+    /// </remarks>
+    public static PageActionException FilesMissing(string operation, IReadOnlyList<string> filePaths)
+    {
+        ArgumentNullException.ThrowIfNull(filePaths);
+
+        var shown = string.Join("、", filePaths.Take(5).Select(Path.GetFileName));
+        var more = filePaths.Count > 5 ? $" 等 {filePaths.Count} 个" : string.Empty;
+        return new(
+            operation,
+            null,
+            $"{operation}失败：有 {filePaths.Count} 个文件不存在（{shown}{more}）。请检查视频目录是否被移动或删除。");
+    }
+
     public static PageActionException EngineFailed(string operation, string selector, Exception inner)
         => new(
             operation,
@@ -46,13 +65,21 @@ public sealed class PageActionException : Exception
 /// 再长就说明真出问题了，应该让任务失败并写日志。
 /// </param>
 /// <param name="PollInterval">探测可见性的轮询间隔。</param>
+/// <param name="NavigationTimeout">
+/// 导航到新页面的最长等待，取 45 秒。比单动作宽松得多是有意的：
+/// Facebook 的业务页首屏要拉大量脚本与接口，15 秒经常卡在 DNS/TLS 之后的等待上，
+/// 用动作超时去卡导航会把「网络慢」误判成「页面坏了」。
+/// </param>
 public sealed record PageInteropOptions(
     TimeSpan? ActionTimeout = null,
-    TimeSpan? PollInterval = null)
+    TimeSpan? PollInterval = null,
+    TimeSpan? NavigationTimeout = null)
 {
     public static PageInteropOptions Default { get; } = new();
 
     public TimeSpan EffectiveActionTimeout => ActionTimeout ?? TimeSpan.FromSeconds(15);
 
     public TimeSpan EffectivePollInterval => PollInterval ?? TimeSpan.FromMilliseconds(100);
+
+    public TimeSpan EffectiveNavigationTimeout => NavigationTimeout ?? TimeSpan.FromSeconds(45);
 }

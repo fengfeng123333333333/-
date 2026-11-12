@@ -21,8 +21,27 @@ namespace FbAuto.Automation.Abstractions;
 /// </remarks>
 public interface IPageInterop
 {
+    /// <summary>
+    /// 导航到指定 URL，等文档就绪（不等图片/脚本全部加载完）。
+    /// </summary>
+    /// <remarks>
+    /// 等 <c>DOMContentLoaded</c> 而不是 <c>Load</c>：Facebook 的页面有大量长连接与懒加载资源，
+    /// 等 Load 经常直接吃满一个导航超时，而 DOM 早已可操作。
+    /// </remarks>
+    Task NavigateAsync(string url, CancellationToken cancellationToken = default);
+
     /// <summary>元素是否存在且可见。</summary>
     Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 元素是否存在于 DOM 中（**不看可见性**）。
+    /// </summary>
+    /// <remarks>
+    /// 与 <see cref="IsVisibleAsync"/> 分开是因为 file input 天生 <c>display:none</c>：
+    /// 用可见性判断它，永远得到 false，于是「input 还没出现」和「input 在但看不见」
+    /// 这两件完全不同的事会被混成一件。前者要等或点按钮，后者直接注入即可。
+    /// </remarks>
+    Task<bool> ExistsAsync(string selector, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 第 <paramref name="index"/> 个可见匹配是否处于可用状态。
@@ -32,6 +51,39 @@ public interface IPageInterop
 
     /// <summary>点击第 <paramref name="index"/> 个可见匹配（0 起）。</summary>
     Task ClickAsync(string selector, int index = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 把文本填进第 <paramref name="index"/> 个可见匹配（会先清空原有内容）。
+    /// </summary>
+    /// <remarks>
+    /// 用 fill 而不是逐字符敲：Facebook 的描述框是 <c>contenteditable</c>，
+    /// 逐字符输入在真实页面会被富文本逻辑吞掉部分字符（换行、表情尤其明显）。
+    /// </remarks>
+    Task FillAsync(string selector, string text, int index = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 读所有可见匹配的某个属性值，读不到属性的元素跳过。
+    /// </summary>
+    /// <remarks>
+    /// 一次取回全部，而不是「先 Count 再逐个读」：进度监控每轮都要采样，
+    /// 逐个读会让一轮的往返次数与进度条数量成正比，轮询间隔被网络拖长。
+    /// </remarks>
+    Task<IReadOnlyList<string>> ReadAttributesAsync(
+        string selector,
+        string attribute,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>读所有可见匹配的可见文本。</summary>
+    Task<IReadOnlyList<string>> ReadTextsAsync(string selector, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 读整页 HTML。
+    /// </summary>
+    /// <remarks>
+    /// 只给「从页面里挖一个 id」这类场景用（asset_id 的三种提取路径）。
+    /// 不要拿它代替选择器 —— 整页正则判断可见性、是否可点，一律不可靠。
+    /// </remarks>
+    Task<string> ReadContentAsync(CancellationToken cancellationToken = default);
 
     /// <summary>按 Escape。</summary>
     Task PressEscapeAsync(CancellationToken cancellationToken = default);
@@ -44,6 +96,18 @@ public interface IPageInterop
     /// 先等它可见是等不到的。
     /// </remarks>
     Task SetFileInputAsync(string selector, string filePath, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 一次给 file input 注入多个文件（批量上传）。
+    /// </summary>
+    /// <remarks>
+    /// 必须一次注入，不能循环调单文件版本：真实页面每注入一次就新建一张待上传卡片，
+    /// 循环注入会在「上一张还没建好」时叠进去，表现为只上传了第一个视频。
+    /// </remarks>
+    Task SetFileInputsAsync(
+        string selector,
+        IReadOnlyList<string> filePaths,
+        CancellationToken cancellationToken = default);
 
     /// <summary>可见匹配的个数（隐藏元素不计）。用于「第 n 个继续按钮」这类按序号定位的场景。</summary>
     Task<int> CountAsync(string selector, CancellationToken cancellationToken = default);
@@ -60,7 +124,13 @@ public sealed class NotConnectedPageInterop : IPageInterop
 {
     public static NotConnectedPageInterop Instance { get; } = new();
 
+    public Task NavigateAsync(string url, CancellationToken cancellationToken = default) =>
+        throw new InvalidOperationException("页面尚未接通，不能导航");
+
     public Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default) =>
+        Task.FromResult(false);
+
+    public Task<bool> ExistsAsync(string selector, CancellationToken cancellationToken = default) =>
         Task.FromResult(false);
 
     public Task<bool> IsEnabledAsync(string selector, int index = 0, CancellationToken cancellationToken = default) =>
@@ -69,10 +139,37 @@ public sealed class NotConnectedPageInterop : IPageInterop
     public Task ClickAsync(string selector, int index = 0, CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException("页面尚未接通，不能执行点击");
 
+    public Task FillAsync(
+        string selector,
+        string text,
+        int index = 0,
+        CancellationToken cancellationToken = default) =>
+        throw new InvalidOperationException("页面尚未接通，不能填写文本");
+
+    public Task<IReadOnlyList<string>> ReadAttributesAsync(
+        string selector,
+        string attribute,
+        CancellationToken cancellationToken = default) =>
+        Task.FromResult<IReadOnlyList<string>>([]);
+
+    public Task<IReadOnlyList<string>> ReadTextsAsync(
+        string selector,
+        CancellationToken cancellationToken = default) =>
+        Task.FromResult<IReadOnlyList<string>>([]);
+
+    public Task<string> ReadContentAsync(CancellationToken cancellationToken = default) =>
+        Task.FromResult(string.Empty);
+
     public Task PressEscapeAsync(CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException("页面尚未接通，不能按键");
 
     public Task SetFileInputAsync(string selector, string filePath, CancellationToken cancellationToken = default) =>
+        throw new InvalidOperationException("页面尚未接通，不能注入文件");
+
+    public Task SetFileInputsAsync(
+        string selector,
+        IReadOnlyList<string> filePaths,
+        CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException("页面尚未接通，不能注入文件");
 
     public Task<int> CountAsync(string selector, CancellationToken cancellationToken = default) =>

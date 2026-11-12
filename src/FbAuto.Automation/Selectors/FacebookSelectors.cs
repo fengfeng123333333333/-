@@ -45,6 +45,56 @@ public static class FacebookSelectors
     /// <summary>批量上传页的通用 file input。原版串：<c>input[type='file']</c>，另有一份 JS 写法。</summary>
     public const string VideoFileInput = "input[type='file']";
 
+    /// <summary>
+    /// 「添加视频」按钮。原版在注入文件前先点它，再走 JS 注入。
+    /// </summary>
+    /// <remarks>
+    /// 原版串只剩 <c>div[role='button']</c>（后半截文案被 UTF-16 扫描切断），
+    /// 「已点击添加视频按钮 / 没能点击添加视频按钮」两句日志证明它按文案定位。
+    /// 真机验收时要确认页面上没有「添加视频和照片」这类更长的同名按钮先出现。
+    /// </remarks>
+    public const string AddVideoButton = "div[role='button']:has-text('添加视频')";
+
+    /// <summary>
+    /// 批量上传页的描述输入框。原版串：<c>[aria-label*='在对话框中输入内容']</c>
+    /// </summary>
+    /// <remarks>
+    /// 注意是 <c>*=</c> 前缀包含，不是全等：真实 aria-label 后面还带别的词。
+    /// 这个框是 <c>contenteditable</c>，必须用 fill 而不是逐字符输入。
+    /// </remarks>
+    public const string DescriptionInput = "[aria-label*='在对话框中输入内容']";
+
+    /// <summary>排期面板里的「立即发布」选项。原版串：<c>div[role='button']:has-text('立即发布')</c></summary>
+    public const string ScheduleImmediateButton = "div[role='button']:has-text('立即发布')";
+
+    /// <summary>排期面板里的「更新」选项（更新已发布的帖子）。原版串：<c>div[role='button']:has-text('更新')</c></summary>
+    public const string ScheduleUpdateButton = "div[role='button']:has-text('更新')";
+
+    /// <summary>排期面板里的「定时」选项。原版串：<c>div[role='button']:has-text('定时')</c></summary>
+    public const string ScheduleOptionButton = "div[role='button']:has-text('定时')";
+
+    /// <summary>定时日期输入框。原版串：<c>[placeholder='年-月-日']</c>，格式 <c>yyyy-M-d</c></summary>
+    public const string ScheduleDateInput = "[placeholder='年-月-日']";
+
+    /// <summary>定时小时输入框。原版串：<c>[aria-label='小时']</c></summary>
+    public const string ScheduleHourInput = "[aria-label='小时']";
+
+    /// <summary>
+    /// 最终提交按钮。
+    /// </summary>
+    /// <remarks>
+    /// **有意偏离原版**：原版串是 <c>div[role='button']:has-text('发布')</c>，
+    /// 而 <c>:has-text()</c> 是子串匹配 —— 它会同时命中「立即发布」「定时发布」这类选项，
+    /// 于是「点发布」很可能点到排期选项上（表现是：点了没反应，或者排期面板被重新打开）。
+    /// 这里改用 <c>:text-is()</c> 要求整段文本就是「发布」。
+    /// 真机上若按钮文案带前后缀（图标 alt 会并入文本），需要回来放宽成
+    /// <c>:has-text('发布')</c> 并配「取最后一个可见匹配」。
+    /// </remarks>
+    public const string PublishButton = "div[role='button']:text-is('发布')";
+
+    /// <summary>发布成功后的「完成」按钮。原版串：<c>div[role='button']:has-text('完成')</c></summary>
+    public const string DoneButton = "div[role='button']:has-text('完成')";
+
     /// <summary>视频类别下拉（combobox）。原版串：<c>input[role='combobox'][aria-label='类别']</c></summary>
     public const string CategoryCombobox = "input[role='combobox'][aria-label='类别']";
 

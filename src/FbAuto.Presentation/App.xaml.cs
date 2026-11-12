@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Threading;
 using FbAuto.Application.Execution;
 using FbAuto.Core.Abstractions;
+using FbAuto.Core.Configuration;
 using FbAuto.Core.Licensing;
 using FbAuto.Core.Models;
 using FbAuto.Infrastructure.Accounts;
@@ -98,10 +99,9 @@ public partial class App : System.Windows.Application
         var accounts = new AccountListCsv(accountsFile, logger);
         var channels = new ConfigBrowserChannelProvider(logger, config);
 
-        // S4 阶段五类任务都还没接页面动作，一律注册「未接入」执行器：
+        // 已接入页面动作的类型用真执行器，其余继续用「未接入」占位：
         // 明确记失败并说明原因，而不是假装成功或悄悄跳过。
-        var executors = new TaskExecutorRegistry(
-            TaskTypeCatalog.All.Select(t => new NotWiredTaskExecutor(t.Kind)));
+        var executors = new TaskExecutorRegistry(ExecutorCatalog.CreateAll(config));
 
         var runner = new TaskQueueRunner(executors, channels, accounts, logger);
 
