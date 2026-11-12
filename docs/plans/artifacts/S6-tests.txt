@@ -1,0 +1,666 @@
+﻿生成启动时间为 2026/11/12 11:26:26。
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”在节点 1 上(Restore 个目标)。
+     1>_GetAllRestoreProjectPathItems:
+         正在确定要还原的项目…
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 1 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(2:10) (_GenerateProjectRestoreGraph 个目标)。
+     2>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     2>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 3 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(7:7) (_GenerateProjectRestoreGraph 个目标)。
+     7>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 4 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(8:5) (_GenerateProjectRestoreGraph 个目标)。
+     8>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     7>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 2 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(4:6) (_GenerateProjectRestoreGraph 个目标)。
+     4>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     8>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     4>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 6 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(6:5) (_GenerateProjectRestoreGraph 个目标)。
+     6>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 5 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(5:4) (_GenerateProjectRestoreGraph 个目标)。
+     5>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     6>AddPrunePackageReferences:
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+     5>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     6>AddPrunePackageReferences:
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     5>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     4>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     6>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     1>Restore:
+         X.509 证书链验证将使用 .NET 选择的默认信任存储进行代码签名。
+         X.509 证书链验证将使用 .NET 选择的默认信任存储进行时间戳。
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\obj\project.assets.json
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj (用时 54 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj (用时 54 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj (用时 54 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj (用时 54 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj (用时 53 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj (用时 54 毫秒)。
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\obj\project.assets.json
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj (用时 1 毫秒)。
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\obj\project.assets.json
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\FbAuto.Keygen.csproj (用时 2 毫秒)。
+         
+         使用的 NuGet 配置文件:
+             C:\Users\DZH\AppData\Roaming\NuGet\NuGet.Config
+         
+         使用的源:
+             https://api.nuget.org/v3/index.json
+         所有项目均是最新的，无法还原。
+     1>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(Restore 个目标)的操作。
+   1:7>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”在节点 3 上(VSTest 个目标)。
+     1>BuildProject:
+         已开始生成，请等待...
+   1:7>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:7)正在节点 3 上生成“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8) (默认目标)。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 2 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(2:12) (默认目标)。
+     2>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Core.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Core -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Core\Debug\net10.0-windows\FbAuto.Core.dll
+     2>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 1 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(8:7) (默认目标)。
+     8>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 6 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(7:9) (默认目标)。
+     7>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+     8>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Licensing.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+     7>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Infrastructure.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Infrastructure -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Infrastructure\Debug\net10.0-windows\FbAuto.Infrastructure.dll
+     7>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(默认目标)的操作。
+     8>GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Licensing -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Licensing\Debug\net10.0-windows\FbAuto.Licensing.dll
+     8>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 5 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(4:8) (默认目标)。
+     4>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Browser.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 2 上生成“D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\FbAuto.Keygen.csproj”(3:6) (默认目标)。
+     3>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Keygen.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CreateAppHost:
+       正在跳过目标“_CreateAppHost”，因为所有输出文件相对于输入文件而言都是最新的。
+     4>GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Browser -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Browser\Debug\net10.0-windows\FbAuto.Browser.dll
+     4>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(默认目标)的操作。
+     3>_CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildRuntimeConfigurationFiles:
+       正在跳过目标“GenerateBuildRuntimeConfigurationFiles”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Keygen -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Keygen\Debug\net10.0-windows\fbauto-keygen.dll
+     3>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\FbAuto.Keygen.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 4 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(6:7) (默认目标)。
+     6>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Automation.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Automation -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.dll
+     6>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 3 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(5:6) (默认目标)。
+     5>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Application.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Application -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Application\Debug\net10.0-windows\FbAuto.Application.dll
+     5>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(默认目标)的操作。
+     1>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Tests.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildRuntimeConfigurationFiles:
+       正在跳过目标“GenerateBuildRuntimeConfigurationFiles”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Tests -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Tests\Debug\net10.0-windows\FbAuto.Tests.dll
+     1>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(默认目标)的操作。
+     1>BuildProject:
+         完成的生成。
+         
+D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Tests\Debug\net10.0-windows\FbAuto.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.15)
+[xUnit.net 00:00:00.11]   Discovering: FbAuto.Tests
+[xUnit.net 00:00:00.22]   Discovered:  FbAuto.Tests
+[xUnit.net 00:00:00.29]   Starting:    FbAuto.Tests
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.正常内容解析出端口与ws地址 [11 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.追加参数原样透传且过滤空白 [14 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.金样本用内置公钥验签通过 [15 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.兼容Windows换行与多余行 [4 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP起始码错误_报损坏 [19 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "51234") [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG_渐进式SOF2也能识别 [4 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.没给profile目录直接拒绝 [12 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "0\n/devtools/browser/x") [6 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG_读出宽高 [4 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.代理补全协议头(input: "socks5://127.0.0.1:1080", expected: "socks5://127.0.0.1:1080") [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.代理补全协议头(input: "127.0.0.1:7890", expected: "http://127.0.0.1:7890") [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.代理补全协议头(input: "http://127.0.0.1:7890", expected: "http://127.0.0.1:7890") [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.默认不带无头参数 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.显式要求无头时才加headless [< 1 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "") [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8L无损格式读宽高 [2 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.参数里不手工加引号交给进程启动器转义 [4 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.未配代理时不加代理参数 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.必带独立profile与调试端口0 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.路径末尾的分隔符会被去掉 [< 1 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "70000\n/devtools/browser/x") [3 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.GIF_识别出格式但不属于白名单 [3 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "51234\ndevtools/browser/x") [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.PNG宽为0_报尺寸非法 [2 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "abc\n/devtools/browser/x") [1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP子格式不支持_报具体块名 [2 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.本地跳过会留下可读日志 [3 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.读取不存在的目录返回null而不是抛异常 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.空数据_报文件头不足 [1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.候选为null_不崩 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_文件不存在_说清路径 [2 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.失败总结带上跳过数量与尝试次数 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.候选比上限少_取完即耗尽 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.按顺序取图_每次消耗一次上传次数 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.空白路径被过滤掉 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.拒绝带原因时原因在前兜底在后 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.达到上限后不再给图并标记耗尽 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.页面接受后状态为成功且不再给图 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.本地跳过不占上传次数 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.拒绝时记录已试过的图 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.没有候选图_状态为无候选 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.最大尝试次数小于1直接抛 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.页面拒绝提示的选择器与文案锁定为原版取值 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.拒绝不带原因时用原版兜底文案 [< 1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.PNG_读出宽高 [12 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.签发工具产出的签名长度恒为六十四字节 [40 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.金样本签名每一位被改动都必须验签失败 [6 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.签名长度不是六十四字节的对象构造不出来 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.金样本负载每一位被改动都必须验签失败 [9 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.读取真实写入的文件 [38 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.自签自验链路成立 [5 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_空文件_报文件头不足 [24 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.内置公钥已配置且能正常导入 [< 1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_路径为空 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG没有SOF段_报未找到 [2 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.公钥无法签发新码 [4 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.谷歌行缺目录时仍然载入但记警告 [32 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.别人用自己的密钥签的码用内置公钥验不过 [3 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.BMP_负高度取绝对值 [6 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.转义的双引号被还原 [8 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.高度为0时宽高比返回0而不是除零 [4 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.文件不存在时返回空清单而不是抛异常 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8X格式读画布尺寸(width: 400, height: 150) [7 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8X格式读画布尺寸(width: 820, height: 312) [5 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.别名查找不区分大小写 [15 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8X格式读画布尺寸(width: 1640, height: 624) [3 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.宽高比按宽除高计算 [3 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.PNG签名正确但缺IHDR块_报损坏 [3 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.空行和注释行被跳过 [12 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.垃圾数据_报无法识别 [6 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8有损格式读宽高 [6 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG_跳过超长EXIF段仍能找到SOF [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_落盘的真实PNG [7 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.同一实例多次调用结果恒定 [1 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.机器码是八四四四十二位的大写GUID [4 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.不同实例在同一台机器上结果一致 [< 1 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.正常两行按列名读出字段 [29 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.机器码可被授权服务解析回GUID [4 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积超过上限_拒绝 [7 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: 512, expected: "512 B") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: -1, expected: "0 B") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: 1048576, expected: "1.0 MB") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: 2048, expected: "2.0 KB") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.小于最小尺寸_拒绝并说明差在哪(width: 400, height: 149) [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.小于最小尺寸_拒绝并说明差在哪(width: 200, height: 100) [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.小于最小尺寸_拒绝并说明差在哪(width: 399, height: 150) [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.默认规则的最小尺寸是400乘150 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.格式不在白名单_拒绝并列出可用格式 [3 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积超过建议值但未超上限_只警告 [5 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.读不出尺寸_拒绝并带上解析原因 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.多个问题并存_警告全部收集 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.读不出尺寸且没给原因_也有兜底文案 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.自定义阈值真的生效_证明没写死 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.推荐尺寸且体积合适_直接合格 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.正好等于最小尺寸_可上传但提示低于推荐 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积正好等于上限_不拒绝 [1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.自定义允许格式生效 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.正方形图_提示比例会被裁切 [< 1 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.带BOM的文件也能认出别名列 [29 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.自动查找的候选路径都指向chrome可执行文件 [2 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.某通道没有账号时返回空 [6 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.显式路径不存在时报中文错误并带上路径 [6 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.显式路径为空时自动查找 [1 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.显式路径存在时原样返回 [2 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 2) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 64) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 1) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 100) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 11) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 75) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 5) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.尾部填充位非零说明内容被截断应报错 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.解码忽略连字符与空白 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.尾部填充位为零的残缺串不报错但内容不足 [1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.字母表之外的符号应报错 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.解码时小写等价于大写 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.编码结果只含字母表内字符且无小写 [1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.七十五字节编码成一百二十字符 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.字母U不在字母表内应报错 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.解码把字母I和L当作数字1把O当作数字0 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.空输入编码为空串解码为空数组 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.金样本重新编码后与原串完全一致 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.分组后字符数因连字符增加但内容不变 [1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.负载字节必须能被重构回来 [2 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.停用的账号不参与分配 [17 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.长度不足时提示少复制了一段 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.含非法字符时提示具体字符 [< 1 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.引号包裹的字段里的逗号不会切错列 [4 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.金样本解码后各字段正确 [4 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.空输入给出可读提示(input: "   ") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.空输入给出可读提示(input: "\r\n\t") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.空输入给出可读提示(input: "") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.版本号不匹配时明确说是版本问题 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.签发日超过可表示范围应报错 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.签发日纪元边界可正常往返 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.加了连字符和空格仍能解码 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.有效天数为零的码被拒绝 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.金样本长度是一百二十字符 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.长度过多时同样报长度不对 [< 1 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.没有凭证时处于未激活状态 [39 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.重新加载能读到后来新增的行 [48 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.按通道轮询分配账号 [6 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.别名重复时保留第一次出现的 [18 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.未知通道的行被跳过并记警告 [13 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.配置里的ChromePath会传到通道 [20 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.回拨时间超过有效期也不能复活 [45 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.未知通道直接拒绝 [2 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.谷歌通道返回Chrome实现 [4 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.比特通道返回比特实现 [2 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.缺必需列时返回空清单并说清缺什么 [12 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.日志为空时拒绝创建 [2 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.列顺序打乱仍能按列名读对 [14 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.带连字符粘贴的码同样能激活 [25 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.打开窗口后会话字段与接口返回一致 [172 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.文件魔数被改时按未激活处理 [23 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.迭代次数记在文件头因此换参数仍能读旧文件 [37 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "license.dat", machineCode: "") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "", machineCode: "6AD79298-1111-2222-3333-444455556666") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "license.dat", machineCode: "  ") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "   ", machineCode: "6AD79298-1111-2222-3333-444455556666") [< 1 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.过期后继续推进时间也不会复活 [29 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.迭代次数不同就解不开 [15 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.文件被截断时拒绝读取 [26 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.满三十天即过期 [20 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.磁盘上不出现授权码明文 [14 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.文件不存在时返回空而不是抛异常 [1 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令错误时拒绝解开 [13 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令过短或为空时拒绝保存(passphrase: "") [4 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.换机器后凭证解不开按未激活处理 [17 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.关闭窗口调的是接口而不是杀进程 [56 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令过短或为空时拒绝保存(passphrase: "   ") [2 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活长度不对的码给出重抄提示 [2 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活空串时提示先输入 [2 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令过短或为空时拒绝保存(passphrase: "1234567") [2 ms]
+DevTools listening on ws://127.0.0.1:60634/devtools/browser/e19d2007-4f3c-445e-b676-7eaba9569f82
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.不同口令保存的两份私钥互不能解 [28 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.文件被截断时按未激活处理 [48 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.私钥文件里不出现明文私钥字节 [16 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.删除后文件不再存在 [44 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.文件魔数被改时拒绝读取 [53 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.保存后能原样读回 [25 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.保存后能用同一口令读回且公钥一致 [25 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.封面被拒检测 [1 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.换一张新码时有效期重新计算 [127 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.观测结果直接喂给决策器_能关掉 [13 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.关闭封面被拒提示_没有关闭按钮就按键 [1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.关闭封面被拒提示_有关闭按钮就点 [4 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.执行点击动作 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.观测弹窗_可见且可用 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.观测弹窗_可见但禁用 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.空操作不产生任何页面动作 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.执行按键动作 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.未接通的占位实现_查询返回否_动作抛异常 [1 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.按类型取到对应的执行器 [< 1 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.没注册的类型返回空而不是抛异常 [4 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.五个任务类型可以全部注册 [1 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.同一类型注册两个执行器时直接报错 [1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.重复位置只处理一次_避免误删下一条 [3 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.日志里的文案与原版一致 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.选项与确认按钮都在_可以继续 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.三个都可移除_按倒序点击 [14 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.找不到按钮的位置被跳过并说明 [3 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.倒序不是正序_这条防的是看起来能跑但会删错 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.空列表_空计划 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.null_不崩 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.非法位置被跳过(position: -1) [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.非法位置被跳过(position: 0) [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.混合状态_只点可移除的其余跳过 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.按钮不可用的位置被跳过并说明 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.全部跳过时总结说明没有可移除的 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.没有移除视频选项_不能继续 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.乱序输入也按位置倒序输出 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.没有继续按钮_不能继续 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.密文被改一个字节时按未激活处理 [97 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活后重启仍然是已激活 [110 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.日志文件名按天生成 [46 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.别人签的码被拒绝且不落盘 [20 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.每次写入都带毫秒级时间戳 [29 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.覆盖保存后读到的是新内容 [139 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.凭证内容被篡改成别的码时回到未激活 [122 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.换一台机器读不出来 [65 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活金样本成功且剩余三十天 [48 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.保存时会自动建目录 [30 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.返回内容不合法时给出可读提示(json: "not-json") [2 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.返回内容不合法时给出可读提示(json: "") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.返回内容不合法时给出可读提示(json: "[]") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.标准返回解析出全部字段 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.没有code也没有success但有data时算成功 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.业务失败抛出中文异常并带比特自己的消息 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.pid是字符串也能解析 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.缺少关键字段时报明确的缺失项(json: "{\"code\":0,\"data\":{\"http\":\"127.0.0.1:5001\"}"···, expectedFragment: "ws") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.缺少关键字段时报明确的缺失项(json: "{\"code\":0,\"data\":{\"ws\":\"   \"}}", expectedFragment: "ws") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.缺少关键字段时报明确的缺失项(json: "{\"code\":0}", expectedFragment: "data") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.关闭窗口成功时不抛异常 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.兼容success字段写法 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.关闭窗口失败时抛中文异常 [< 1 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.数量非正数时应拒绝(count: 0) [2 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.数量非正数时应拒绝(count: -1) [1 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.签出的码能被自己的公钥验证通过 [2 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.回拨系统时间不能延长有效期 [41 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.批量签发数量正确且序号不重复 [31 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.到期前一天仍然可用 [21 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活乱码不会改变状态也不会写凭证 [47 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.批量签发的每一张都能验签通过且文本互不相同 [109 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.签出的码字段与入参一致 [1 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.签出的码经文本往返后仍能验签 [4 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.有效天数为零时应拒绝签发 [1 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.不指定序号时自动生成且不为零 [3 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: " https://bit.local:9000 ", expected: "https://bit.local:9000") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: "http://127.0.0.1:6000/", expected: "http://127.0.0.1:6000") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: "127.0.0.1:6000", expected: "http://127.0.0.1:6000") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: null, expected: "http://127.0.0.1:54345") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: "", expected: "http://127.0.0.1:54345") [< 1 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.同一张码重复激活不重置首次激活时间 [74 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.并发写入不产生残行 [343 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.没有图片_空计划并警告 [8 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.同一天多次写入是追加而不是覆盖 [33 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.非图片文件静默忽略_不刷警告 [28 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.PNG", expected: True) [12 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.日志目录建不出来时构造与写入都不抛异常 [20 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.png", expected: True) [8 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.gif", expected: False) [4 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.webp", expected: True) [3 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.jpg", expected: True) [29 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.错误日志包含异常类型与堆栈 [48 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a", expected: False) [5 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.空操作不消耗预算 [1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.没关任何弹窗时的总结 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.观测为null_什么都不做 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.达到上限后停手并标记仍可能有弹窗 [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.jpeg", expected: True) [4 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.没见过的弹窗_用Escape兜底 [4 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.上限小于1直接抛 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.默认规则只有两条且顺序固定 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.关闭按钮可见_点它 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.总结分开统计点击与按键 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.继续按钮默认不启用_不会误点 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.可选规则确实存在且标注为低置信度 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.关闭按钮被禁用_改用Escape并说明原因 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.自定义规则表生效_证明顺序可配置 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.显式开启可选规则后_才点继续 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.没有观测到弹窗_什么都不做 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.全部不可见_什么都不做 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.规则表里声明按Escape的规则_直接按Escape [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.两类弹窗同时出现_先处理异常对话框 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.按Id查规则 [< 1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "", expected: False) [16 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.mp4", expected: False) [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.未配置目录_给出配置提示(directory: null) [6 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.未配置目录_给出配置提示(directory: "") [4 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.未配置目录_给出配置提示(directory: "   ") [3 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "null") [32 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.白名单扩展名都被扫描到 [17 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "{ 这不是 JSON") [12 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.图片传入顺序不影响分配结果 [3 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.重复别名只算一次 [5 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "") [17 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.同一账号反复取_永远是同一张 [9 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.图片够时不同账号拿到不同图片 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.头像与背景图必须同图 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.没有账号_空计划并警告 [7 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "{\"ConcurrentCount\": \"三个\"}") [20 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.洗牌后不是简单按顺序取第一张 [7 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.账号多于图片_重复并明确告知几个账号重复 [9 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.只有空文件时_整体不可用 [4 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.允许注释与尾逗号便于人工维护 [17 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.目录不存在_说清路径 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.空文件被跳过并说明原因 [9 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.取不在计划里的账号返回null [7 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.同一个种子_分配完全可复现 [2 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.保存后重新加载值一致且中文不被转义 [24 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.只有一张图_所有账号同图并给出警告 [6 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.结果按文件名排序_与创建顺序无关 [9 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.只改部分字段时其余字段保持默认 [11 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口返回失败码时抛ApiRejected [252 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.文件不存在时生成默认配置且默认值取自原版实测 [9 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.并发数为一的时候不会同时执行两个任务 [1 s]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名不区分大小写 [10 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.执行器返回失败结果时状态为失败并保留原因 [13 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.没有注册执行器时明确报程序缺陷 [5 ms]
+[13392:29208:1112/112636.783:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.状态事件先执行中再成功 [14 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.打开窗口发出正确的请求体并解析返回 [32 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.关闭窗口打到close接口并带窗口ID [12 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.单条超时判失败而不是中断 [224 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.取消后所有任务都落到终态不会卡在执行中 [162 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.进程在但调试端口不通时判为不活 [2 s]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.进程在且调试端口可达才算活 [5 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.没给窗口ID时直接报中文错误 [2 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.两次浏览器启动之间至少隔设定的秒数 [1 s]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.关闭浏览器失败也不会让程序崩 [5 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.执行器抛异常时任务失败且程序不崩 [8 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.每个任务开一个独立页面并带上账号的profile [23 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.只执行待执行的任务 [4 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerIntegrationTests.执行器失败时任务记为失败且浏览器照样关闭 [2 s]
+DevTools listening on ws://127.0.0.1:60692/devtools/browser/d489b6e3-222a-48ce-a115-6b1691a3d09c
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.并发数为二时确实并行 [219 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.账号不存在时失败原因是中文且指出清单文件 [8 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.执行中再次开始会被忽略 [418 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.成功的任务结果里带耗时 [8 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.队列里没有待执行任务时什么也不启动 [18 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.浏览器启动失败时任务失败且原因是中文 [13 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.已成功的任务在下一轮不会被重跑 [11 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.一个任务失败不影响同批其他任务 [6 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.账号被停用时跳过且不启浏览器 [20 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.客户端没开时报中文错误并说明是本地接口连不上 [2 s]
+[29148:5104:1112/112638.923:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+DevTools listening on ws://127.0.0.1:60735/devtools/browser/c34700cf-23f3-4181-aac0-5fe892b6f29d
+  已通过 FbAuto.Tests.BitBrowserChannelTests.关闭失败只记警告不抛异常 [2 s]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.进程已退出时判为不活 [61 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.ws地址取回后可直接用于连接 [3 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.没有ws时取地址报会话已关闭 [< 1 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerIntegrationTests.一条任务从调度到成功并把浏览器关掉 [2 s]
+[1496:6040:1112/112641.216:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.点不到元素时按秒数报错并带上序号 [1 s]
+DevTools listening on ws://127.0.0.1:60786/devtools/browser/8fc7f1d3-f359-41b1-9454-0591854aa70b
+[11932:29644:1112/112643.861:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.禁用的元素点不动_与可用性判定一致 [1 s]
+DevTools listening on ws://127.0.0.1:60829/devtools/browser/577bbaab-cdc8-45af-9af8-b279c28956c9
+[18788:4136:1112/112646.308:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.可见性区分存在_隐藏_不存在 [112 ms]
+DevTools listening on ws://127.0.0.1:60866/devtools/browser/de1a22c8-6ac4-4bc6-ad84-5afaec53a1cd
+[29336:2220:1112/112647.763:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.隐藏的_file_input_能直接注入 [134 ms]
+DevTools listening on ws://127.0.0.1:60907/devtools/browser/f5a0e810-b346-4260-ac61-c2a8348a4086
+[6068:17776:1112/112649.230:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.序号按可见匹配数_隐藏元素不占位 [252 ms]
+DevTools listening on ws://127.0.0.1:60936/devtools/browser/b47e3b54-0e56-423c-bf4a-37641554f30e
+[5540:18708:1112/112651.055:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.真实选择器能命中封面的_file_input [135 ms]
+DevTools listening on ws://127.0.0.1:60965/devtools/browser/a4ae5ac2-7ce9-4934-98d1-0eab9d614349
+[21620:15356:1112/112653.229:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.无效选择器报中文错误而不是英文原始异常 [105 ms]
+DevTools listening on ws://127.0.0.1:61006/devtools/browser/ec548a18-c1ef-44e5-9ffb-485e40f01445
+[968:6264:1112/112654.699:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.注入不存在的文件时报中文错误 [74 ms]
+DevTools listening on ws://127.0.0.1:61036/devtools/browser/855bb521-ebb2-4395-ab3a-3965cebcfdc0
+[5500:29216:1112/112656.106:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.按_Escape_会真的落到页面上 [103 ms]
+DevTools listening on ws://127.0.0.1:61070/devtools/browser/85ce471d-41d6-4119-b794-76a33c99bbd0
+[5884:26768:1112/112657.637:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.可用性认_aria_disabled_也认原生_disabled [206 ms]
+DevTools listening on ws://127.0.0.1:61103/devtools/browser/4a5cd724-5359-46a8-b87a-68dca0e5b70c
+[29076:20300:1112/112659.088:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.草稿清理_倒序移除三条全清且顺序是倒的 [1 s]
+DevTools listening on ws://127.0.0.1:61141/devtools/browser/21f69b56-6e7f-415d-8e38-348deffdeac8
+[17128:26996:1112/112701.543:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_全部被页面拒绝时判失败并记次数 [294 ms]
+DevTools listening on ws://127.0.0.1:61170/devtools/browser/684214b0-b586-4ddb-aad2-375397abefd6
+[7576:25156:1112/112703.500:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.弹窗清理_没有弹窗时绝不按_Escape [140 ms]
+DevTools listening on ws://127.0.0.1:61200/devtools/browser/a01c9fc8-f1e0-4891-90d7-0cb41b0c80c5
+[24564:18336:1112/112705.301:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.弹窗清理_点关闭按钮后弹窗真的消失 [197 ms]
+DevTools listening on ws://127.0.0.1:61241/devtools/browser/96e0d41d-3e8f-4c35-94ef-46c40fb3e914
+[18576:16972:1112/112706.856:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_头像路径不做尺寸预检 [2 s]
+DevTools listening on ws://127.0.0.1:61296/devtools/browser/d65e6366-d4ac-4d45-9e8d-17b4bcf7fc5b
+[2348:9400:1112/112710.663:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.草稿清理_列表为空时不点任何东西 [102 ms]
+DevTools listening on ws://127.0.0.1:61326/devtools/browser/27e74dc1-ed84-4f68-a7ac-ec389884b499
+[4800:27840:1112/112712.074:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_本地挡掉的图不会真的上传 [2 s]
+DevTools listening on ws://127.0.0.1:61378/devtools/browser/36f24ace-d0a1-4ae0-a4da-824c532caf76
+[26648:1608:1112/112715.895:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.草稿清理_位置被禁用时跳过且不影响其他条目 [611 ms]
+DevTools listening on ws://127.0.0.1:61412/devtools/browser/4745cf0e-a1aa-4abb-bacb-c787d1dbf0d1
+[9844:28152:1112/112717.845:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.弹窗清理_关闭按钮禁用时改用_Escape [155 ms]
+DevTools listening on ws://127.0.0.1:61447/devtools/browser/28a8240f-1328-4b75-85b6-87a20148be47
+[22872:4720:1112/112719.267:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_对话框没有关闭按钮时按_Escape [2 s]
+DevTools listening on ws://127.0.0.1:61489/devtools/browser/be3c508d-d1e8-484c-bc61-4a2764b56e16
+[24276:508:1112/112723.215:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.等不到元素时抛中文超时错误 [3 s]
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.可执行文件不存在时报中文错误而不是崩溃 [1 ms]
+DevTools listening on ws://127.0.0.1:61538/devtools/browser/754156c8-c0fa-4dfd-8bf5-261106b94fb1
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.进程在但调试端口不通时判为不活 [2 s]
+DevTools listening on ws://127.0.0.1:61572/devtools/browser/65d0671b-ea75-4a2a-8518-37fb325926ae
+[28404:28008:1112/112729.816:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.上次残留的端口文件会被清掉不会连到旧端口 [1 s]
+DevTools listening on ws://127.0.0.1:61602/devtools/browser/7f1e47dc-9043-4ef6-bb61-f76c4d14832c
+[11496:14272:1112/112731.517:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.同一浏览器可开多页且互不影响 [1 s]
+DevTools listening on ws://127.0.0.1:61643/devtools/browser/54cdb2ec-f9b2-4622-b2f2-a4826c1640a5
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.导航到打不开的地址时报中文错误 [1 s]
+[27440:12420:1112/112733.290:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+[xUnit.net 00:00:59.40]   Finished:    FbAuto.Tests
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.启动到关闭整条链路可用 [1 s]
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.进程不存在时探活返回false [1 ms]
+
+测试运行成功。
+测试总数: 377
+     通过数: 377
+总时间: 1.0018 分钟
+     1>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(VSTest 个目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:01:07.12

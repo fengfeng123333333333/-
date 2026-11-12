@@ -8,29 +8,44 @@ namespace FbAuto.Automation.Abstractions;
 /// </summary>
 /// <remarks>
 /// 为什么单独抽一个接口：封面校验、弹窗关闭、草稿清理的决策逻辑都能在没有任何浏览器的情况下
-/// 单测完；真正碰页面的只有这六个动作。等 facebook.com 出口通了，实现一个 Playwright 版本
-/// （<c>FbAuto.Browser</c> 里的 <c>PlaywrightInterop</c>）就能把四件套整体接上，逻辑层一行不用改。
+/// 单测完；真正碰页面的只有这几个动作。实现见
+/// <c>FbAuto.Automation/Pages/PlaywrightPageInterop.cs</c>
+/// （放在 Automation 层而不是 Browser 层，因为依赖方向是 Automation → Browser，反向引用会成环）。
 ///
-/// 刻意保持窄：只放这四件事真正用到的原语。宽接口会诱使业务逻辑往实现里渗。
+/// 刻意保持窄：只放这几件事真正用到的原语。宽接口会诱使业务逻辑往实现里渗。
+///
+/// **关于序号**：草稿清理与二级确认天生是按位置的（原版串：`第 {n} 个继续按钮`），
+/// 所以 <see cref="ClickAsync"/> 与 <see cref="IsEnabledAsync"/> 都带 0 起的 <c>index</c>。
+/// 序号一律按**可见匹配**的顺序数：隐藏元素（关掉的对话框里的残留按钮）不占位，
+/// 否则「第 2 个继续按钮」会点到隐藏的那个，Playwright 会一直等到超时。
 /// </remarks>
 public interface IPageInterop
 {
     /// <summary>元素是否存在且可见。</summary>
     Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default);
 
-    /// <summary>元素是否处于可用状态（未 disabled）。元素不存在时返回 false。</summary>
-    Task<bool> IsEnabledAsync(string selector, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// 第 <paramref name="index"/> 个可见匹配是否处于可用状态。
+    /// 元素不存在或不可见时返回 false。
+    /// </summary>
+    Task<bool> IsEnabledAsync(string selector, int index = 0, CancellationToken cancellationToken = default);
 
-    /// <summary>点击元素。</summary>
-    Task ClickAsync(string selector, CancellationToken cancellationToken = default);
+    /// <summary>点击第 <paramref name="index"/> 个可见匹配（0 起）。</summary>
+    Task ClickAsync(string selector, int index = 0, CancellationToken cancellationToken = default);
 
     /// <summary>按 Escape。</summary>
     Task PressEscapeAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>给 file input 注入文件路径（不弹系统对话框）。</summary>
+    /// <summary>
+    /// 给 file input 注入文件路径（不弹系统对话框）。
+    /// </summary>
+    /// <remarks>
+    /// 必须能对**隐藏**的 input 生效 —— 真实页面的 file input 基本都是 <c>display:none</c>，
+    /// 先等它可见是等不到的。
+    /// </remarks>
     Task SetFileInputAsync(string selector, string filePath, CancellationToken cancellationToken = default);
 
-    /// <summary>匹配选择器的元素个数。用于「第 n 个继续按钮」这类按序号定位的场景。</summary>
+    /// <summary>可见匹配的个数（隐藏元素不计）。用于「第 n 个继续按钮」这类按序号定位的场景。</summary>
     Task<int> CountAsync(string selector, CancellationToken cancellationToken = default);
 }
 
@@ -48,10 +63,10 @@ public sealed class NotConnectedPageInterop : IPageInterop
     public Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default) =>
         Task.FromResult(false);
 
-    public Task<bool> IsEnabledAsync(string selector, CancellationToken cancellationToken = default) =>
+    public Task<bool> IsEnabledAsync(string selector, int index = 0, CancellationToken cancellationToken = default) =>
         Task.FromResult(false);
 
-    public Task ClickAsync(string selector, CancellationToken cancellationToken = default) =>
+    public Task ClickAsync(string selector, int index = 0, CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException("页面尚未接通，不能执行点击");
 
     public Task PressEscapeAsync(CancellationToken cancellationToken = default) =>
@@ -94,7 +109,7 @@ public static class PageInteropExtensions
                 continue;
             }
 
-            var enabled = await page.IsEnabledAsync(rule.Selector, cancellationToken).ConfigureAwait(false);
+            var enabled = await page.IsEnabledAsync(rule.Selector, 0, cancellationToken).ConfigureAwait(false);
             observations.Add(new PopupObservation(rule.Id, Visible: true, Enabled: enabled));
         }
 
@@ -115,7 +130,7 @@ public static class PageInteropExtensions
         switch (step.Action)
         {
             case PopupDismissAction.Click when !string.IsNullOrEmpty(step.Selector):
-                await page.ClickAsync(step.Selector, cancellationToken).ConfigureAwait(false);
+                await page.ClickAsync(step.Selector, 0, cancellationToken).ConfigureAwait(false);
                 return step.LogLine;
 
             case PopupDismissAction.PressEscape:
@@ -151,7 +166,8 @@ public static class PageInteropExtensions
             .ConfigureAwait(false);
         if (hasClose)
         {
-            await page.ClickAsync(CoverRejectionSignals.CloseButtonSelector, cancellationToken).ConfigureAwait(false);
+            await page.ClickAsync(CoverRejectionSignals.CloseButtonSelector, 0, cancellationToken)
+                .ConfigureAwait(false);
             return CoverRejectionSignals.ClickedCloseLine;
         }
 

@@ -19,6 +19,9 @@ public sealed class FakePageInterop : IPageInterop
 
     public List<string> Clicked { get; } = [];
 
+    /// <summary>每次点击用的序号，与 <see cref="Clicked"/> 一一对应。</summary>
+    public List<int> ClickedIndexes { get; } = [];
+
     public int EscapeCount { get; private set; }
 
     public List<(string Selector, string FilePath)> FileInjections { get; } = [];
@@ -26,12 +29,13 @@ public sealed class FakePageInterop : IPageInterop
     public Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default) =>
         Task.FromResult(VisibleSelectors.TryGetValue(selector, out var visible) && visible);
 
-    public Task<bool> IsEnabledAsync(string selector, CancellationToken cancellationToken = default) =>
+    public Task<bool> IsEnabledAsync(string selector, int index = 0, CancellationToken cancellationToken = default) =>
         Task.FromResult(EnabledSelectors.TryGetValue(selector, out var enabled) && enabled);
 
-    public Task ClickAsync(string selector, CancellationToken cancellationToken = default)
+    public Task ClickAsync(string selector, int index = 0, CancellationToken cancellationToken = default)
     {
         Clicked.Add(selector);
+        ClickedIndexes.Add(index);
         return Task.CompletedTask;
     }
 
