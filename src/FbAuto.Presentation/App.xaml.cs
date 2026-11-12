@@ -1,8 +1,11 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Windows.Threading;
+using FbAuto.Application.Execution;
 using FbAuto.Core.Abstractions;
 using FbAuto.Core.Licensing;
+using FbAuto.Core.Models;
+using FbAuto.Infrastructure.Accounts;
 using FbAuto.Infrastructure.Configuration;
 using FbAuto.Infrastructure.Logging;
 using FbAuto.Infrastructure.System;
@@ -75,9 +78,34 @@ public partial class App : System.Windows.Application
 
     private void ShowMainWindow(IConfigService configService, IAppLogger logger)
     {
-        var window = new MainWindow(new MainViewModel(configService, logger));
+        var window = new MainWindow(CreateMainViewModel(configService, logger));
         MainWindow = window;
         window.Show();
+    }
+
+    /// <summary>
+    /// 主界面的依赖装配。执行链路的三件套（执行器表 / 通道提供者 / 账号清单）在这里落地，
+    /// 界面上只见到 <see cref="TaskQueueRunner"/>，不直接碰浏览器实现。
+    /// </summary>
+    private static MainViewModel CreateMainViewModel(IConfigService configService, IAppLogger logger)
+    {
+        var config = configService.Current;
+
+        var accountsFile = string.IsNullOrWhiteSpace(config.AccountsFile)
+            ? Path.Combine(AppContext.BaseDirectory, "accounts.csv")
+            : config.AccountsFile;
+
+        var accounts = new AccountListCsv(accountsFile, logger);
+        var channels = new ConfigBrowserChannelProvider(logger, config);
+
+        // S4 阶段五类任务都还没接页面动作，一律注册「未接入」执行器：
+        // 明确记失败并说明原因，而不是假装成功或悄悄跳过。
+        var executors = new TaskExecutorRegistry(
+            TaskTypeCatalog.All.Select(t => new NotWiredTaskExecutor(t.Kind)));
+
+        var runner = new TaskQueueRunner(executors, channels, accounts, logger);
+
+        return new MainViewModel(configService, logger, runner, accounts, channels);
     }
 
     private void ShowLoginWindow(

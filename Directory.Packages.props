@@ -28,6 +28,8 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <!-- Playwright 的 IBrowser/IPage 成员太多，手写假实现容易漏；用 Moq 建空壳更可靠 -->
+    <PackageVersion Include="Moq" Version="4.20.72" />
   </ItemGroup>
 
 </Project>

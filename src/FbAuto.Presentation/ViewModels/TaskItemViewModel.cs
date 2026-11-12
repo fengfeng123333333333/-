@@ -52,4 +52,15 @@ public sealed partial class TaskItemViewModel : ObservableObject
         Model.BrowserName = BrowserName;
         Model.Result = Result;
     }
+
+    /// <summary>
+    /// 从模型反向刷新显示值。调度器改的是 <see cref="AutomatedTask"/>（纯模型），
+    /// 界面这一行是副本，收到状态事件后必须显式同步一次，否则界面永远停在「待执行」。
+    /// </summary>
+    public void SyncFromModel()
+    {
+        Status = Model.Status;
+        BrowserName = Model.BrowserName;
+        Result = Model.Result;
+    }
 }

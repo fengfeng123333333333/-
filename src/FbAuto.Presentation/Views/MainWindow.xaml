@@ -27,10 +27,10 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock Text="浏览器：" VerticalAlignment="Center"
                                Foreground="{StaticResource Brush.TextSecondary}" Margin="0,0,6,0" />
-                    <ComboBox Width="152" ItemsSource="{Binding Browsers}" SelectedIndex="0"
+                    <ComboBox Width="152" ItemsSource="{Binding Browsers}" SelectedItem="{Binding SelectedBrowser}"
                               IsEnabled="{Binding IsBrowserListReady}" />
                     <Button Content="打开浏览器" Style="{StaticResource SecondaryButton}" Height="26"
-                            Margin="8,0,0,0" />
+                            Margin="8,0,0,0" Command="{Binding OpenBrowserCommand}" />
                 </StackPanel>
             </Grid>
         </Border>
@@ -76,8 +76,8 @@
                             BorderThickness="0,0,0,1">
                         <Grid Margin="14,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="56" />
-                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="76" />
+                                <ColumnDefinition Width="160" />
                                 <ColumnDefinition Width="86" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
@@ -93,7 +93,7 @@
                     </Border>
 
                     <Grid>
-                        <ListBox ItemsSource="{Binding Tasks}"
+                        <ListBox x:Name="TaskList" ItemsSource="{Binding Tasks}"
                                  SelectedItem="{Binding SelectedTask}"
                                  ItemContainerStyle="{StaticResource QueueItem}"
                                  BorderThickness="0" Background="Transparent"
@@ -102,8 +102,8 @@
                                 <DataTemplate>
                                     <Grid Height="42" Margin="14,0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="56" />
-                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="76" />
+                                            <ColumnDefinition Width="160" />
                                             <ColumnDefinition Width="86" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
@@ -132,6 +132,11 @@
                                                 </Style>
                                             </Ellipse.Style>
                                         </Ellipse>
+                                        <!-- 状态必须有文字，不能只有色点：色点对色弱用户不可读，
+                                             屏幕阅读器与自动化验收也读不到。文字与色点并存。 -->
+                                        <TextBlock Grid.Column="0" Text="{Binding StatusText}" Margin="14,0,0,0"
+                                                   VerticalAlignment="Center" FontSize="11"
+                                                   Foreground="{Binding StatusColor}" TextTrimming="CharacterEllipsis" />
                                         <TextBlock Grid.Column="1" Text="{Binding DisplayName}" VerticalAlignment="Center"
                                                    Foreground="{StaticResource Brush.Text}" TextTrimming="CharacterEllipsis" />
                                         <TextBlock Grid.Column="2" Text="{Binding BrowserName}" VerticalAlignment="Center"

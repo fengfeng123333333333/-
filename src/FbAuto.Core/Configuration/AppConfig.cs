@@ -29,6 +29,12 @@ public sealed class AppConfig
     /// <summary>Chrome 可执行文件路径。留空则自动查找（注册表 + 常见安装位置）。</summary>
     public string ChromePath { get; set; } = string.Empty;
 
+    /// <summary>
+    /// 账号清单 CSV 路径。留空则用程序目录下的 accounts.csv。
+    /// 清单是手工维护的，放在程序目录便于发给使用者后自己改。
+    /// </summary>
+    public string AccountsFile { get; set; } = string.Empty;
+
     /// <summary>比特浏览器本地接口地址。端口写错会表现为「客户端未启动」。</summary>
     public string BitBrowserApiBaseUrl { get; set; } = "http://127.0.0.1:54345";
 

@@ -1,14 +1,19 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FbAuto.Application.Execution;
+using FbAuto.Browser.Abstractions;
 using FbAuto.Core.Abstractions;
 using FbAuto.Core.Models;
 
 namespace FbAuto.Presentation.ViewModels;
 
 /// <summary>
-/// 主界面 ViewModel。S1 只负责：三栏数据、添加/删除任务、配置回填与保存。
-/// 真正的执行链路由 S4（上传）/ S5（资料）/ S7（删消息）注入，这里只留命令出口。
+/// 主界面 ViewModel。S4 起「开始任务」不再是日志占位，而是真的驱动
+/// <see cref="TaskQueueRunner"/> 跑队列；状态由调度器回调、这里 marshal 回 UI 线程。
+///
+/// 有意保留的边界：本类不判断「能不能跑」（那是调度器的事），只管按钮可用性与显示。
 /// </summary>
 public sealed partial class MainViewModel : ObservableObject
 {
@@ -17,11 +22,27 @@ public sealed partial class MainViewModel : ObservableObject
 
     private readonly IConfigService _configService;
     private readonly IAppLogger _logger;
+    private readonly TaskQueueRunner _runner;
+    private readonly IAccountDirectory _accounts;
+    private readonly IBrowserChannelProvider _channels;
 
-    public MainViewModel(IConfigService configService, IAppLogger logger)
+    /// <summary>「打开浏览器」开出去、还没关的会话。窗口关闭时统一收掉，避免残留进程。</summary>
+    private readonly List<(IBrowserChannel Channel, BrowserSession Session)> _openedBrowsers = [];
+
+    private CancellationTokenSource? _runCts;
+
+    public MainViewModel(
+        IConfigService configService,
+        IAppLogger logger,
+        TaskQueueRunner runner,
+        IAccountDirectory accounts,
+        IBrowserChannelProvider channels)
     {
-        _configService = configService;
-        _logger = logger;
+        _configService = configService ?? throw new ArgumentNullException(nameof(configService));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _runner = runner ?? throw new ArgumentNullException(nameof(runner));
+        _accounts = accounts ?? throw new ArgumentNullException(nameof(accounts));
+        _channels = channels ?? throw new ArgumentNullException(nameof(channels));
 
         var config = configService.Current;
         _concurrentCount = config.ConcurrentCount;
@@ -34,14 +55,16 @@ public sealed partial class MainViewModel : ObservableObject
         _scheduledStartHour = config.ScheduledStartHour;
         _messageBlockWords = string.Join(",", config.MessageBlockWords);
 
-        // S2 接管浏览器后替换为真实列表；之前保持占位，不假装已就绪。
-        Browsers.Add(BrowserLoadingPlaceholder);
+        LoadBrowsers();
 
         Tasks.CollectionChanged += (_, _) =>
         {
             OnPropertyChanged(nameof(HasTasks));
             OnPropertyChanged(nameof(TaskSummary));
+            NotifyCommandStates();
         };
+
+        _runner.StatusChanged += OnRunnerStatusChanged;
     }
 
     public ObservableCollection<TaskItemViewModel> Tasks { get; } = [];
@@ -54,6 +77,9 @@ public sealed partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private TaskItemViewModel? _selectedTask;
+
+    [ObservableProperty]
+    private string? _selectedBrowser;
 
     [ObservableProperty]
     private int _concurrentCount;
@@ -82,16 +108,50 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string _messageBlockWords;
 
+    [ObservableProperty]
+    private bool _isRunning;
+
     /// <summary>队列空态判断：空时显示「暂无任务，请从左侧添加」。</summary>
     public bool HasTasks => Tasks.Count > 0;
 
-    /// <summary>顶栏浏览器下拉是否已可用；占位状态下禁用，避免点了没反应。</summary>
+    /// <summary>浏览器下拉是否已可用；占位状态下禁用，避免点了没反应。</summary>
     public bool IsBrowserListReady => Browsers.Count > 0 && Browsers[0] != BrowserLoadingPlaceholder;
 
-    public string TaskSummary =>
-        Tasks.Count == 0
+    public bool CanStart => !IsRunning && Tasks.Any(t => t.Status == TaskRunStatus.Pending);
+
+    public bool CanStop => IsRunning;
+
+    public string TaskSummary => IsRunning
+        ? $"执行中 · 待执行 {Tasks.Count(t => t.Status == TaskRunStatus.Pending)} 条"
+        : Tasks.Count == 0
             ? "队列为空"
             : $"共 {Tasks.Count} 条 · 待执行 {Tasks.Count(t => t.Status == TaskRunStatus.Pending)} 条";
+
+    /// <summary>
+    /// 从账号清单填顶栏浏览器下拉。没有可用账号时保持占位文案并禁用，
+    /// 而不是显示一个空下拉让人以为程序坏了。
+    /// </summary>
+    private void LoadBrowsers()
+    {
+        Browsers.Clear();
+
+        foreach (var account in _accounts.All)
+        {
+            Browsers.Add(account.BrowserDisplayName);
+        }
+
+        if (Browsers.Count == 0)
+        {
+            Browsers.Add(BrowserLoadingPlaceholder);
+        }
+        else
+        {
+            _logger.Info($"浏览器列表已加载：{Browsers.Count} 个");
+        }
+
+        SelectedBrowser = Browsers[0];
+        OnPropertyChanged(nameof(IsBrowserListReady));
+    }
 
     [RelayCommand]
     private void AddTask(TaskTypeDescriptor? descriptor)
@@ -101,21 +161,25 @@ public sealed partial class MainViewModel : ObservableObject
             return;
         }
 
+        // 添加时就绑定账号：原版队列的「浏览器」列在建任务时就显示了，不是执行时才分配。
+        var account = _accounts.NextAvailable(descriptor.Channel);
+
         var task = new AutomatedTask
         {
             Kind = descriptor.Kind,
             Channel = descriptor.Channel,
+            AccountAlias = account?.Alias ?? string.Empty,
+            BrowserName = account?.BrowserDisplayName ?? "未分配",
         };
 
-        var item = new TaskItemViewModel(task)
-        {
-            BrowserName = descriptor.Channel == BrowserChannelKind.Google ? "Chrome-未分配" : "Bit-未分配",
-            Result = "—",
-        };
+        var item = new TaskItemViewModel(task) { Result = "—" };
 
         Tasks.Add(item);
         SelectedTask = item;
-        _logger.Info($"添加任务：{descriptor.DisplayName}");
+
+        _logger.Info(account is null
+            ? $"添加任务：{descriptor.DisplayName}（账号清单里没有 {descriptor.Channel.ToDisplay()} 可用账号，执行时会失败）"
+            : $"添加任务：{descriptor.DisplayName} → {account.BrowserDisplayName}");
     }
 
     [RelayCommand]
@@ -127,27 +191,131 @@ public sealed partial class MainViewModel : ObservableObject
             return;
         }
 
+        if (SelectedTask.Status == TaskRunStatus.Running)
+        {
+            _logger.Warn("删除任务被忽略：该任务正在执行，请先停止");
+            return;
+        }
+
         var removed = SelectedTask;
         Tasks.Remove(removed);
         SelectedTask = Tasks.FirstOrDefault();
         _logger.Info($"删除任务：{removed.DisplayName}");
+
+        // 模型对象也一并丢弃，避免调度器在下一轮里还拿着它。
+        removed.Model.Status = TaskRunStatus.Interrupted;
     }
 
-    [RelayCommand]
-    private void StartTasks()
+    [RelayCommand(CanExecute = nameof(CanStart))]
+    private async Task StartTasksAsync()
     {
-        // S4 起接真实执行链路；此刻如实记录，不假装已在跑。
-        if (Tasks.Count == 0)
+        if (!Tasks.Any(t => t.Status == TaskRunStatus.Pending))
         {
-            _logger.Warn("开始任务被忽略：队列为空");
+            _logger.Warn("开始任务被忽略：没有待执行的任务（已完成的不重跑，V1 不做自动重试）");
             return;
         }
 
-        _logger.Info($"开始任务（S1 骨架，执行链路尚未接入）：当前队列 {Tasks.Count} 条，并发数 {ConcurrentCount}");
+        _runCts?.Dispose();
+        _runCts = new CancellationTokenSource();
+        SetRunning(true);
+
+        try
+        {
+            var options = new TaskRunOptions
+            {
+                ConcurrentCount = Math.Max(1, ConcurrentCount),
+                LaunchIntervalSeconds = Math.Max(0, BrowserOpenIntervalSeconds),
+                ScreenshotDirectory = ResolveScreenshotDirectory(),
+            };
+
+            var models = Tasks.Select(t => t.Model).ToList();
+            var summary = await _runner.RunAsync(models, options, _runCts.Token);
+
+            _logger.Info(
+                $"本轮结束：成功 {summary.Succeeded}，失败 {summary.Failed}，中断 {summary.Interrupted}");
+        }
+        catch (Exception ex)
+        {
+            // 调度器内部已兜住绝大多数异常；这里兜住的是「它自己坏了」的情况。
+            _logger.Error("执行链路异常", ex);
+        }
+        finally
+        {
+            SetRunning(false);
+        }
     }
 
+    [RelayCommand(CanExecute = nameof(CanStop))]
+    private void StopTasks()
+    {
+        if (_runCts is null || !IsRunning)
+        {
+            return;
+        }
+
+        _logger.Info("已请求停止：正在执行的任务会被中断，未开始的标记为中断");
+        _runCts.Cancel();
+    }
+
+    /// <summary>
+    /// 顶栏「打开浏览器」。按选中的浏览器（账号）真实启一次，用于确认 profile 与通道配置是否正确。
+    /// 打开的实例在这里记账，窗口关闭时统一关闭——不关就会留下孤儿进程。
+    /// </summary>
     [RelayCommand]
-    private void StopTasks() => _logger.Info("停止任务（S1 骨架，执行链路尚未接入）");
+    private async Task OpenBrowserAsync()
+    {
+        var account = _accounts.All.FirstOrDefault(a =>
+            string.Equals(a.BrowserDisplayName, SelectedBrowser, StringComparison.Ordinal));
+
+        if (account is null)
+        {
+            _logger.Warn($"打开浏览器被忽略：账号清单里没有「{SelectedBrowser}」，请先填写 {_accounts.SourcePath}");
+            return;
+        }
+
+        try
+        {
+            var channel = _channels.Create(account.Channel);
+            var session = await channel.LaunchAsync(new BrowserLaunchRequest
+            {
+                ProfileDirectory = account.ProfileDirectory,
+                BitProfileId = string.IsNullOrWhiteSpace(account.BitProfileId) ? null : account.BitProfileId,
+                Proxy = string.IsNullOrWhiteSpace(account.Proxy) ? null : account.Proxy,
+            });
+
+            _openedBrowsers.Add((channel, session));
+            _logger.Info($"已打开浏览器：{account.BrowserDisplayName}，PID {session.ProcessId?.ToString() ?? "未知"}");
+        }
+        catch (BrowserChannelException ex)
+        {
+            _logger.Warn($"打开浏览器失败：{ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"打开浏览器异常（{ex.GetType().Name}）", ex);
+        }
+    }
+
+    /// <summary>窗口关闭前调用：收掉自己开出去的浏览器。</summary>
+    public async Task ShutdownAsync()
+    {
+        // 先停执行，再关浏览器。顺序反了会让执行中的任务在关闭后继续跑。
+        _runCts?.Cancel();
+
+        foreach (var (channel, session) in _openedBrowsers)
+        {
+            try
+            {
+                await channel.CloseAsync(session, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                _logger.Warn($"关闭浏览器失败（{ex.Message}），可能残留 PID {session.ProcessId}");
+            }
+        }
+
+        _openedBrowsers.Clear();
+    }
 
     /// <summary>
     /// 把界面上的值写回配置并落盘。窗口关闭时调用，对应验收「改 config.json 重启后生效」的反向路径。
@@ -167,5 +335,66 @@ public sealed partial class MainViewModel : ObservableObject
             .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
         _configService.Save();
+    }
+
+    /// <summary>
+    /// 截图目录：优先用配置的保存目录，未配置时落到程序目录下的 Screenshots。
+    /// 不能让「没配保存目录」变成「失败时没有截图」——失败证据比整洁重要。
+    /// </summary>
+    private string ResolveScreenshotDirectory()
+    {
+        if (!string.IsNullOrWhiteSpace(SaveDirectory))
+        {
+            return Path.Combine(SaveDirectory, "Screenshots");
+        }
+
+        return Path.Combine(AppContext.BaseDirectory, "Screenshots");
+    }
+
+    private void SetRunning(bool running)
+    {
+        IsRunning = running;
+        OnPropertyChanged(nameof(TaskSummary));
+        NotifyCommandStates();
+    }
+
+    private void NotifyCommandStates()
+    {
+        OnPropertyChanged(nameof(CanStart));
+        OnPropertyChanged(nameof(CanStop));
+        StartTasksCommand.NotifyCanExecuteChanged();
+        StopTasksCommand.NotifyCanExecuteChanged();
+    }
+
+    /// <summary>
+    /// 调度器在后台线程发事件。这里负责切回 UI 线程——直接改绑定集合会抛
+    /// 「该类型的 CollectionView 不支持从不同于 Dispatcher 线程的线程更改」。
+    /// </summary>
+    private void OnRunnerStatusChanged(object? sender, TaskStatusChangedEventArgs e)
+    {
+        var dispatcher = System.Windows.Application.Current?.Dispatcher;
+
+        if (dispatcher is null || dispatcher.CheckAccess())
+        {
+            ApplyStatus(e);
+        }
+        else
+        {
+            dispatcher.BeginInvoke(() => ApplyStatus(e));
+        }
+    }
+
+    private void ApplyStatus(TaskStatusChangedEventArgs e)
+    {
+        var item = Tasks.FirstOrDefault(t => t.Id == e.TaskId);
+        if (item is null)
+        {
+            return;
+        }
+
+        item.SyncFromModel();
+
+        OnPropertyChanged(nameof(TaskSummary));
+        NotifyCommandStates();
     }
 }
