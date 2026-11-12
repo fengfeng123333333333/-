@@ -4,9 +4,9 @@ using System.Windows.Threading;
 using FbAuto.Core.Abstractions;
 using FbAuto.Core.Licensing;
 using FbAuto.Infrastructure.Configuration;
-using FbAuto.Infrastructure.Licensing;
 using FbAuto.Infrastructure.Logging;
 using FbAuto.Infrastructure.System;
+using FbAuto.Licensing;
 using FbAuto.Presentation.ViewModels;
 using FbAuto.Presentation.Views;
 
@@ -41,15 +41,33 @@ public partial class App : System.Windows.Application
         configService.Load();
 
         var machineCodeProvider = new MachineCodeProvider();
-        var licenseService = new PendingLicenseService(baseDirectory, logger);
-        logger.Info($"机器码：{machineCodeProvider.GetMachineCode()}");
+        var machineCode = machineCodeProvider.GetMachineCode();
+        logger.Info($"机器码：{machineCode}");
 
-        // 原版语义：启动先读本地卡密并自动尝试激活，失败才停在激活窗。
+        // 离线授权：凭证用机器码派生的密钥加密，文件被拷到别的机器上解不开
+        var licenseStore = new LicenseStore(
+            Path.Combine(baseDirectory, "license.dat"), machineCode, logger);
+        var licenseService = new OfflineLicenseService(licenseStore, logger);
+
         if (configService.Current.SkipActivationInDevelopment)
         {
             logger.Warn("开发模式：跳过激活直接进入主界面（SkipActivationInDevelopment=true，发布前必须置 false）");
             ShowMainWindow(configService, logger);
             return;
+        }
+
+        // 已激活且未到期就直接进主界面，不必每次开机重新输码
+        if (licenseService.State == LicenseState.Active)
+        {
+            logger.Info($"本地授权有效，剩余 {licenseService.DaysRemaining} 天，直接进入主界面");
+            licenseService.TouchLastSeen();
+            ShowMainWindow(configService, logger);
+            return;
+        }
+
+        if (licenseService.State == LicenseState.Expired)
+        {
+            logger.Warn($"本地授权已到期（{licenseService.ExpiresAt:yyyy-MM-dd}），需要新的授权码");
         }
 
         ShowLoginWindow(configService, machineCodeProvider, licenseService, logger);
@@ -71,8 +89,11 @@ public partial class App : System.Windows.Application
         var login = new LoginWindow(new LoginViewModel(machineCodeProvider, licenseService, logger));
         login.ActivationSucceeded += (_, _) =>
         {
-            login.Close();
+            // 先开主窗口，再关激活窗。
+            // 反过来的话，激活窗一关就没有任何窗口了，默认 ShutdownMode.OnLastWindowClose
+            // 会让整个进程退出，主窗口根本没机会出现——现象就是「激活成功后程序直接消失」。
             ShowMainWindow(configService, logger);
+            login.Close();
         };
         MainWindow = login;
         login.Show();

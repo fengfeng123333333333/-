@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>fbauto-keygen</AssemblyName>
+    <RootNamespace>FbAuto.Keygen</RootNamespace>
+    <!-- 这个程序只在发码方本机运行，不进安装包 -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FbAuto.Core\FbAuto.Core.csproj" />
+    <ProjectReference Include="..\..\src\FbAuto.Licensing\FbAuto.Licensing.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -5,9 +5,13 @@
     <Project Path="src/FbAuto.Browser/FbAuto.Browser.csproj" />
     <Project Path="src/FbAuto.Core/FbAuto.Core.csproj" />
     <Project Path="src/FbAuto.Infrastructure/FbAuto.Infrastructure.csproj" />
+    <Project Path="src/FbAuto.Licensing/FbAuto.Licensing.csproj" />
     <Project Path="src/FbAuto.Presentation/FbAuto.Presentation.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/FbAuto.Tests/FbAuto.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/FbAuto.Keygen/FbAuto.Keygen.csproj" />
   </Folder>
 </Solution>

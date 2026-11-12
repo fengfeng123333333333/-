@@ -7,8 +7,7 @@ using FbAuto.Core.Licensing;
 namespace FbAuto.Presentation.ViewModels;
 
 /// <summary>
-/// 激活窗 ViewModel。原版语义：启动即自动尝试激活，失败才停在这里。
-/// 本机机器码与到期日都由服务端判定，客户端不自行放行。
+/// 激活窗 ViewModel。离线授权：输入授权码后本机验签，通过即写入加密凭证，不联网。
 /// </summary>
 public sealed partial class LoginViewModel : ObservableObject
 {
@@ -20,6 +19,12 @@ public sealed partial class LoginViewModel : ObservableObject
         _logger = logger;
         _license = license;
         MachineCode = machineCodeProvider.GetMachineCode();
+
+        // 过期后来到激活窗，必须说清为什么——否则用户以为程序抽风了
+        if (_license.State == LicenseState.Expired && _license.ExpiresAt is DateTime expiredAt)
+        {
+            ErrorMessage = $"授权已于 {expiredAt:yyyy-MM-dd} 到期，请输入新的授权码";
+        }
     }
 
     /// <summary>激活成功事件，由窗口订阅后打开主界面。</summary>

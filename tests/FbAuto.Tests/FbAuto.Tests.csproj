@@ -23,6 +23,8 @@
     <ProjectReference Include="..\..\src\FbAuto.Browser\FbAuto.Browser.csproj" />
     <ProjectReference Include="..\..\src\FbAuto.Automation\FbAuto.Automation.csproj" />
     <ProjectReference Include="..\..\src\FbAuto.Application\FbAuto.Application.csproj" />
+    <ProjectReference Include="..\..\src\FbAuto.Licensing\FbAuto.Licensing.csproj" />
+    <ProjectReference Include="..\..\tools\FbAuto.Keygen\FbAuto.Keygen.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,7 @@
     <ProjectReference Include="..\FbAuto.Browser\FbAuto.Browser.csproj" />
     <ProjectReference Include="..\FbAuto.Automation\FbAuto.Automation.csproj" />
     <ProjectReference Include="..\FbAuto.Application\FbAuto.Application.csproj" />
+    <ProjectReference Include="..\FbAuto.Licensing\FbAuto.Licensing.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

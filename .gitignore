@@ -32,6 +32,14 @@ secrets/
 *.secret.json
 config.local.json
 
+# ---------- 授权密钥与凭证（绝不入库） ----------
+# 私钥一旦进过 git 历史，就必须换密钥重发所有码，所以这条要在第一次提交前就写好
+*.key
+*.pem
+license.dat
+license.dat.bak
+license_pubkey.b64
+
 # ---------- 运行产物 ----------
 logs/
 *.log
