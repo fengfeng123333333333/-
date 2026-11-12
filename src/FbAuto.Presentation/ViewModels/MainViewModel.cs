@@ -53,7 +53,9 @@ public sealed partial class MainViewModel : ObservableObject
         _browserType = config.BrowserType;
         _scheduledDate = config.ScheduledDate;
         _scheduledStartHour = config.ScheduledStartHour;
-        _messageBlockWords = string.Join(",", config.MessageBlockWords);
+        _commentsBlockWords = string.Join(",", config.CommentsBlockWords);
+        _deleteMessageLimit = config.DeleteMessageLimit.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        _deleteMessageCookieRootPath = config.DeleteMessageCookieRootPath;
 
         LoadBrowsers();
 
@@ -105,8 +107,17 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private int _scheduledStartHour;
 
+    /// <summary>评论屏蔽词（不是「删除消息」的屏蔽词 —— 原版键名是 CommentsBlockText）。</summary>
     [ObservableProperty]
-    private string _messageBlockWords;
+    private string _commentsBlockWords;
+
+    /// <summary>每个账号最多删除多少条消息。0 表示不限。</summary>
+    [ObservableProperty]
+    private string _deleteMessageLimit;
+
+    /// <summary>删除消息专用 Cookie 根目录（当前版本只记录，不注入）。</summary>
+    [ObservableProperty]
+    private string _deleteMessageCookieRootPath;
 
     [ObservableProperty]
     private bool _isRunning;
@@ -331,8 +342,16 @@ public sealed partial class MainViewModel : ObservableObject
         config.BrowserType = BrowserType;
         config.ScheduledDate = ScheduledDate;
         config.ScheduledStartHour = ScheduledStartHour;
-        config.MessageBlockWords = MessageBlockWords
+        config.CommentsBlockWords = CommentsBlockWords
             .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        if (int.TryParse(DeleteMessageLimit, out var limit))
+        {
+            // 负数按「不限」处理，与规划的语义一致；不在这里拦成 0 —— 拦了等于偷偷改了使用者的意图。
+            config.DeleteMessageLimit = limit < 0 ? 0 : limit;
+        }
+
+        config.DeleteMessageCookieRootPath = DeleteMessageCookieRootPath ?? string.Empty;
 
         _configService.Save();
     }

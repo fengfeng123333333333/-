@@ -48,6 +48,16 @@ public sealed class FakePageInterop : IPageInterop
     /// <summary>整页内容，供 asset_id 提取用。</summary>
     public string PageContent { get; set; } = string.Empty;
 
+    /// <summary>
+    /// 点击回调（选择器, 序号）。默认 null。
+    /// </summary>
+    /// <remarks>
+    /// 用来模拟「点了之后页面变了」—— 例如删除消息时点下确认按钮，会话行数要减一。
+    /// 没有这个钩子，循环类流程在假页面上永远是同一个读数，
+    /// 只能测出「转了几圈」，测不出「每圈都真的推进了」。
+    /// </remarks>
+    public Action<string, int>? OnClick { get; set; }
+
     public Task NavigateAsync(string url, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -80,6 +90,7 @@ public sealed class FakePageInterop : IPageInterop
         cancellationToken.ThrowIfCancellationRequested();
         Clicked.Add(selector);
         ClickedIndexes.Add(index);
+        OnClick?.Invoke(selector, index);
         return Task.CompletedTask;
     }
 
@@ -97,15 +108,21 @@ public sealed class FakePageInterop : IPageInterop
     public Task<IReadOnlyList<string>> ReadAttributesAsync(
         string selector,
         string attribute,
-        CancellationToken cancellationToken = default) =>
-        Task.FromResult<IReadOnlyList<string>>(
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult<IReadOnlyList<string>>(
             Attributes.TryGetValue(selector, out var values) ? values : []);
+    }
 
     public Task<IReadOnlyList<string>> ReadTextsAsync(
         string selector,
-        CancellationToken cancellationToken = default) =>
-        Task.FromResult<IReadOnlyList<string>>(
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult<IReadOnlyList<string>>(
             Texts.TryGetValue(selector, out var values) ? values : []);
+    }
 
     public Task<string> ReadContentAsync(CancellationToken cancellationToken = default)
     {
@@ -115,12 +132,14 @@ public sealed class FakePageInterop : IPageInterop
 
     public Task PressEscapeAsync(CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         EscapeCount++;
         return Task.CompletedTask;
     }
 
     public Task SetFileInputAsync(string selector, string filePath, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         FileInjections.Add((selector, filePath));
         return Task.CompletedTask;
     }
@@ -130,6 +149,7 @@ public sealed class FakePageInterop : IPageInterop
         IReadOnlyList<string> filePaths,
         CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         foreach (var path in filePaths)
         {
             FileInjections.Add((selector, path));
@@ -138,6 +158,9 @@ public sealed class FakePageInterop : IPageInterop
         return Task.CompletedTask;
     }
 
-    public Task<int> CountAsync(string selector, CancellationToken cancellationToken = default) =>
-        Task.FromResult(Counts.TryGetValue(selector, out var count) ? count : 0);
+    public Task<int> CountAsync(string selector, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(Counts.TryGetValue(selector, out var count) ? count : 0);
+    }
 }

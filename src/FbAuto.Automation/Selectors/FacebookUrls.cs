@@ -30,6 +30,18 @@ public static class FacebookUrls
     /// </remarks>
     public const string NameSettings = "https://www.facebook.com/settings?tab=profile&section=name&view";
 
+    /// <summary>
+    /// Messenger 收件箱（会话列表）。
+    /// </summary>
+    /// <remarks>
+    /// **这条不是从原版串里挖出来的** —— 原版对「删除消息」只有任务名和三句生命周期日志，
+    /// 没有任何页面地址。这个地址是按 FB 现行结构选的：<c>/messages/t/</c> 是收件箱，
+    /// 进单条会话也是这个前缀（<c>/messages/t/&lt;会话id&gt;/</c>），所以「数会话行」用
+    /// <c>href</c> 前缀匹配在两种页面上都能工作。
+    /// 真机第一件事：确认登录后这个地址直接进收件箱而不是 Marketplace 或登录页。
+    /// </remarks>
+    public const string MessengerInbox = "https://www.facebook.com/messages/t/";
+
     /// <summary>把 profile id 填进模板。</summary>
     public static string Format(string template, string profileId) =>
         string.Format(System.Globalization.CultureInfo.InvariantCulture, template, profileId);

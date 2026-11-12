@@ -61,8 +61,40 @@ public sealed class AppConfig
     /// <summary>定时起始小时，对应原版 ScheduledStartHour。0 表示未启用定时。</summary>
     public int ScheduledStartHour { get; set; }
 
-    /// <summary>删除消息的屏蔽词，默认与原版一致。</summary>
-    public string[] MessageBlockWords { get; set; } = [".com", "https", "pn", "dn", "inbox"];
+    /// <summary>
+    /// 评论屏蔽词，默认与原版一致。
+    /// </summary>
+    /// <remarks>
+    /// **这条跟「删除消息」无关。** 早先这里叫 <c>MessageBlockWords</c> 并注释成
+    /// 「删除消息的屏蔽词」，是看着字段名猜的：原版 settings.json 里它的键是
+    /// <c>GoogleCommentsBlockText</c> / <c>BitCommentsBlockText</c>，指的是**评论**。
+    /// 删除消息在原版里唯一的专属参数是 <see cref="DeleteMessageCookieRootPath"/>。
+    /// 名字错了的代价是「做删除消息时以为屏蔽词有用」，方向直接带偏。
+    ///
+    /// 旧配置里若有 <c>MessageBlockWords</c> 键，读不到会回落到这里的默认值 ——
+    /// 而默认值就是原版那五个词，所以不影响行为。
+    /// </remarks>
+    public string[] CommentsBlockWords { get; set; } = [".com", "https", "pn", "dn", "inbox"];
+
+    /// <summary>
+    /// 每个账号最多删几条消息。0 表示不限，一直删到会话列表空。
+    /// </summary>
+    /// <remarks>
+    /// 默认 20：删掉的对话在**对方那边也会消失**，不可恢复，批量账号上不该一把梭全清。
+    /// 原版没有这个参数（它删到什么程度无从得知），这条是我们按需求加的。
+    /// </remarks>
+    public int DeleteMessageLimit { get; set; } = 20;
+
+    /// <summary>
+    /// 删除消息专用 Cookie 根目录（原版 <c>DeleteMsgCookieRootPath</c>）。
+    /// </summary>
+    /// <remarks>
+    /// 原版这条任务的登录态**只从 cookie 来**，不像其他任务靠已登录的浏览器配置目录。
+    /// 当前实现沿用浏览器的已登录态，这里的值只读出来写日志，不注入 ——
+    /// cookie 注入是另一条登录路线，要和浏览器通道一起改，不在这一步开。
+    /// 配了却没生效这件事必须让人看见，否则会以为自己在用 cookie 跑。
+    /// </remarks>
+    public string DeleteMessageCookieRootPath { get; set; } = string.Empty;
 
     /// <summary>
     /// 授权服务地址。S3 落地前为空，客户端据此判定为「服务未接入」。

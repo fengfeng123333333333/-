@@ -34,6 +34,7 @@ public static class ExecutorCatalog
         {
             TaskKind.VideoUploadGoogle => new VideoUploadExecutor(config),
             TaskKind.ProfileEditGoogle => new ProfileEditExecutor(config),
+            TaskKind.DeleteMessage => new DeleteMessageExecutor(config),
             _ => new NotWiredTaskExecutor(kind),
         };
     }

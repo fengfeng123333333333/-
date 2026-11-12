@@ -32,10 +32,19 @@ public sealed class ExecutorCatalogTests
         Assert.IsType<ProfileEditExecutor>(google);
     }
 
+    [Fact]
+    public void 删除消息已接上真执行器()
+    {
+        var executors = ExecutorCatalog.CreateAll(Config);
+
+        var deleter = executors.Single(e => e.Kind == TaskKind.DeleteMessage);
+
+        Assert.IsType<DeleteMessageExecutor>(deleter);
+    }
+
     [Theory]
     [InlineData(TaskKind.VideoUploadBit)]
     [InlineData(TaskKind.ProfileEditBit)]
-    [InlineData(TaskKind.DeleteMessage)]
     public void 其余类型仍明确标记为未接入(TaskKind kind)
     {
         var executor = ExecutorCatalog.Create(kind, Config);

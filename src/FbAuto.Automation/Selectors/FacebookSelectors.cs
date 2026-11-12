@@ -9,6 +9,9 @@ namespace FbAuto.Automation.Selectors;
 /// <c>docs/evidence/extracted/*.cn.txt</c> 里的中文是坏的（UTF-16LE 字节被按单字节解成
 /// <c>慦嬀栀爀攀昀</c> 这种），在里面 grep 找不到东西，必须回原始 DLL 重扫。
 ///
+/// **一处例外**：末尾「删除消息」那一组**没有原版证据**（原版对这条任务没有任何页面串），
+/// 是按 FB 现行 DOM 惯例自建的，真机必须逐条确认。别把它当成和上面那些同一个可信度。
+///
 /// 关于 <c>:has-text()</c>：这是 Playwright 的 CSS 扩展，**子串匹配且祖先也命中**。
 /// 所以 <c>div[role='button']:has-text('移除')</c> 会同时匹配「包含移除按钮的外层 div」。
 /// 依赖这类选择器做「第 n 个」定位时，序号必须以 <see cref="Abstractions.IPageInterop"/> 的
@@ -215,4 +218,47 @@ public static class FacebookSelectors
     /// <c>div[aria-label='保存隐私分享对象选择并关闭对话框']</c>
     /// </summary>
     public const string PostingSettingSave = "div[aria-label='保存隐私分享对象选择并关闭对话框']";
+
+    // ── 删除消息 ───────────────────────────────────────────────────────────
+    //
+    // ⚠ 这一组**没有原版证据**。原版 DLL 里「删除消息」只有任务名与三句生命周期日志
+    //   （任务添加 / 开始 / 完成），一个页面串都没有，所以无法仿制，只能按需求自建。
+    //   下面四条是按 FB 现行 Messenger 结构写的，**真机验收必须逐条确认**，
+    //   任何一条对不上，删除流程会以「点不动 → 连续失败 → 中止」告终（不会误删别的）。
+    //
+    // 为什么走「进会话 → 详情 → 删除对话」而不是「列表行右键菜单」：
+    //   列表行上的更多按钮**悬停才出现**，而页面原语里没有 hover。
+    //   加一个 hover 原语意味着三条实现（接口、真实现、假实现）都要动，
+    //   而「进会话再删」只用现成的点击与等待，路径更长但每一步都能被现有原语表达。
+
+    /// <summary>
+    /// 会话列表里的一行。<c>href</c> 前缀匹配，进单条会话后左侧列表仍在，所以两种页面都能数。
+    /// </summary>
+    public const string ConversationRow = "a[href*='/messages/t/']";
+
+    /// <summary>
+    /// 会话页右上的「会话详情」入口，点开后才有「删除对话」。
+    /// </summary>
+    /// <remarks>
+    /// 中英文两个 aria-label 并列：FB 的界面语言随账号设置变，而自动化账号常被切成英文。
+    /// 少写一个的后果是「国内账号能跑、英文界面账号全失败」，很难在日志里看出来。
+    /// </remarks>
+    public const string ConversationInfoButton =
+        "[aria-label='会话详情'], [aria-label='Conversation details']";
+
+    /// <summary>详情面板里的「删除对话」菜单项。</summary>
+    public const string DeleteConversationMenuItem =
+        "div[role='menuitem']:has-text('删除对话'), div[role='menuitem']:has-text('Delete chat')";
+
+    /// <summary>
+    /// 「删除对话」之后的二次确认按钮。
+    /// </summary>
+    /// <remarks>
+    /// 必须用 <c>[role='dialog']</c> 限定，且用 <c>:text-is()</c> 而不是 <c>:has-text()</c>：
+    /// 上一步点开的菜单项本身也含「删除」二字，若不加范围限定又没有整段匹配，
+    /// 很可能点回菜单项上（点了没反应，然后卡一个点击超时）。
+    /// </remarks>
+    public const string DeleteConversationConfirm =
+        "div[role='dialog'] div[role='button']:text-is('删除'), "
+        + "div[role='dialog'] div[role='button']:text-is('Delete')";
 }

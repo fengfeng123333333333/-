@@ -619,6 +619,139 @@ public static class FacebookMimicPage
             """;
     }
 
+
+    /// <summary>
+    /// Messenger 收件箱仿真页：删除走「进会话 → 会话详情 → 删除对话 → 二次确认」四步。
+    /// </summary>
+    /// <remarks>
+    /// **这里的每条选择器都没有原版证据**（原版对「删除消息」一个页面串都没有），
+    /// 所以这个仿真页证明的只是「我们写的四步序列在真浏览器里能跑通、退出条件能生效」，
+    /// 证明不了「FB 的 Messenger 现在就是这个结构」。真机验收必须重新确认一遍。
+    ///
+    /// 三个参数对应三条真机上会遇到的岔路：
+    /// <list type="bullet">
+    /// <item><paramref name="withInfoButton"/> 为 false：详情入口找不到 —— 页面改版的典型表现。</item>
+    /// <item><paramref name="confirmRemoves"/> 为 false：确认点了但列表没变 ——
+    ///   对方已删了这段对话，或者点了没生效。</item>
+    /// <item><paramref name="conversationCount"/> 为 0：空收件箱。</item>
+    /// </list>
+    /// </remarks>
+    public static string MessengerInbox(
+        int conversationCount = 3,
+        bool withInfoButton = true,
+        bool confirmRemoves = true)
+    {
+        var rows = new System.Text.StringBuilder();
+        for (var i = 1; i <= conversationCount; i++)
+        {
+            var id = 1000 + i;
+            rows.AppendLine($"""  <a class="row" href="/messages/t/{id}/" data-id="{id}">会话 {i}</a>""");
+        }
+
+        var infoButton = withInfoButton
+            ? """<div class="btn" role="button" aria-label="会话详情" id="info">详情</div>"""
+            : string.Empty;
+
+        var emptyHint = conversationCount == 0
+            ? """<div id="empty">暂无私信</div>"""
+            : string.Empty;
+
+        var removesJs = confirmRemoves ? "true" : "false";
+
+        return $$$"""
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8">
+              <title>Messenger</title>
+              <style>
+                body { font-family: sans-serif; padding: 16px; }
+                .row { display: block; padding: 8px 10px; border-bottom: 1px solid #ddd; color: #111; }
+                .btn { display: inline-block; padding: 6px 12px; border: 1px solid #888;
+                       border-radius: 6px; cursor: pointer; margin: 6px 4px 6px 0; }
+                #thread, #panel, #dialog { display: none; margin-top: 12px; }
+                #dialog { border: 1px solid #888; padding: 12px; }
+                [role='menuitem'] { padding: 8px 10px; border: 1px solid #888;
+                                    border-radius: 6px; cursor: pointer; display: inline-block; }
+              </style>
+            </head>
+            <body>
+              <div id="list">
+            {{{rows}}}
+              </div>
+              {{{emptyHint}}}
+
+              <div id="thread">
+                <div>会话内容</div>
+                {{{infoButton}}}
+              </div>
+
+              <div id="panel">
+                <div role="menuitem" id="del">删除对话</div>
+              </div>
+
+              <div id="dialog" role="dialog" aria-modal="true">
+                <div>删除这段对话？</div>
+                <div class="btn" role="button" id="confirm">删除</div>
+                <div class="btn" role="button" id="cancel">取消</div>
+              </div>
+
+              <script>
+                var REMOVES = {{{removesJs}}};
+                var rows = document.querySelectorAll('a.row');
+                var thread = document.getElementById('thread');
+                var panel = document.getElementById('panel');
+                var dialog = document.getElementById('dialog');
+
+                for (var i = 0; i < rows.length; i++) {
+                  rows[i].addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.__opened = this.getAttribute('data-id');
+                    thread.style.display = 'block';
+                    panel.style.display = 'none';
+                    dialog.style.display = 'none';
+                  });
+                }
+
+                var info = document.getElementById('info');
+                if (info) {
+                  info.addEventListener('click', function () {
+                    panel.style.display = 'block';
+                  });
+                }
+
+                var del = document.getElementById('del');
+                if (del) {
+                  del.addEventListener('click', function () {
+                    dialog.style.display = 'block';
+                  });
+                }
+
+                document.getElementById('cancel').addEventListener('click', function () {
+                  dialog.style.display = 'none';
+                });
+
+                document.getElementById('confirm').addEventListener('click', function () {
+                  window.__confirmed = (window.__confirmed || 0) + 1;
+                  dialog.style.display = 'none';
+                  if (!REMOVES) { return; }
+
+                  var opened = window.__opened
+                    ? document.querySelector('a.row[data-id="' + window.__opened + '"]')
+                    : null;
+                  if (opened) { opened.remove(); }
+
+                  window.__deleted = (window.__deleted || 0) + 1;
+                  panel.style.display = 'none';
+                  thread.style.display = 'none';
+                  window.__opened = null;
+                });
+              </script>
+            </body>
+            </html>
+            """;
+    }
+
     /// <summary>
     /// 批量上传页：注入后长出进度条，全部结束才出现「发布」。
     /// </summary>
