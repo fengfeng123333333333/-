@@ -33,6 +33,7 @@ public static class ExecutorCatalog
         return kind switch
         {
             TaskKind.VideoUploadGoogle => new VideoUploadExecutor(config),
+            TaskKind.ProfileEditGoogle => new ProfileEditExecutor(config),
             _ => new NotWiredTaskExecutor(kind),
         };
     }

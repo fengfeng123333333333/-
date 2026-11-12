@@ -8,6 +8,10 @@ namespace FbAuto.Tests.Support;
 /// <remarks>
 /// 有了它，弹窗决策与执行这段逻辑在没有任何浏览器的情况下也能测完 ——
 /// 等 Playwright 实现补上，换的只是这个假类，被测代码一行不动。
+///
+/// **取消令牌一律检查并抛出**。真实现每个方法第一句都是
+/// <c>ThrowIfCancellationRequested()</c>，假实现若默默忽略，就会造出一个
+/// 「取消之后动作照样做完」的假绿 —— 取消语义的用例在这种假实现上永远不会红。
 /// </remarks>
 public sealed class FakePageInterop : IPageInterop
 {
@@ -46,23 +50,34 @@ public sealed class FakePageInterop : IPageInterop
 
     public Task NavigateAsync(string url, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         NavigatedUrls.Add(url);
         return Task.CompletedTask;
     }
 
-    public Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default) =>
-        Task.FromResult(VisibleSelectors.TryGetValue(selector, out var visible) && visible);
+    public Task<bool> IsVisibleAsync(string selector, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(VisibleSelectors.TryGetValue(selector, out var visible) && visible);
+    }
 
-    public Task<bool> ExistsAsync(string selector, CancellationToken cancellationToken = default) =>
-        Task.FromResult(
+    public Task<bool> ExistsAsync(string selector, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(
             HiddenButExisting.Contains(selector)
             || (VisibleSelectors.TryGetValue(selector, out var visible) && visible));
+    }
 
-    public Task<bool> IsEnabledAsync(string selector, int index = 0, CancellationToken cancellationToken = default) =>
-        Task.FromResult(EnabledSelectors.TryGetValue(selector, out var enabled) && enabled);
+    public Task<bool> IsEnabledAsync(string selector, int index = 0, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(EnabledSelectors.TryGetValue(selector, out var enabled) && enabled);
+    }
 
     public Task ClickAsync(string selector, int index = 0, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         Clicked.Add(selector);
         ClickedIndexes.Add(index);
         return Task.CompletedTask;
@@ -74,6 +89,7 @@ public sealed class FakePageInterop : IPageInterop
         int index = 0,
         CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         Filled.Add((selector, text, index));
         return Task.CompletedTask;
     }
@@ -91,8 +107,11 @@ public sealed class FakePageInterop : IPageInterop
         Task.FromResult<IReadOnlyList<string>>(
             Texts.TryGetValue(selector, out var values) ? values : []);
 
-    public Task<string> ReadContentAsync(CancellationToken cancellationToken = default) =>
-        Task.FromResult(PageContent);
+    public Task<string> ReadContentAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(PageContent);
+    }
 
     public Task PressEscapeAsync(CancellationToken cancellationToken = default)
     {

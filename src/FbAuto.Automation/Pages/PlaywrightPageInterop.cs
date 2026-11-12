@@ -95,7 +95,31 @@ public sealed class PlaywrightPageInterop : IPageInterop
 
         try
         {
-            return await _page.Locator(selector).First.IsVisibleAsync().ConfigureAwait(false);
+            // **不能只看第一个匹配**。真页面上「关闭了但没销毁」的元素会留在 DOM 里，
+            // 于是一组同名元素里排在最前面的是隐藏的那个 —— 用 <c>First</c> 判定会得到
+            // 「不可见」，而后面明明有一个可见的同名按钮。表现是：点得到，却先报「没找到」，
+            // 或者决策器认为弹窗没弹出来，转去做别的分支。
+            // S8 的资料页里就踩到了：三个视图共用一个页面，每个视图都有一个 [aria-label='保存']，
+            // 排在前面的是隐藏的那个。
+            var locator = _page.Locator(selector);
+            var count = await locator.CountAsync().ConfigureAwait(false);
+
+            // 绝大多数选择器只会命中一个，先把最常见的情况走短路径。
+            if (count == 1)
+            {
+                return await locator.First.IsVisibleAsync().ConfigureAwait(false);
+            }
+
+            for (var i = 0; i < count; i++)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                if (await locator.Nth(i).IsVisibleAsync().ConfigureAwait(false))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         catch (Exception ex) when (IsPageFailure(ex))
         {

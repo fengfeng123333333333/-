@@ -373,6 +373,253 @@ public static class FacebookMimicPage
     }
 
     /// <summary>
+    /// 资料设置页：**一份 HTML 按 query 渲染三个视图**（签名 / 类别 / 发帖设置），
+    /// 另有一个默认视图当「我的主页」，供 profile id 提取用。
+    /// </summary>
+    /// <remarks>
+    /// 为什么合成一份而不是写三份：流程里三项是**三次真实导航**（签名页 → 类别页 → 发帖设置页）。
+    /// 一份页按 query 切视图，这三次导航就真的各执行一遍；写三份则要在一个测试里维护三个文件，
+    /// 而且只要有一处的 query 拼错，测出来的就是「导航到了别的页」而不是「导航没发生」。
+    ///
+    /// 结构每一处对着原版串：
+    /// <list type="bullet">
+    /// <item>签名入口分两种：有签名是 <c>[aria-label='编辑个性签名']</c>，
+    /// 没签名只有一个写着「关于你」的按钮 —— 真页面在没有签名时根本不渲染前者。</item>
+    /// <item>签名框是 <c>textarea[dir='ltr'][maxlength='255']</c>，三个属性少一个都命不中。</item>
+    /// <item>类别选项是 <c>div[dir='auto']</c>，选择器按文本拼（<c>:has-text</c>）。</item>
+    /// <item>发帖设置那行的文本在 <c>span</c> 里，按钮是它的祖先 —— 点 span 不一定有用。</item>
+    /// <item>三个保存按钮初始都带 <c>aria-disabled='true'</c>，改完内容才解禁：
+    /// 这是真页面的行为，也是「不主动等就会卡一个点击超时」的来源。</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="hasExistingSignature">true 渲染「编辑个性签名」入口，false 只渲染「关于你」。</param>
+    /// <param name="withSignatureEntry">
+    /// 是否渲染签名入口。false 用来制造「签名一项失败」，从而验证后续项照跑。
+    /// </param>
+    /// <param name="withSignatureSaveButton">
+    /// 签名框旁边是否带保存按钮。false 用来覆盖「按自动保存处理」那条分支。
+    /// </param>
+    /// <param name="withCategoryEntry">是否渲染「编辑类别」入口。false 用来制造单项失败。</param>
+    /// <param name="currentCategory">
+    /// 类别页上展示的「当前类别」文本。填成目标类别用来验证「已是则跳过」那条分支。
+    /// </param>
+    /// <param name="categories">类别搜索的下拉候选。</param>
+    /// <param name="saveEnableDelayMilliseconds">
+    /// 改完内容后隔多久解禁保存按钮。非零才测得出「等按钮可用」这段实际生效。
+    /// </param>
+    public static string ProfileSettings(
+        bool hasExistingSignature = true,
+        bool withSignatureEntry = true,
+        bool withSignatureSaveButton = true,
+        bool withCategoryEntry = true,
+        string currentCategory = "未设置",
+        string[]? categories = null,
+        int saveEnableDelayMilliseconds = 150)
+    {
+        categories ??= ["教育", "戏剧"];
+
+        var signatureEntry = !withSignatureEntry
+            ? string.Empty
+            : hasExistingSignature
+                ? """<div class="btn" role="button" aria-label="编辑个性签名" id="sig-edit">编辑个性签名</div>"""
+                : """<div class="btn" role="button" id="sig-about">关于你</div>""";
+
+        var signatureSave = withSignatureSaveButton
+            ? """<div class="btn" role="button" aria-label="保存" id="sig-save" aria-disabled="true">保存</div>"""
+            : string.Empty;
+
+        var categoryEntry = withCategoryEntry
+            ? """<div class="btn" role="button" aria-label="编辑类别" id="cat-edit">编辑类别</div>"""
+            : string.Empty;
+
+        var catalogJson = System.Text.Json.JsonSerializer.Serialize(categories);
+
+        return $$$"""
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8">
+              <title>资料设置</title>
+              <style>
+                body { font-family: sans-serif; padding: 20px; }
+                .btn { display: inline-block; padding: 6px 14px; border: 1px solid #888;
+                       border-radius: 6px; cursor: pointer; margin: 4px 6px 4px 0; }
+                #sig-editor, #cat-panel, #post-panel, #signature-view, #category-view,
+                #posting-view, #home { display: none; margin-top: 12px; }
+                textarea { width: 320px; height: 60px; display: block; margin-bottom: 8px; }
+                #cat-options div[role='option'] { padding: 4px 8px; border: 1px solid #ccc;
+                                                 margin-top: 4px; cursor: pointer; }
+              </style>
+            </head>
+            <body>
+              <div id="home">
+                <a href="https://www.facebook.com/profile.php?id=100012345678">我的公共主页</a>
+              </div>
+
+              <div id="signature-view">
+                {{{signatureEntry}}}
+                <div id="sig-editor">
+                  <textarea dir="ltr" maxlength="255" id="sig-text"></textarea>
+                  {{{signatureSave}}}
+                </div>
+              </div>
+
+              <div id="category-view">
+                <div dir="auto" id="cat-current">{{{currentCategory}}}</div>
+                {{{categoryEntry}}}
+                <div id="cat-panel">
+                  <input role="combobox" aria-label="类别" id="cat-input">
+                  <div id="cat-options"></div>
+                  <div class="btn" role="button" aria-label="保存" id="cat-save" aria-disabled="true">保存</div>
+                </div>
+              </div>
+
+              <div id="posting-view">
+                <div class="btn" role="button" id="post-row"><span>谁能在你的公共主页发帖？</span></div>
+                <div id="post-panel">
+                  <div class="btn" role="button" id="post-public">公开</div>
+                  <div class="btn" role="button" id="post-self">仅限自己</div>
+                  <div class="btn" role="button" aria-label="保存隐私分享对象选择并关闭对话框"
+                       id="post-save" aria-disabled="true">保存</div>
+                </div>
+              </div>
+
+              <script>
+                var SAVE_DELAY = {{{saveEnableDelayMilliseconds}}};
+
+                window.__view = '';
+                window.__entry = null;
+                window.__signature = null;
+                window.__signatureSaved = false;
+                window.__category = null;
+                window.__categorySaved = false;
+                window.__posting = null;
+                window.__postingSaved = false;
+
+                function show(id) {
+                  document.getElementById(id).style.display = 'block';
+                }
+
+                function enableLater(id) {
+                  setTimeout(function () {
+                    var el = document.getElementById(id);
+                    if (el) { el.removeAttribute('aria-disabled'); }
+                  }, SAVE_DELAY);
+                }
+
+                var q = location.search || '';
+                if (q.indexOf('directory_intro') >= 0) {
+                  window.__view = 'signature';
+                  show('signature-view');
+                } else if (q.indexOf('directory_category') >= 0) {
+                  window.__view = 'category';
+                  show('category-view');
+                } else if (q.indexOf('profile_and_tagging') >= 0) {
+                  window.__view = 'posting';
+                  show('posting-view');
+                } else {
+                  window.__view = 'home';
+                  show('home');
+                }
+
+                (function bindSignature() {
+                  var edit = document.getElementById('sig-edit');
+                  var about = document.getElementById('sig-about');
+                  var entry = edit || about;
+                  if (entry) {
+                    entry.addEventListener('click', function () {
+                      window.__entry = entry.id;
+                      show('sig-editor');
+                    });
+                  }
+
+                  var text = document.getElementById('sig-text');
+                  if (text) {
+                    text.addEventListener('input', function () {
+                      // 输入即记录：没有保存按钮时（自动保存），这是唯一能观测到的写入结果。
+                      window.__signature = text.value;
+                      enableLater('sig-save');
+                    });
+                  }
+
+                  var save = document.getElementById('sig-save');
+                  if (save) {
+                    save.addEventListener('click', function () {
+                      if (save.getAttribute('aria-disabled') === 'true') { return; }
+                      window.__signature = text.value;
+                      window.__signatureSaved = true;
+                    });
+                  }
+                })();
+
+                (function bindCategory() {
+                  var edit = document.getElementById('cat-edit');
+                  if (edit) {
+                    edit.addEventListener('click', function () { show('cat-panel'); });
+                  }
+
+                  // 真页面的类别是搜索引擎：输入关键词 → 下拉里出现候选 → 点候选。
+                  // 不是「页面上摆一列现成选项」，所以仿真页也照这个做。
+                  var catalog = {{{catalogJson}}};
+                  var input = document.getElementById('cat-input');
+                  var box = document.getElementById('cat-options');
+
+                  input.addEventListener('input', function () {
+                    box.innerHTML = '';
+                    var keyword = input.value;
+                    if (!keyword) { return; }
+
+                    for (var i = 0; i < catalog.length; i++) {
+                      if (catalog[i].indexOf(keyword) < 0) { continue; }
+
+                      var option = document.createElement('div');
+                      option.setAttribute('role', 'option');
+                      option.textContent = catalog[i];
+                      option.addEventListener('click', function (e) {
+                        window.__category = e.currentTarget.textContent;
+                        enableLater('cat-save');
+                      });
+                      box.appendChild(option);
+                    }
+                  });
+
+                  var save = document.getElementById('cat-save');
+                  if (save) {
+                    save.addEventListener('click', function () {
+                      if (save.getAttribute('aria-disabled') === 'true') { return; }
+                      window.__categorySaved = true;
+                    });
+                  }
+                })();
+
+                (function bindPosting() {
+                  document.getElementById('post-row').addEventListener('click', function () {
+                    show('post-panel');
+                  });
+
+                  document.getElementById('post-public').addEventListener('click', function () {
+                    window.__posting = '公开';
+                    enableLater('post-save');
+                  });
+
+                  document.getElementById('post-self').addEventListener('click', function () {
+                    window.__posting = '仅限自己';
+                    enableLater('post-save');
+                  });
+
+                  var save = document.getElementById('post-save');
+                  save.addEventListener('click', function () {
+                    if (save.getAttribute('aria-disabled') === 'true') { return; }
+                    window.__postingSaved = true;
+                  });
+                })();
+              </script>
+            </body>
+            </html>
+            """;
+    }
+
+    /// <summary>
     /// 批量上传页：注入后长出进度条，全部结束才出现「发布」。
     /// </summary>
     /// <remarks>

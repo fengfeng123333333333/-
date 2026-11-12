@@ -29,6 +29,26 @@ public sealed class PlaywrightPageInteropIntegrationTests : ChromePageTestBase
         Assert.False(await interop.IsVisibleAsync("#never-existed"));
     }
 
+    /// <summary>
+    /// 同名元素里排在最前面的是隐藏的那个时，仍然要判为可见。
+    /// </summary>
+    /// <remarks>
+    /// 真页面上「关掉了但没销毁」的元素会留在 DOM 里，于是可见的那个排在后面。
+    /// 只判第一个匹配的话，这里会返回 false —— 表现是「明明点得到，却先报没找到」，
+    /// 或者决策器认为弹窗没弹出来，转去做别的分支。S8 的资料页里正踩到这一条。
+    /// </remarks>
+    [Fact]
+    public async Task 隐藏元素排在前面也判为可见()
+    {
+        var page = await OpenPageAsync(FacebookMimicPage.ButtonGrid());
+        var interop = Interop(page);
+
+        // 前提：.pick 在文档里的第一个匹配确实是隐藏的。
+        Assert.False(await page.Locator(".pick").First.IsVisibleAsync());
+
+        Assert.True(await interop.IsVisibleAsync(".pick"));
+    }
+
     [Fact]
     public async Task 可用性认_aria_disabled_也认原生_disabled()
     {

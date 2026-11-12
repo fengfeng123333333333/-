@@ -15,8 +15,25 @@ public sealed class AppConfig
     /// <summary>视频所在目录。</summary>
     public string VideoDirectory { get; set; } = string.Empty;
 
-    /// <summary>视频描述表路径（Excel/CSV）。</summary>
+    /// <summary>
+    /// 视频描述文件路径（.txt）。整段作为一段描述，不是一行一条。
+    /// </summary>
+    /// <remarks>
+    /// 早先这里写的是「Excel/CSV」，与证据不符：原版的选择框是
+    /// <c>文本文件 (*.txt)|*.txt</c>，且缺文件时的提示是「将以空描述上传」。
+    /// </remarks>
     public string DescriptionFile { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 签名文件路径（.txt）。整段作为个性签名，不是一行一条。
+    /// </summary>
+    public string SignatureFile { get; set; } = string.Empty;
+
+    /// <summary>资料修改要设置的主页类别，留空表示不改类别。</summary>
+    public string ProfileCategory { get; set; } = string.Empty;
+
+    /// <summary>资料修改时是否把「谁能在你的公共主页发帖」改为仅限自己。</summary>
+    public bool UpdatePostingSettings { get; set; } = true;
 
     /// <summary>结果保存目录。</summary>
     public string SaveDirectory { get; set; } = string.Empty;

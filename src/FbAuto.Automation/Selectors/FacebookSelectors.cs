@@ -141,4 +141,78 @@ public static class FacebookSelectors
     /// 二次确认对话框的判定依据：出现「移除视频」选项即视为对话框已弹出。
     /// </summary>
     public const string RemovalConfirmDialog = "div[role='dialog']:has(div[role='radio'] span:has-text('移除视频'))";
+
+    // ── 资料修改 ───────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// 个性签名的编辑入口（已有签名时是这个 aria-label）。
+    /// 原版串：<c>[aria-label='编辑个性签名']</c>，日志「检测到已有签名,点击」。
+    /// </summary>
+    public const string SignatureEditEntry = "[aria-label='编辑个性签名']";
+
+    /// <summary>
+    /// 没有签名时的入口：一个写着「关于你」的按钮。
+    /// </summary>
+    /// <remarks>
+    /// 原版串只剩 <c>has-text('关于你')</c>（前半截被切掉），日志是「未检测到已有签名,点击」。
+    /// 加上 <c>div[role='button']</c> 前缀按 FB 的惯例补全；真机要确认它是不是 button。
+    /// </remarks>
+    public const string SignatureEmptyEntry = "div[role='button']:has-text('关于你')";
+
+    /// <summary>
+    /// 签名输入框。原版串：<c>textarea[dir='ltr'][maxlength='255']</c>
+    /// </summary>
+    /// <remarks>
+    /// <c>maxlength='255'</c> 是关键约束：签名超过 255 字会被浏览器截断，
+    /// 而不是报错。校验要在写入前做（见 <see cref="Profiles.SignatureText"/>）。
+    /// </remarks>
+    public const string SignatureTextarea = "textarea[dir='ltr'][maxlength='255']";
+
+    /// <summary>通用保存按钮。原版串：<c>[aria-label='保存']</c></summary>
+    public const string SaveButton = "[aria-label='保存']";
+
+    /// <summary>资料页的「保存更改」按钮。原版串：<c>[aria-label='保存更改']</c></summary>
+    public const string SaveChangesButton = "[aria-label='保存更改']";
+
+    /// <summary>类别编辑入口。原版串：<c>[aria-label='编辑类别']</c></summary>
+    public const string EditCategoryButton = "[aria-label='编辑类别']";
+
+    /// <summary>
+    /// 类别面板里带搜索的输入框。原版串：<c>input[role='combobox'][aria-label='类别']</c>
+    /// </summary>
+    /// <remarks>
+    /// 类别**不是**从一列现成的选项里点，而是在这个框里输入关键词，再从下拉里选。
+    /// 原版紧接着的串是 <c>Control+a</c> / <c>Backspace</c> / <c>: 已输入</c> ——
+    /// 先清空再输入。产品代码用 <c>fill</c> 一步完成（语义等同），不逐字敲。
+    /// </remarks>
+    public const string CategorySearchInput = "input[role='combobox'][aria-label='类别']";
+
+    /// <summary>
+    /// 发帖设置那一行。原版串：<c>span:has-text('谁能在你的公共主页发帖？')</c>
+    /// </summary>
+    /// <remarks>
+    /// 点它没用 —— 原版是找到这个 span 之后往上爬，找最近的 <c>role='button'</c> 祖先再点。
+    /// 所以产品代码里要「定位文本 → 点祖先按钮」，不能直接点这个 span。
+    /// </remarks>
+    public const string PostingSettingRow = "span:has-text('谁能在你的公共主页发帖？')";
+
+    /// <summary>
+    /// 发帖设置那一行**对应的按钮**。
+    /// </summary>
+    /// <remarks>
+    /// 原版的做法是「找到 span → 往上爬找最近的 <c>role='button'</c> 祖先 → 点它」，
+    /// 因为它手里只有 span。这里直接用 <c>:has()</c> 一步定位到按钮，省掉爬树；
+    /// 行为等价，但少一段容易写错的 JS。
+    /// </remarks>
+    public const string PostingSettingRowButton =
+        "div[role='button']:has(span:has-text('谁能在你的公共主页发帖？'))";
+
+    /// <summary>发帖设置里的「仅限自己」选项。原版串：<c>has-text('仅限自己')</c></summary>
+    public const string PostingSettingSelfOnly = "div[role='button']:has-text('仅限自己')";
+
+    /// <summary>
+    /// 发帖设置面板的保存按钮。原版串：
+    /// <c>div[aria-label='保存隐私分享对象选择并关闭对话框']</c>
+    /// </summary>
+    public const string PostingSettingSave = "div[aria-label='保存隐私分享对象选择并关闭对话框']";
 }

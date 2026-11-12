@@ -22,9 +22,18 @@ public sealed class ExecutorCatalogTests
         Assert.IsType<VideoUploadExecutor>(google);
     }
 
+    [Fact]
+    public void 谷歌版资料修改已接上真执行器()
+    {
+        var executors = ExecutorCatalog.CreateAll(Config);
+
+        var google = executors.Single(e => e.Kind == TaskKind.ProfileEditGoogle);
+
+        Assert.IsType<ProfileEditExecutor>(google);
+    }
+
     [Theory]
     [InlineData(TaskKind.VideoUploadBit)]
-    [InlineData(TaskKind.ProfileEditGoogle)]
     [InlineData(TaskKind.ProfileEditBit)]
     [InlineData(TaskKind.DeleteMessage)]
     public void 其余类型仍明确标记为未接入(TaskKind kind)
