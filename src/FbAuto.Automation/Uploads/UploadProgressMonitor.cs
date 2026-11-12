@@ -61,10 +61,20 @@ public sealed record UploadVerdict(UploadTick Tick, string LogLine)
 /// 单个批次的兜底上限。计划书要求「按文件大小估 1.5 倍时长」，
 /// 所以真正的值应由调用方按素材算完传进来，这里只给一个不会太早触发的默认值。
 /// </param>
+/// <param name="NoBarTimeout">
+/// 「从头到尾没出现过进度条」的容忍时长。
+/// </param>
+/// <remarks>
+/// 这条超时是补一个真实漏洞：原来「没出现过进度条」的分支直接返回「继续等」，
+/// 而总超时的检查写在它**后面**，永远执行不到 —— 结果是监控可以无限等下去。
+/// 真机上的表现是任务卡住十几分钟一点日志都不再输出；测试里的表现更糟，
+/// 是**进程挂死、零输出**（不是失败），排查时极容易误判成环境问题。
+/// </remarks>
 public sealed record UploadMonitorOptions(
     TimeSpan? ZeroProgressTimeout = null,
     TimeSpan? NoChangeTimeout = null,
-    TimeSpan? TotalTimeout = null)
+    TimeSpan? TotalTimeout = null,
+    TimeSpan? NoBarTimeout = null)
 {
     public static UploadMonitorOptions Default { get; } = new();
 
@@ -73,6 +83,15 @@ public sealed record UploadMonitorOptions(
     public TimeSpan EffectiveNoChangeTimeout => NoChangeTimeout ?? TimeSpan.FromSeconds(120);
 
     public TimeSpan EffectiveTotalTimeout => TotalTimeout ?? TimeSpan.FromMinutes(15);
+
+    /// <summary>
+    /// 从没出现过进度条的容忍时长，默认 90 秒（与「进度一直为 0」同一个量级）。
+    /// </summary>
+    /// <remarks>
+    /// 为什么不是「等到总超时」：15 分钟太久了。没进度条基本只有三种原因 ——
+    /// 文件没注入进去、文件被页面直接拒绝、选择器改版。三种都不需要等 15 分钟才看得出来。
+    /// </remarks>
+    public TimeSpan EffectiveNoBarTimeout => NoBarTimeout ?? TimeSpan.FromSeconds(90);
 }
 
 /// <summary>
@@ -92,8 +111,8 @@ public sealed record UploadMonitorOptions(
 /// </item>
 /// <item>
 /// **从没出现过进度条不算完成**。注入可能根本没生效（file input 选错、文件被拒），
-/// 页面从头到尾没有进度条。这种情况靠 <see cref="UploadMonitorOptions.EffectiveTotalTimeout"/>
-/// 兜底判失败，而不是判「已完成」。
+/// 页面从头到尾没有进度条。这种情况靠 <see cref="UploadMonitorOptions.EffectiveNoBarTimeout"/>
+/// 判失败（不是判「已完成」，也不是无限等下去）。
 /// </item>
 /// <item>
 /// **版权审核等同于完成**。FB 的进度条在审核阶段会从百分比变成「版权审核」文案，
@@ -159,9 +178,33 @@ public sealed class UploadProgressMonitor
             // ① 先出现过进度条再消失 —— 正常传完；
             // ② 页面上已经出现失败条目 —— 整批直接失败了，进度条根本没长出来。
             //    少了 ② 就得等总超时，而那时该判「零成功」的结论已经晚了几分钟。
-            return _sawBar || sample.FailedCount > 0
-                ? UploadVerdict.Completed("进度条全部消失，上传流程结束")
-                : UploadVerdict.Waiting("尚未出现进度条，继续等待（若长期不出现，由总超时判失败）");
+            //
+            // 「完成」永远优先于任何超时：传完了却因为超时报失败，会让人去查一个不存在的问题。
+            if (_sawBar || sample.FailedCount > 0)
+            {
+                return UploadVerdict.Completed("进度条全部消失，上传流程结束");
+            }
+
+            // 从没出现过进度条，且连失败条目都没有：注入大概率没生效。
+            // **这条分支必须自己带超时** —— 原来它直接 return「继续等」，而总超时的检查
+            // 写在它后面，永远执行不到，监控可以无限等下去（真机卡十几分钟，测试进程挂死）。
+            var waited = sample.Elapsed - _startedAt;
+            if (waited >= _options.EffectiveNoBarTimeout)
+            {
+                return UploadVerdict.Stalled(
+                    $"已等待 {waited.TotalSeconds:0} 秒仍没有任何进度条，判定注入没有生效"
+                    + "（文件可能没被选中、被页面拒绝，或上传区选择器已改版）");
+            }
+
+            if (waited >= _options.EffectiveTotalTimeout)
+            {
+                return UploadVerdict.Stalled(
+                    $"上传已进行 {waited.TotalMinutes:0.#} 分钟仍未出现进度条，超过上限 "
+                    + $"{_options.EffectiveTotalTimeout.TotalMinutes:0.#} 分钟，判定失败");
+            }
+
+            return UploadVerdict.Waiting(
+                $"尚未出现进度条，继续等待（超过 {_options.EffectiveNoBarTimeout.TotalSeconds:0} 秒判失败）");
         }
 
         _sawBar = true;

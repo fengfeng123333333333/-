@@ -214,7 +214,36 @@
                                                 Width="62" Height="26" Margin="6,0,0,0" />
                                     </Grid>
 
+                                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
+
+                                    <TextBlock Text="比特版（比特浏览器走自己的一套路径；不填则比特版任务会因目录为空直接失败）"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
                                     <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="86" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="比特视频：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding BitVideoDirectory, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
+                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                    </Grid>
+
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="86" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="比特描述：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding BitDescriptionFile, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
+                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                    </Grid>
+
+                                                        <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="86" />
                                             <ColumnDefinition Width="*" />

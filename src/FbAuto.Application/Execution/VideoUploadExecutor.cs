@@ -24,15 +24,33 @@ namespace FbAuto.Application.Execution;
 public sealed class VideoUploadExecutor : ITaskExecutor
 {
     private readonly AppConfig _config;
+    private readonly TaskKind _kind;
     private readonly VideoUploadOptions? _options;
 
-    public VideoUploadExecutor(AppConfig config, VideoUploadOptions? options = null)
+    /// <param name="config">全局配置。</param>
+    /// <param name="kind">任务类型，决定读哪一套业务参数（谷歌版 / 比特版）。</param>
+    /// <param name="options">调参覆盖，仅测试用。</param>
+    public VideoUploadExecutor(
+        AppConfig config,
+        TaskKind kind = TaskKind.VideoUploadGoogle,
+        VideoUploadOptions? options = null)
     {
         _config = config ?? throw new ArgumentNullException(nameof(config));
+        _kind = kind;
         _options = options;
     }
 
-    public TaskKind Kind => TaskKind.VideoUploadGoogle;
+    public TaskKind Kind => _kind;
+
+    /// <summary>
+    /// 本执行器实际使用的那套业务参数。
+    /// </summary>
+    /// <remarks>
+    /// 公开出来是为了能被用例钉住：「比特版执行器读到了比特版目录」这件事，
+    /// 只靠 `Kind` 正确是证明不了的 —— 两边都指向同一份配置时，任务照样能跑，
+    /// 但会用错目录、传错视频，而且日志里看不出异常。
+    /// </remarks>
+    public ChannelProfile Profile => _config.ForChannel(TaskTypeCatalog.ChannelOf(_kind));
 
     public async Task<TaskExecutionResult> ExecuteAsync(
         TaskExecutionContext context,
@@ -42,7 +60,10 @@ public sealed class VideoUploadExecutor : ITaskExecutor
         var logger = context.Logger;
 
         // ── 1. 批次清单 ────────────────────────────────────────────────────
-        var plan = VideoBatchPlanner.Plan(_config.VideoDirectory, _config.DescriptionFile);
+        var profile = Profile;
+        logger.Info($"按 {profile.DisplayName} 取配置：视频目录 {profile.VideoDirectory}");
+
+        var plan = VideoBatchPlanner.Plan(profile.VideoDirectory, profile.DescriptionFile);
         foreach (var line in plan.LogLines)
         {
             logger.Info(line);

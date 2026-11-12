@@ -29,7 +29,8 @@ public sealed class VideoUploadFlowIntegrationTests : ChromePageTestBase
         Monitor: new UploadMonitorOptions(
             ZeroProgressTimeout: TimeSpan.FromSeconds(2),
             NoChangeTimeout: TimeSpan.FromSeconds(3),
-            TotalTimeout: total ?? TimeSpan.FromSeconds(20)));
+            TotalTimeout: total ?? TimeSpan.FromSeconds(20),
+            NoBarTimeout: TimeSpan.FromSeconds(2)));
 
     /// <summary>写一份仿真页，返回「把它当上传页」的选项。</summary>
     private VideoUploadOptions ComposerOptions(string html, string fileName, TimeSpan? total = null)

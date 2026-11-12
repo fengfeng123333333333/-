@@ -15,8 +15,9 @@ public sealed class UploadProgressMonitorTests
     private static UploadProgressMonitor NewMonitor(
         TimeSpan? zero = null,
         TimeSpan? noChange = null,
-        TimeSpan? total = null) =>
-        new(new UploadMonitorOptions(zero, noChange, total));
+        TimeSpan? total = null,
+        TimeSpan? noBar = null) =>
+        new(new UploadMonitorOptions(zero, noChange, total, noBar));
 
     [Fact]
     public void 首次采样即使没有进度条也不算完成()
@@ -32,7 +33,7 @@ public sealed class UploadProgressMonitorTests
     }
 
     [Fact]
-    public void 从没出现过进度条时不判完成_交给总超时()
+    public void 从没出现过进度条时不判完成()
     {
         var monitor = NewMonitor(total: TimeSpan.FromSeconds(30));
 
@@ -42,6 +43,43 @@ public sealed class UploadProgressMonitorTests
         // 注入没生效时页面从头到尾没有进度条。这种「一直空」不能算成功。
         Assert.Equal(UploadTick.Waiting, second.Tick);
         Assert.Contains("尚未出现进度条", second.LogLine);
+    }
+
+    /// <summary>
+    /// 从头到尾没有进度条，超过容忍时长要判失败。
+    /// </summary>
+    /// <remarks>
+    /// 这条防的是一个真实挂死：原实现里「没有进度条」的分支在总超时检查**之前**就 return 了，
+    /// 总超时永远轮不到执行，监控可以无限等。真机上表现为任务卡十几分钟不再输出日志，
+    /// 测试里表现为**进程挂死、零输出** —— 后者尤其容易误判成环境问题。
+    /// </remarks>
+    [Fact]
+    public void 从没出现过进度条超过容忍时长判失败()
+    {
+        var monitor = NewMonitor(noBar: TimeSpan.FromSeconds(10));
+
+        monitor.Observe(Sample(0, 0, []));
+        var verdict = monitor.Observe(Sample(11, 0, []));
+
+        Assert.Equal(UploadTick.Stalled, verdict.Tick);
+        Assert.Contains("没有任何进度条", verdict.LogLine);
+        Assert.Contains("注入没有生效", verdict.LogLine);
+    }
+
+    /// <summary>
+    /// 没进度条的分支同样受总超时约束，且哪一个先到就按哪一个判。
+    /// </summary>
+    [Fact]
+    public void 总超时对没有进度条的分支同样生效()
+    {
+        // 总超时 5 秒比 NoBar 的 10 秒更早到
+        var monitor = NewMonitor(total: TimeSpan.FromSeconds(5), noBar: TimeSpan.FromSeconds(10));
+
+        monitor.Observe(Sample(0, 0, []));
+        var verdict = monitor.Observe(Sample(6, 0, []));
+
+        Assert.Equal(UploadTick.Stalled, verdict.Tick);
+        Assert.Contains("超过上限", verdict.LogLine);
     }
 
     [Fact]

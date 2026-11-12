@@ -1,3 +1,5 @@
+using FbAuto.Core.Models;
+
 namespace FbAuto.Core.Configuration;
 
 /// <summary>
@@ -12,7 +14,7 @@ public sealed class AppConfig
     /// <summary>浏览器启动间隔（秒）。原版默认 3。</summary>
     public int BrowserOpenIntervalSeconds { get; set; } = 3;
 
-    /// <summary>视频所在目录。</summary>
+    /// <summary>视频所在目录（**谷歌版**；比特版见 <see cref="BitVideoDirectory"/>）。</summary>
     public string VideoDirectory { get; set; } = string.Empty;
 
     /// <summary>
@@ -75,6 +77,57 @@ public sealed class AppConfig
     /// 而默认值就是原版那五个词，所以不影响行为。
     /// </remarks>
     public string[] CommentsBlockWords { get; set; } = [".com", "https", "pn", "dn", "inbox"];
+
+    // ── 比特版 ─────────────────────────────────────────────────────────────
+    //
+    // 原版 settings.json 里业务路径全是成对的（GoogleXxx / BitXxx），比特版有自己的一套。
+    // 字段名沿用「不带前缀的那份就是谷歌版」这个约定 —— **不改名**是因为改名会让已有的
+    // config.json 静默读不到值，而里面是使用者手填的目录路径，丢了要重填。
+    //
+    // 页面流程没有差异（DLL 里找不到任何比特版特有的日志或选择器），
+    // 差异只在「读哪一份」和「用哪个浏览器通道」。取配置统一走 ForChannel。
+
+    /// <summary>比特版的视频目录。</summary>
+    public string BitVideoDirectory { get; set; } = string.Empty;
+
+    /// <summary>比特版的描述文件。</summary>
+    public string BitDescriptionFile { get; set; } = string.Empty;
+
+    /// <summary>比特版的签名文件。</summary>
+    public string BitSignatureFile { get; set; } = string.Empty;
+
+    /// <summary>比特版资料修改要设置的主页类别，空表示不改。</summary>
+    public string BitProfileCategory { get; set; } = string.Empty;
+
+    /// <summary>比特版是否把发帖权限改成仅限自己。</summary>
+    public bool BitUpdatePostingSettings { get; set; } = true;
+
+    /// <summary>比特版的评论屏蔽词。</summary>
+    public string[] BitCommentsBlockWords { get; set; } = [".com", "https", "pn", "dn", "inbox"];
+
+    /// <summary>
+    /// 按通道取业务参数。执行器只调这一个方法，不直接读字段 ——
+    /// 这样「比特版读成了谷歌版的目录」这类错误只有一处可能发生，且能被单测钉住。
+    /// </summary>
+    public ChannelProfile ForChannel(BrowserChannelKind channel) => channel switch
+    {
+        BrowserChannelKind.Bit => new ChannelProfile(
+            BrowserChannelKind.Bit,
+            BitVideoDirectory,
+            BitDescriptionFile,
+            BitSignatureFile,
+            BitProfileCategory,
+            BitUpdatePostingSettings,
+            BitCommentsBlockWords),
+        _ => new ChannelProfile(
+            BrowserChannelKind.Google,
+            VideoDirectory,
+            DescriptionFile,
+            SignatureFile,
+            ProfileCategory,
+            UpdatePostingSettings,
+            CommentsBlockWords),
+    };
 
     /// <summary>
     /// 每个账号最多删几条消息。0 表示不限，一直删到会话列表空。

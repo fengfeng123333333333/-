@@ -30,6 +30,14 @@ public sealed class JsonConfigServiceTests : IDisposable
         Assert.Equal(["com", "https", "pn", "dn", "inbox"], config.CommentsBlockWords.Select(w => w.TrimStart('.')));
         Assert.Equal(20, config.DeleteMessageLimit);
         Assert.Equal(string.Empty, config.DeleteMessageCookieRootPath);
+
+        // 比特版是**另一套**参数，不是谷歌版的副本：默认都为空，但键必须各自独立存在。
+        Assert.Equal(string.Empty, config.BitVideoDirectory);
+        Assert.Equal(string.Empty, config.BitDescriptionFile);
+        Assert.Equal(string.Empty, config.BitSignatureFile);
+        Assert.Equal(string.Empty, config.BitProfileCategory);
+        Assert.True(config.BitUpdatePostingSettings);
+        Assert.Equal(5, config.BitCommentsBlockWords.Length);
         Assert.True(_logger.Contains("INF", "配置文件不存在"));
     }
 
@@ -90,6 +98,29 @@ public sealed class JsonConfigServiceTests : IDisposable
 
         Assert.Equal(7, reloaded.ConcurrentCount);
         Assert.Equal("比特版", reloaded.BrowserType);
+    }
+
+    /// <summary>
+    /// 谷歌版与比特版的路径互不覆盖。
+    /// </summary>
+    /// <remarks>
+    /// 这条防的是「两套配置写成了同一个字段」这类错误。原版 settings.json 里
+    /// <c>GoogleVideoPath</c> 与 <c>BitVideoPath</c> 是两个键，抄漏一个的直接后果是
+    /// 比特版任务去传谷歌版目录里的视频 —— 不报错、不失败，只是传错了东西。
+    /// </remarks>
+    [Fact]
+    public void 谷歌版与比特版配置互不覆盖()
+    {
+        var first = CreateService();
+        var config = first.Load();
+        config.VideoDirectory = @"D://g-videos";
+        config.BitVideoDirectory = @"D://b-videos";
+        first.Save();
+
+        var reloaded = new JsonConfigService(_dir.Path, new TestLogger()).Load();
+
+        Assert.Equal(@"D://g-videos", reloaded.VideoDirectory);
+        Assert.Equal(@"D://b-videos", reloaded.BitVideoDirectory);
     }
 
     [Fact]

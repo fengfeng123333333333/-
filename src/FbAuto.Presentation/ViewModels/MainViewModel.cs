@@ -53,6 +53,8 @@ public sealed partial class MainViewModel : ObservableObject
         _browserType = config.BrowserType;
         _scheduledDate = config.ScheduledDate;
         _scheduledStartHour = config.ScheduledStartHour;
+        _bitVideoDirectory = config.BitVideoDirectory;
+        _bitDescriptionFile = config.BitDescriptionFile;
         _commentsBlockWords = string.Join(",", config.CommentsBlockWords);
         _deleteMessageLimit = config.DeleteMessageLimit.ToString(System.Globalization.CultureInfo.InvariantCulture);
         _deleteMessageCookieRootPath = config.DeleteMessageCookieRootPath;
@@ -107,6 +109,14 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private int _scheduledStartHour;
 
+    /// <summary>比特版的视频目录（原版键名 BitVideoPath，与谷歌版是两套）。</summary>
+    [ObservableProperty]
+    private string _bitVideoDirectory;
+
+    /// <summary>比特版的描述文件（原版键名 BitDescriptionFilePath）。</summary>
+    [ObservableProperty]
+    private string _bitDescriptionFile;
+
     /// <summary>评论屏蔽词（不是「删除消息」的屏蔽词 —— 原版键名是 CommentsBlockText）。</summary>
     [ObservableProperty]
     private string _commentsBlockWords;
@@ -121,6 +131,15 @@ public sealed partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _isRunning;
+
+    /// <summary>界面顶部「浏览器类型」下拉对应的通道。</summary>
+    /// <remarks>
+    /// 只有「[删除消息]」这类跟随全局的任务会用到它。文案是原版下拉项原文，别改字。
+    /// </remarks>
+    public BrowserChannelKind GlobalChannel =>
+        string.Equals(BrowserType, "比特版", StringComparison.Ordinal)
+            ? BrowserChannelKind.Bit
+            : BrowserChannelKind.Google;
 
     /// <summary>队列空态判断：空时显示「暂无任务，请从左侧添加」。</summary>
     public bool HasTasks => Tasks.Count > 0;
@@ -173,12 +192,14 @@ public sealed partial class MainViewModel : ObservableObject
         }
 
         // 添加时就绑定账号：原版队列的「浏览器」列在建任务时就显示了，不是执行时才分配。
-        var account = _accounts.NextAvailable(descriptor.Channel);
+        // 通道不能直接用 descriptor.Channel：「[删除消息]」只有一条，跟随顶部「浏览器类型」下拉。
+        var channel = TaskTypeCatalog.ChannelFor(descriptor, GlobalChannel);
+        var account = _accounts.NextAvailable(channel);
 
         var task = new AutomatedTask
         {
             Kind = descriptor.Kind,
-            Channel = descriptor.Channel,
+            Channel = channel,
             AccountAlias = account?.Alias ?? string.Empty,
             BrowserName = account?.BrowserDisplayName ?? "未分配",
         };
@@ -189,7 +210,7 @@ public sealed partial class MainViewModel : ObservableObject
         SelectedTask = item;
 
         _logger.Info(account is null
-            ? $"添加任务：{descriptor.DisplayName}（账号清单里没有 {descriptor.Channel.ToDisplay()} 可用账号，执行时会失败）"
+            ? $"添加任务：{descriptor.DisplayName}（账号清单里没有 {channel.ToDisplay()} 可用账号，执行时会失败）"
             : $"添加任务：{descriptor.DisplayName} → {account.BrowserDisplayName}");
     }
 
@@ -342,6 +363,9 @@ public sealed partial class MainViewModel : ObservableObject
         config.BrowserType = BrowserType;
         config.ScheduledDate = ScheduledDate;
         config.ScheduledStartHour = ScheduledStartHour;
+        config.BitVideoDirectory = BitVideoDirectory ?? string.Empty;
+        config.BitDescriptionFile = BitDescriptionFile ?? string.Empty;
+
         config.CommentsBlockWords = CommentsBlockWords
             .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 

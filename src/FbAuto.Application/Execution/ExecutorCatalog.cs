@@ -32,8 +32,12 @@ public static class ExecutorCatalog
 
         return kind switch
         {
-            TaskKind.VideoUploadGoogle => new VideoUploadExecutor(config),
-            TaskKind.ProfileEditGoogle => new ProfileEditExecutor(config),
+            // 比特版与谷歌版共用同一套页面流程（原版 DLL 里找不到任何比特版特有的日志或选择器），
+            // 差异只有两处：任务类型不同（决定走哪个浏览器通道），业务参数读另一套（Bit 前缀字段）。
+            TaskKind.VideoUploadGoogle => new VideoUploadExecutor(config, TaskKind.VideoUploadGoogle),
+            TaskKind.VideoUploadBit => new VideoUploadExecutor(config, TaskKind.VideoUploadBit),
+            TaskKind.ProfileEditGoogle => new ProfileEditExecutor(config, TaskKind.ProfileEditGoogle),
+            TaskKind.ProfileEditBit => new ProfileEditExecutor(config, TaskKind.ProfileEditBit),
             TaskKind.DeleteMessage => new DeleteMessageExecutor(config),
             _ => new NotWiredTaskExecutor(kind),
         };

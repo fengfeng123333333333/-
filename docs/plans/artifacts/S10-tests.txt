@@ -1,0 +1,929 @@
+生成启动时间为 2026/11/12 17:45:13。
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”在节点 1 上(Restore 个目标)。
+     1>_GetAllRestoreProjectPathItems:
+         正在确定要还原的项目…
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 1 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(2:10) (_GenerateProjectRestoreGraph 个目标)。
+     2>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 6 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(7:4) (_GenerateProjectRestoreGraph 个目标)。
+     7>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 3 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(5:7) (_GenerateProjectRestoreGraph 个目标)。
+     5>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 5 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(4:6) (_GenerateProjectRestoreGraph 个目标)。
+     4>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     7>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+     5>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+     4>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+     7>AddPrunePackageReferences:
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+     5>AddPrunePackageReferences:
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+     4>AddPrunePackageReferences:
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+     7>AddPrunePackageReferences:
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+     5>AddPrunePackageReferences:
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+     4>AddPrunePackageReferences:
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+     7>AddPrunePackageReferences:
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     5>AddPrunePackageReferences:
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     4>AddPrunePackageReferences:
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     2>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     5>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     4>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 4 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(6:5) (_GenerateProjectRestoreGraph 个目标)。
+     6>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     7>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     6>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     6>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     1>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1)正在节点 2 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(8:5) (_GenerateProjectRestoreGraph 个目标)。
+     8>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15
+         Found package overrides file D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\data\PackageOverrides.txt
+     8>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(_GenerateProjectRestoreGraph 个目标)的操作。
+     1>Restore:
+         X.509 证书链验证将使用 .NET 选择的默认信任存储进行代码签名。
+         X.509 证书链验证将使用 .NET 选择的默认信任存储进行时间戳。
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\obj\project.assets.json
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj (用时 48 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj (用时 48 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj (用时 48 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj (用时 48 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj (用时 48 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj (用时 48 毫秒)。
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\obj\project.assets.json
+         资产文件未改变。跳过资产文件写入。路径: D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\obj\project.assets.json
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj (用时 2 毫秒)。
+         已还原 D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\FbAuto.Keygen.csproj (用时 2 毫秒)。
+         
+         使用的 NuGet 配置文件:
+             C:\Users\DZH\AppData\Roaming\NuGet\NuGet.Config
+         
+         使用的源:
+             https://api.nuget.org/v3/index.json
+         所有项目均是最新的，无法还原。
+     1>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(Restore 个目标)的操作。
+   1:7>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”在节点 3 上(VSTest 个目标)。
+     1>BuildProject:
+         已开始生成，请等待...
+   1:7>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:7)正在节点 3 上生成“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8) (默认目标)。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 5 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(2:12) (默认目标)。
+     2>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Core.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Core -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Core\Debug\net10.0-windows\FbAuto.Core.dll
+     2>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\FbAuto.Core.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 1 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(6:7) (默认目标)。
+     6>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 2 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(5:9) (默认目标)。
+     5>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+     6>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+     5>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+     6>_GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Licensing.sourcelink.json" 不存在。
+     5>_GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Infrastructure.sourcelink.json" 不存在。
+     6>CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+     5>CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+     6>GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+     5>GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+     6>CopyFilesToOutputDirectory:
+         FbAuto.Licensing -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Licensing\Debug\net10.0-windows\FbAuto.Licensing.dll
+     5>CopyFilesToOutputDirectory:
+         FbAuto.Infrastructure -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Infrastructure\Debug\net10.0-windows\FbAuto.Infrastructure.dll
+     6>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Licensing\FbAuto.Licensing.csproj”(默认目标)的操作。
+     5>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\FbAuto.Infrastructure.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 4 上生成“D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\FbAuto.Keygen.csproj”(3:6) (默认目标)。
+     3>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 6 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(4:8) (默认目标)。
+     4>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+     3>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Keygen.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CreateAppHost:
+       正在跳过目标“_CreateAppHost”，因为所有输出文件相对于输入文件而言都是最新的。
+     4>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+     3>_CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+     4>_GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Browser.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+     3>GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildRuntimeConfigurationFiles:
+       正在跳过目标“GenerateBuildRuntimeConfigurationFiles”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Keygen -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Keygen\Debug\net10.0-windows\fbauto-keygen.dll
+     3>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tools\FbAuto.Keygen\FbAuto.Keygen.csproj”(默认目标)的操作。
+     4>_CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Browser -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Browser\Debug\net10.0-windows\FbAuto.Browser.dll
+     4>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\FbAuto.Browser.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 4 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(8:7) (默认目标)。
+     8>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Automation.sourcelink.json" 不存在。
+       CoreCompile:
+         Setting DOTNET_ROOT to 'D:\AI\workbuddy\短视频工具\.dotnet'
+         D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Roslyn\bincore\csc.exe /noconfig /unsafe- /checked- /nowarn:1701,1702,1701,1702,8002 /fullpaths /nostdlib+ /errorreport:prompt /warn:10 /define:TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP1_0_OR_GREATER;NETCOREAPP1_1_OR_GREATER;NETCOREAPP2_0_OR_GREATER;NETCOREAPP2_1_OR_GREATER;NETCOREAPP2_2_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER /highentropyva+ /nullable:enable /reference:"D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\obj\Debug\net10.0-windows\ref\FbAuto.Browser.dll" /reference:"D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\obj\Debug\net10.0-windows\ref\FbAuto.Core.dll" /reference:"D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\obj\Debug\net10.0-windows\ref\FbAuto.Infrastructure.dll" /reference:C:\Users\DZH\.nuget\packages\microsoft.bcl.asyncinterfaces\6.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.CSharp.dll" /reference:C:\Users\DZH\.nuget\packages\microsoft.playwright\1.41.2\lib\netstandard2.0\Microsoft.Playwright.dll /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.VisualBasic.Core.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.VisualBasic.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.Win32.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.Win32.Registry.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\mscorlib.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\netstandard.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.AppContext.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Buffers.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.Concurrent.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.Immutable.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.NonGeneric.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.Specialized.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.Annotations.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.DataAnnotations.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.EventBasedAsync.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.TypeConverter.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Configuration.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Console.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Core.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Data.Common.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Data.DataSetExtensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Data.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Contracts.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Debug.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.DiagnosticSource.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.FileVersionInfo.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Process.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.StackTrace.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.TextWriterTraceListener.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Tools.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.TraceSource.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Tracing.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Drawing.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Drawing.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Dynamic.Runtime.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Formats.Asn1.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Formats.Tar.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Globalization.Calendars.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Globalization.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Globalization.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.Brotli.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.FileSystem.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.ZipFile.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.DriveInfo.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.Watcher.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.IsolatedStorage.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.MemoryMappedFiles.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Pipelines.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Pipes.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Pipes.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.UnmanagedMemoryStream.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.AsyncEnumerable.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.Expressions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.Parallel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.Queryable.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Memory.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Http.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Http.Json.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.HttpListener.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Mail.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.NameResolution.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.NetworkInformation.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Ping.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Quic.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Requests.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Security.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.ServerSentEvents.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.ServicePoint.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Sockets.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebClient.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebHeaderCollection.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebProxy.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebSockets.Client.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebSockets.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Numerics.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Numerics.Vectors.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ObjectModel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.DispatchProxy.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Emit.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Emit.ILGeneration.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Emit.Lightweight.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Metadata.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.TypeExtensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Resources.Reader.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Resources.ResourceManager.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Resources.Writer.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.CompilerServices.Unsafe.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.CompilerServices.VisualC.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Handles.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.InteropServices.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.InteropServices.JavaScript.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.InteropServices.RuntimeInformation.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Intrinsics.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Loader.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Numerics.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Formatters.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Json.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Xml.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Claims.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Algorithms.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Cng.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Csp.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Encoding.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.OpenSsl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.X509Certificates.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Principal.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Principal.Windows.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.SecureString.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ServiceModel.Web.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ServiceProcess.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encoding.CodePages.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encoding.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encoding.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encodings.Web.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Json.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.RegularExpressions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Channels.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Overlapped.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.Dataflow.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.Parallel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Thread.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.ThreadPool.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Timer.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Transactions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Transactions.Local.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ValueTuple.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Web.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Web.HttpUtility.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Windows.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.Linq.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.ReaderWriter.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.Serialization.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XDocument.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XmlDocument.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XmlSerializer.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XPath.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XPath.XDocument.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\WindowsBase.dll" /features:"InterceptorsNamespaces=;Microsoft.Extensions.Validation.Generated" /debug+ /debug:portable /filealign:512 /optimize- /out:obj\Debug\net10.0-windows\FbAuto.Automation.dll /refout:obj\Debug\net10.0-windows\refint\FbAuto.Automation.dll /target:library /warnaserror- /utf8output /deterministic+ /langversion:latest /embed:Profiles\CategoryEditor.cs /embed:Profiles\PostingSettingsEditor.cs /embed:Profiles\ProfileEditFlow.cs /embed:Profiles\ProfileFieldResult.cs /embed:Profiles\ProfileIdExtractor.cs /embed:Profiles\ProfileIdResolver.cs /embed:Profiles\SignatureEditor.cs /embed:Profiles\SignatureSource.cs /embed:Profiles\SignatureText.cs /embed:obj\Debug\net10.0-windows\FbAuto.Automation.GlobalUsings.g.cs /embed:"obj\Debug\net10.0-windows\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs" /embed:obj\Debug\net10.0-windows\FbAuto.Automation.AssemblyInfo.cs /analyzerconfig:"D:\AI\workbuddy\短视频工具\FbAuto\.editorconfig" /analyzerconfig:obj\Debug\net10.0-windows\FbAuto.Automation.GeneratedMSBuildEditorConfig.editorconfig /analyzerconfig:"D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Sdks\Microsoft.NET.Sdk\analyzers\build\config\analysislevel_10_default.globalconfig" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Sdks\Microsoft.NET.Sdk\targets\..\analyzers\Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Sdks\Microsoft.NET.Sdk\targets\..\analyzers\Microsoft.CodeAnalysis.NetAnalyzers.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.ComInterfaceGenerator.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.JavaScript.JSImportGenerator.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.LibraryImportGenerator.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.SourceGeneration.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/System.Text.Json.SourceGeneration.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/System.Text.RegularExpressions.Generator.dll" Abstractions\IPageInterop.cs Drafts\FailedDraftCleanup.cs Flows\CoverAttemptFlow.cs Flows\FailedDraftFlow.cs Flows\PopupCleanupFlow.cs Flows\VideoUploadFlow.cs Media\CoverRejection.cs Media\CoverSizeRule.cs Media\ImageInfo.cs Media\ImageLibrary.cs Messages\ConversationDeleter.cs Messages\MessageDeleteFlow.cs Messages\MessageDeleteOptions.cs Messages\MessageDeletePlanner.cs Pages\PageActionException.cs Pages\PlaywrightPageInterop.cs Popups\NotificationPopup.cs Profiles\CategoryEditor.cs Profiles\PostingSettingsEditor.cs Profiles\ProfileEditFlow.cs Profiles\ProfileFieldResult.cs Profiles\ProfileIdExtractor.cs Profiles\ProfileIdResolver.cs Profiles\SignatureEditor.cs Profiles\SignatureSource.cs Profiles\SignatureText.cs Selectors\FacebookSelectors.cs Selectors\FacebookUrls.cs Uploads\AssetIdExtractor.cs Uploads\AssetIdResolver.cs Uploads\UploadBatchJudge.cs Uploads\UploadProgressMonitor.cs Uploads\VideoBatchPlanner.cs obj\Debug\net10.0-windows\FbAuto.Automation.GlobalUsings.g.cs "obj\Debug\net10.0-windows\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs" obj\Debug\net10.0-windows\FbAuto.Automation.AssemblyInfo.cs /warnaserror+:NU1605,SYSLIB0011
+         Compilation request FbAuto.Automation (net10.0-windows), PathToTool=D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Roslyn\bincore\csc.exe
+         CommandLine = ' /noconfig'
+         BuildResponseFile = '/unsafe- /checked- /nowarn:1701,1702,1701,1702,8002 /fullpaths /nostdlib+ /errorreport:prompt /warn:10 /define:TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP1_0_OR_GREATER;NETCOREAPP1_1_OR_GREATER;NETCOREAPP2_0_OR_GREATER;NETCOREAPP2_1_OR_GREATER;NETCOREAPP2_2_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER /highentropyva+ /nullable:enable /reference:"D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Browser\obj\Debug\net10.0-windows\ref\FbAuto.Browser.dll" /reference:"D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Core\obj\Debug\net10.0-windows\ref\FbAuto.Core.dll" /reference:"D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Infrastructure\obj\Debug\net10.0-windows\ref\FbAuto.Infrastructure.dll" /reference:C:\Users\DZH\.nuget\packages\microsoft.bcl.asyncinterfaces\6.0.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.CSharp.dll" /reference:C:\Users\DZH\.nuget\packages\microsoft.playwright\1.41.2\lib\netstandard2.0\Microsoft.Playwright.dll /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.VisualBasic.Core.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.VisualBasic.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.Win32.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\Microsoft.Win32.Registry.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\mscorlib.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\netstandard.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.AppContext.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Buffers.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.Concurrent.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.Immutable.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.NonGeneric.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Collections.Specialized.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.Annotations.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.DataAnnotations.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.EventBasedAsync.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ComponentModel.TypeConverter.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Configuration.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Console.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Core.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Data.Common.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Data.DataSetExtensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Data.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Contracts.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Debug.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.DiagnosticSource.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.FileVersionInfo.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Process.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.StackTrace.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.TextWriterTraceListener.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Tools.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.TraceSource.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Diagnostics.Tracing.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Drawing.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Drawing.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Dynamic.Runtime.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Formats.Asn1.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Formats.Tar.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Globalization.Calendars.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Globalization.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Globalization.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.Brotli.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.FileSystem.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Compression.ZipFile.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.DriveInfo.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.FileSystem.Watcher.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.IsolatedStorage.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.MemoryMappedFiles.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Pipelines.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Pipes.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.Pipes.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.IO.UnmanagedMemoryStream.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.AsyncEnumerable.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.Expressions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.Parallel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Linq.Queryable.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Memory.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Http.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Http.Json.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.HttpListener.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Mail.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.NameResolution.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.NetworkInformation.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Ping.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Quic.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Requests.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Security.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.ServerSentEvents.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.ServicePoint.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.Sockets.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebClient.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebHeaderCollection.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebProxy.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebSockets.Client.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Net.WebSockets.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Numerics.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Numerics.Vectors.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ObjectModel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.DispatchProxy.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Emit.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Emit.ILGeneration.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Emit.Lightweight.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Metadata.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Reflection.TypeExtensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Resources.Reader.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Resources.ResourceManager.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Resources.Writer.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.CompilerServices.Unsafe.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.CompilerServices.VisualC.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Handles.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.InteropServices.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.InteropServices.JavaScript.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.InteropServices.RuntimeInformation.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Intrinsics.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Loader.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Numerics.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Formatters.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Json.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Runtime.Serialization.Xml.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Claims.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Algorithms.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Cng.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Csp.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Encoding.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.OpenSsl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.Primitives.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Cryptography.X509Certificates.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Principal.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.Principal.Windows.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Security.SecureString.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ServiceModel.Web.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ServiceProcess.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encoding.CodePages.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encoding.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encoding.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Encodings.Web.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.Json.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Text.RegularExpressions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.AccessControl.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Channels.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Overlapped.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.Dataflow.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.Extensions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Tasks.Parallel.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Thread.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.ThreadPool.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Threading.Timer.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Transactions.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Transactions.Local.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.ValueTuple.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Web.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Web.HttpUtility.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Windows.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.Linq.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.ReaderWriter.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.Serialization.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XDocument.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XmlDocument.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XmlSerializer.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XPath.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\System.Xml.XPath.XDocument.dll" /reference:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\ref\net10.0\WindowsBase.dll" /features:"InterceptorsNamespaces=;Microsoft.Extensions.Validation.Generated" /debug+ /debug:portable /filealign:512 /optimize- /out:obj\Debug\net10.0-windows\FbAuto.Automation.dll /refout:obj\Debug\net10.0-windows\refint\FbAuto.Automation.dll /target:library /warnaserror- /utf8output /deterministic+ /langversion:latest /embed:Profiles\CategoryEditor.cs /embed:Profiles\PostingSettingsEditor.cs /embed:Profiles\ProfileEditFlow.cs /embed:Profiles\ProfileFieldResult.cs /embed:Profiles\ProfileIdExtractor.cs /embed:Profiles\ProfileIdResolver.cs /embed:Profiles\SignatureEditor.cs /embed:Profiles\SignatureSource.cs /embed:Profiles\SignatureText.cs /embed:obj\Debug\net10.0-windows\FbAuto.Automation.GlobalUsings.g.cs /embed:"obj\Debug\net10.0-windows\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs" /embed:obj\Debug\net10.0-windows\FbAuto.Automation.AssemblyInfo.cs /analyzerconfig:"D:\AI\workbuddy\短视频工具\FbAuto\.editorconfig" /analyzerconfig:obj\Debug\net10.0-windows\FbAuto.Automation.GeneratedMSBuildEditorConfig.editorconfig /analyzerconfig:"D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Sdks\Microsoft.NET.Sdk\analyzers\build\config\analysislevel_10_default.globalconfig" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Sdks\Microsoft.NET.Sdk\targets\..\analyzers\Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Sdks\Microsoft.NET.Sdk\targets\..\analyzers\Microsoft.CodeAnalysis.NetAnalyzers.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.ComInterfaceGenerator.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.JavaScript.JSImportGenerator.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.LibraryImportGenerator.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/Microsoft.Interop.SourceGeneration.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/System.Text.Json.SourceGeneration.dll" /analyzer:"D:\AI\workbuddy\短视频工具\.dotnet\packs\Microsoft.NETCore.App.Ref\10.0.15\analyzers/dotnet/cs/System.Text.RegularExpressions.Generator.dll" Abstractions\IPageInterop.cs Drafts\FailedDraftCleanup.cs Flows\CoverAttemptFlow.cs Flows\FailedDraftFlow.cs Flows\PopupCleanupFlow.cs Flows\VideoUploadFlow.cs Media\CoverRejection.cs Media\CoverSizeRule.cs Media\ImageInfo.cs Media\ImageLibrary.cs Messages\ConversationDeleter.cs Messages\MessageDeleteFlow.cs Messages\MessageDeleteOptions.cs Messages\MessageDeletePlanner.cs Pages\PageActionException.cs Pages\PlaywrightPageInterop.cs Popups\NotificationPopup.cs Profiles\CategoryEditor.cs Profiles\PostingSettingsEditor.cs Profiles\ProfileEditFlow.cs Profiles\ProfileFieldResult.cs Profiles\ProfileIdExtractor.cs Profiles\ProfileIdResolver.cs Profiles\SignatureEditor.cs Profiles\SignatureSource.cs Profiles\SignatureText.cs Selectors\FacebookSelectors.cs Selectors\FacebookUrls.cs Uploads\AssetIdExtractor.cs Uploads\AssetIdResolver.cs Uploads\UploadBatchJudge.cs Uploads\UploadProgressMonitor.cs Uploads\VideoBatchPlanner.cs obj\Debug\net10.0-windows\FbAuto.Automation.GlobalUsings.g.cs "obj\Debug\net10.0-windows\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs" obj\Debug\net10.0-windows\FbAuto.Automation.AssemblyInfo.cs /warnaserror+:NU1605,SYSLIB0011'
+         Attempting to create process 'D:\AI\workbuddy\短视频工具\.dotnet\sdk\10.0.404\Roslyn\bincore\VBCSCompiler.exe' "-pipename:QQQlj4N3STe6hXEaldlP1n2+ESzxhFaNnq62fUzHtR0"
+         Setting DOTNET_ROOT to 'D:\AI\workbuddy\短视频工具\.dotnet'
+         Successfully created process with process id 20420
+         Attempt to open named pipe 'QQQlj4N3STe6hXEaldlP1n2+ESzxhFaNnq62fUzHtR0'
+         Attempt to connect named pipe 'QQQlj4N3STe6hXEaldlP1n2+ESzxhFaNnq62fUzHtR0'
+         Named pipe 'QQQlj4N3STe6hXEaldlP1n2+ESzxhFaNnq62fUzHtR0' connected
+         Begin writing request for FbAuto.Automation (net10.0-windows)
+         End writing request for FbAuto.Automation (net10.0-windows)
+         Begin reading response for FbAuto.Automation (net10.0-windows)
+         End reading response for FbAuto.Automation (net10.0-windows)
+         CompilerServer: server - server processed compilation - FbAuto.Automation (net10.0-windows)
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         正在将文件从“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\obj\Debug\net10.0-windows\FbAuto.Automation.dll”复制到“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.dll”。
+         FbAuto.Automation -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.dll
+         正在将文件从“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\obj\Debug\net10.0-windows\FbAuto.Automation.pdb”复制到“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.pdb”。
+     8>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Automation\FbAuto.Automation.csproj”(默认目标)的操作。
+   1:8>项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(1:8)正在节点 3 上生成“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(7:6) (默认目标)。
+     7>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Application.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyFilesMarkedCopyLocal:
+         正在将文件从“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.pdb”复制到“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Application\Debug\net10.0-windows\FbAuto.Automation.pdb”。
+         正在将文件从“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.dll”复制到“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Application\Debug\net10.0-windows\FbAuto.Automation.dll”。
+         正在对“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\obj\Debug\net10.0-windows\FbAuto.A.C25E2757.Up2Date”执行 Touch 任务。
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Application -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Application\Debug\net10.0-windows\FbAuto.Application.dll
+     7>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\src\FbAuto.Application\FbAuto.Application.csproj”(默认目标)的操作。
+     1>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 为空，则文件 "obj\Debug\net10.0-windows\FbAuto.Tests.sourcelink.json" 不存在。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyFilesMarkedCopyLocal:
+         正在将文件从“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.dll”复制到“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Tests\Debug\net10.0-windows\FbAuto.Automation.dll”。
+         正在将文件从“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Automation\Debug\net10.0-windows\FbAuto.Automation.pdb”复制到“D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Tests\Debug\net10.0-windows\FbAuto.Automation.pdb”。
+         正在对“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\obj\Debug\net10.0-windows\FbAuto.T.6DEABF96.Up2Date”执行 Touch 任务。
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildDependencyFile:
+       正在跳过目标“GenerateBuildDependencyFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateBuildRuntimeConfigurationFiles:
+       正在跳过目标“GenerateBuildRuntimeConfigurationFiles”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         FbAuto.Tests -> D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Tests\Debug\net10.0-windows\FbAuto.Tests.dll
+     1>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(默认目标)的操作。
+     1>BuildProject:
+         完成的生成。
+         
+D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Tests\Debug\net10.0-windows\FbAuto.Tests.dll (.NETCoreApp,Version=v10.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.15)
+[xUnit.net 00:00:00.20]   Discovering: FbAuto.Tests
+[xUnit.net 00:00:00.31]   Discovered:  FbAuto.Tests
+[xUnit.net 00:00:00.38]   Starting:    FbAuto.Tests
+  已通过 FbAuto.Tests.BitApiParserTests.返回内容不合法时给出可读提示(json: "not-json") [12 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.重复位置只处理一次_避免误删下一条 [16 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.返回内容不合法时给出可读提示(json: "") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.返回内容不合法时给出可读提示(json: "[]") [1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.日志里的文案与原版一致 [1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.进度条消失且之前出现过_判完成 [22 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.进度条消失优先于总超时_传完了就不该判失败 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.采样轮数可查_便于日志记录 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.进度有变化就重新计时 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.进度一直是0_超过90秒判卡住 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.标准返回解析出全部字段 [4 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.进度签名不是求和_两个都停住和一个传完一个没开始要区分开 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.没有code也没有success但有data时算成功 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.没有失败条目时不能靠它判完成 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.版权审核等同完成 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.整批直接失败时进度条从没出现过_也要判结束 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.超过总时长判失败 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.进度停在同一个值_超过阈值判卡住并写清停在几 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.业务失败抛出中文异常并带比特自己的消息 [1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.pid是字符串也能解析 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.缺少关键字段时报明确的缺失项(json: "{\"code\":0,\"data\":{\"http\":\"127.0.0.1:5001\"}"···, expectedFragment: "ws") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.缺少关键字段时报明确的缺失项(json: "{\"code\":0,\"data\":{\"ws\":\"   \"}}", expectedFragment: "ws") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.缺少关键字段时报明确的缺失项(json: "{\"code\":0}", expectedFragment: "data") [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.关闭窗口成功时不抛异常 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.兼容success字段写法 [< 1 ms]
+  已通过 FbAuto.Tests.BitApiParserTests.关闭窗口失败时抛中文异常 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.首次采样即使没有进度条也不算完成 [2 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.读不到百分比时不算一点没动 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.从没出现过进度条超过容忍时长判失败 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.从没出现过进度条时不判完成 [< 1 ms]
+  已通过 FbAuto.Tests.UploadProgressMonitorTests.总超时对没有进度条的分支同样生效 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积超过上限_拒绝 [28 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: 512, expected: "512 B") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: -1, expected: "0 B") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: 1048576, expected: "1.0 MB") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积格式化(bytes: 2048, expected: "2.0 KB") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.小于最小尺寸_拒绝并说明差在哪(width: 400, height: 149) [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.小于最小尺寸_拒绝并说明差在哪(width: 200, height: 100) [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.小于最小尺寸_拒绝并说明差在哪(width: 399, height: 150) [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: " https://bit.local:9000 ", expected: "https://bit.local:9000") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: "http://127.0.0.1:6000/", expected: "http://127.0.0.1:6000") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: "127.0.0.1:6000", expected: "http://127.0.0.1:6000") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: null, expected: "http://127.0.0.1:54345") [< 1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口地址归一化(input: "", expected: "http://127.0.0.1:54345") [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.默认规则的最小尺寸是400乘150 [< 1 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.同一实例多次调用结果恒定 [2 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.格式不在白名单_拒绝并列出可用格式 [3 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.选项与确认按钮都在_可以继续 [16 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.机器码是八四四四十二位的大写GUID [6 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.不同实例在同一台机器上结果一致 [< 1 ms]
+  已通过 FbAuto.Tests.MachineCodeProviderTests.机器码可被授权服务解析回GUID [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积超过建议值但未超上限_只警告 [4 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.读不出尺寸_拒绝并带上解析原因 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.多个问题并存_警告全部收集 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.读不出尺寸且没给原因_也有兜底文案 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.自定义阈值真的生效_证明没写死 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.推荐尺寸且体积合适_直接合格 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.正好等于最小尺寸_可上传但提示低于推荐 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.体积正好等于上限_不拒绝 [1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.自定义允许格式生效 [< 1 ms]
+  已通过 FbAuto.Tests.CoverSizeCheckerTests.正方形图_提示比例会被裁切 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 2) [1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 64) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 1) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 100) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 11) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 75) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.任意长度往返后内容一致(length: 5) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.尾部填充位非零说明内容被截断应报错 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.解码忽略连字符与空白 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.尾部填充位为零的残缺串不报错但内容不足 [1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.字母表之外的符号应报错 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.三个都可移除_按倒序点击 [12 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.解码时小写等价于大写 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.找不到按钮的位置被跳过并说明 [2 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.倒序不是正序_这条防的是看起来能跑但会删错 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.空列表_空计划 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.null_不崩 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.编码结果只含字母表内字符且无小写 [3 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.七十五字节编码成一百二十字符 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.非法位置被跳过(position: -1) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.字母U不在字母表内应报错 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.非法位置被跳过(position: 0) [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.解码把字母I和L当作数字1把O当作数字0 [< 1 ms]
+  已通过 FbAuto.Tests.Base32CrockfordTests.空输入编码为空串解码为空数组 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.混合状态_只点可移除的其余跳过 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.按钮不可用的位置被跳过并说明 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.全部跳过时总结说明没有可移除的 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.没有移除视频选项_不能继续 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.乱序输入也按位置倒序输出 [< 1 ms]
+  已通过 FbAuto.Tests.FailedDraftCleanupTests.没有继续按钮_不能继续 [< 1 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.数量非正数时应拒绝(count: 0) [7 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.数量非正数时应拒绝(count: -1) [1 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.金样本用内置公钥验签通过 [27 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.直接链接优先于兜底 [15 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.签发工具产出的签名长度恒为六十四字节 [2 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.签出的码能被自己的公钥验证通过 [6 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.boosted_post前缀兜底 [2 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.太短的数字不当成asset_id [< 1 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.链接里的asset_id被URL编码过也能取到 [< 1 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.简化入口只返回id [< 1 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.从leads_center链接直接取到 [< 1 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.LEGACY前缀兜底 [1 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.找不到时明确返回未命中 [< 1 ms]
+  已通过 FbAuto.Tests.AssetIdExtractorTests.空内容不抛异常 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.本地跳过会留下可读日志 [1 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.金样本签名每一位被改动都必须验签失败 [7 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.签名长度不是六十四字节的对象构造不出来 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.候选为null_不崩 [3 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.失败总结带上跳过数量与尝试次数 [1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.候选比上限少_取完即耗尽 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.按顺序取图_每次消耗一次上传次数 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.空白路径被过滤掉 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.拒绝带原因时原因在前兜底在后 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.达到上限后不再给图并标记耗尽 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.页面接受后状态为成功且不再给图 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.本地跳过不占上传次数 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.拒绝时记录已试过的图 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.没有候选图_状态为无候选 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.最大尝试次数小于1直接抛 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.页面拒绝提示的选择器与文案锁定为原版取值 [< 1 ms]
+  已通过 FbAuto.Tests.CoverAttemptPlannerTests.拒绝不带原因时用原版兜底文案 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.空操作不消耗预算 [2 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.金样本负载每一位被改动都必须验签失败 [8 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.没关任何弹窗时的总结 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.观测为null_什么都不做 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.达到上限后停手并标记仍可能有弹窗 [1 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.自签自验链路成立 [2 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.内置公钥已配置且能正常导入 [< 1 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.批量签发数量正确且序号不重复 [19 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.没见过的弹窗_用Escape兜底 [2 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.上限小于1直接抛 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.默认规则只有两条且顺序固定 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.公钥无法签发新码 [2 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.关闭按钮可见_点它 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.总结分开统计点击与按键 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.继续按钮默认不启用_不会误点 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.可选规则确实存在且标注为低置信度 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.关闭按钮被禁用_改用Escape并说明原因 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.自定义规则表生效_证明顺序可配置 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseVerifierTests.别人用自己的密钥签的码用内置公钥验不过 [2 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.显式开启可选规则后_才点继续 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.没有观测到弹窗_什么都不做 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.全部不可见_什么都不做 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.规则表里声明按Escape的规则_直接按Escape [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.两类弹窗同时出现_先处理异常对话框 [< 1 ms]
+  已通过 FbAuto.Tests.NotificationPopupTests.按Id查规则 [< 1 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.按类型取到对应的执行器 [3 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.没注册的类型返回空而不是抛异常 [4 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.五个任务类型可以全部注册 [12 ms]
+  已通过 FbAuto.Tests.TaskExecutorRegistryTests.同一类型注册两个执行器时直接报错 [1 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.批量签发的每一张都能验签通过且文本互不相同 [35 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.日志里写出视频个数与描述内容 [30 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.签出的码字段与入参一致 [18 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.签出的码经文本往返后仍能验签 [5 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.按文件名排序_保证两次跑的顺序一致 [22 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.有效天数为零时应拒绝签发 [3 ms]
+  已通过 FbAuto.Tests.CodeIssuerTests.不指定序号时自动生成且不为零 [3 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.目录里没有MP4时明确失败 [6 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.目录不存在时明确失败并带上路径 [2 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.取不到时明确返回未找到(content: "   ") [3 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.取不到时明确返回未找到(content: "") [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.取不到时明确返回未找到(content: "<html><body>登录</body></html>") [6 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.取不到时明确返回未找到(content: "<a href=\"profile.php?id=1234\">太短</a>") [2 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.描述文件整体作为一段描述 [20 ms]
+  已通过 FbAuto.Tests.ChannelProfileTests.取到的参数跟随配置变化 [2 ms]
+DevTools listening on ws://127.0.0.1:58942/devtools/browser/627de119-091a-40e6-a254-904a45d57960
+  已通过 FbAuto.Tests.ChannelProfileTests.谷歌通道不会读到比特版的路径 [1 ms]
+  已通过 FbAuto.Tests.ChannelProfileTests.比特通道不会读到谷歌版的路径 [< 1 ms]
+  已通过 FbAuto.Tests.ChannelProfileTests.通道显示名与界面一致(channel: Bit, expected: "比特版") [< 1 ms]
+  已通过 FbAuto.Tests.ChannelProfileTests.通道显示名与界面一致(channel: Google, expected: "谷歌版") [< 1 ms]
+  已通过 FbAuto.Tests.ChannelProfileTests.默认配置下两套参数都为空且互不干扰 [2 ms]
+  已通过 FbAuto.Tests.ChannelProfileTests.两套参数各自独立赋值 [1 ms]
+  已通过 FbAuto.Tests.ChannelProfileTests.未知通道值落谷歌版 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.没到上限且列表有货时继续 [4 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.文件魔数被改时按未激活处理 [27 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "license.dat", machineCode: "") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "", machineCode: "6AD79298-1111-2222-3333-444455556666") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "license.dat", machineCode: "  ") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.路径或机器码为空时构造即失败(path: "   ", machineCode: "6AD79298-1111-2222-3333-444455556666") [< 1 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.空描述文件视为空描述 [20 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.只认MP4_其他扩展名不进批次 [6 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.接口返回失败码时抛ApiRejected [173 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.迭代次数不同就解不开 [13 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.描述文件不存在时按空描述继续_不阻断 [6 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.MP4扩展名大小写都认 [6 ms]
+  已通过 FbAuto.Tests.VideoBatchPlannerTests.没配置视频目录时明确失败 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.磁盘上不出现授权码明文 [17 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.文件不存在时返回空而不是抛异常 [1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.打开窗口发出正确的请求体并解析返回 [40 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.关闭窗口打到close接口并带窗口ID [5 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.文件被截断时按未激活处理 [27 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.删除后文件不再存在 [14 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.保存后能原样读回 [27 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别下拉项不存在时判失败 [142 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.当前类别不是目标时继续改 [4 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.密文被改一个字节时按未激活处理 [22 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名超过255字判失败且不写入 [6 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别为空时拼选择器直接抛异常(category: "  ") [1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别为空时拼选择器直接抛异常(category: "") [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名文件不存在时跳过并给出路径 [1 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.覆盖保存后读到的是新内容 [17 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.换一台机器读不出来 [13 ms]
+  已通过 FbAuto.Tests.LicenseStoreTests.保存时会自动建目录 [14 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.没有凭证时处于未激活状态 [7 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.回拨时间超过有效期也不能复活 [38 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.带连字符粘贴的码同样能激活 [18 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.过期后继续推进时间也不会复活 [23 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.满三十天即过期 [57 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.保存按钮一直不可用时仍按自动保存处理 [220 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名为空时根本不导航 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别值里的双引号被转义 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名超长时根本不导航 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.HTML转义后的链接也能取到 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别下拉项按文本拼接 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.当前类别判定用展示文本选择器 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名空白按跳过处理不当失败(raw: "") [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名空白按跳过处理不当失败(raw: null) [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名空白按跳过处理不当失败(raw: "   \r\n\t ") [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.已有签名时点编辑入口 [4 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.入口点不动时连续失败后中止并判失败 [371 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.只有达上限和列表空算正常收尾(stop: ListEmpty, normal: True) [3 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.三项全成功时汇总里带改了几项 [6 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.只有达上限和列表空算正常收尾(stop: TooManyFailures, normal: False) [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.只有达上限和列表空算正常收尾(stop: LimitReached, normal: True) [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.只有达上限和列表空算正常收尾(stop: MaxRounds, normal: False) [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.只有达上限和列表空算正常收尾(stop: NoProgress, normal: False) [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.数量降下来就清掉停滞计数 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.连续失败到阈值就停 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.没有签名时点关于你入口 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名正好255字通过 [1 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.换机器后凭证解不开按未激活处理 [68 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活长度不对的码给出重抄提示 [23 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名文件整段读入并去掉末尾换行 [54 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.没有保存按钮按自动保存处理 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别为空时根本不导航 [< 1 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活空串时提示先输入 [31 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.换一张新码时有效期重新计算 [49 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活后重启仍然是已激活 [32 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.别人签的码被拒绝且不落盘 [5 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.凭证内容被篡改成别的码时回到未激活 [30 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活金样本成功且剩余三十天 [124 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.回拨系统时间不能延长有效期 [91 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.到期前一天仍然可用 [38 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.激活乱码不会改变状态也不会写凭证 [22 ms]
+  已通过 FbAuto.Tests.OfflineLicenseServiceTests.同一张码重复激活不重置首次激活时间 [38 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.自动查找的候选路径都指向chrome可执行文件 [5 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.显式路径不存在时报中文错误并带上路径 [4 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.显式路径为空时自动查找 [55 ms]
+  已通过 FbAuto.Tests.ChromeLocatorTests.显式路径存在时原样返回 [13 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.正常内容解析出端口与ws地址 [9 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.兼容Windows换行与多余行 [3 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "51234") [10 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "0\n/devtools/browser/x") [3 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "") [1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.仅限自己选项缺失时判失败 [548 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名页地址带上了profile_id [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.只有相对链接时走兜底并标出来源 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.没有配置签名文件时跳过并说明 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.完整链接优先于先出现的相对链接 [1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.传入null不抛异常 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.先导航到配置的收件箱地址 [642 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.失败不到阈值时继续 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.上限与空列表同时成立时报已达上限 [< 1 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "70000\n/devtools/browser/x") [53 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "51234\ndevtools/browser/x") [3 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.内容不完整返回null(content: "abc\n/devtools/browser/x") [4 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.读取不存在的目录返回null而不是抛异常 [2 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.并发数为一的时候不会同时执行两个任务 [1 s]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.执行器返回失败结果时状态为失败并保留原因 [16 ms]
+  已通过 FbAuto.Tests.DevToolsActivePortFileTests.读取真实写入的文件 [21 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.每种任务类型都恰好有一个执行器 [6 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.谷歌版执行器读谷歌版配置 [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.任务类型到通道的映射与左栏一致 [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.五类任务全部接上了真执行器 [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.每种类型都落到预期实现上(kind: ProfileEditGoogle, expected: typeof(FbAuto.Application.Execution.ProfileEditExecutor)) [1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.每种类型都落到预期实现上(kind: DeleteMessage, expected: typeof(FbAuto.Application.Execution.DeleteMessageExecutor)) [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.每种类型都落到预期实现上(kind: ProfileEditBit, expected: typeof(FbAuto.Application.Execution.ProfileEditExecutor)) [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.每种类型都落到预期实现上(kind: VideoUploadBit, expected: typeof(FbAuto.Application.Execution.VideoUploadExecutor)) [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.每种类型都落到预期实现上(kind: VideoUploadGoogle, expected: typeof(FbAuto.Application.Execution.VideoUploadExecutor)) [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.比特版执行器读比特版配置 [< 1 ms]
+  已通过 FbAuto.Tests.ExecutorCatalogTests.登记表能直接喂给注册表且不冲突 [< 1 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.没有注册执行器时明确报程序缺陷 [13 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.日志文件名按天生成 [4 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.状态事件先执行中再成功 [18 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.每次写入都带毫秒级时间戳 [21 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别入口缺失时判失败 [153 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.全部跳过时整体算成功 [5 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.并发写入不产生残行 [77 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.解析不到profile_id时整条失败且不碰任何字段 [2 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.同一天多次写入是追加而不是覆盖 [35 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.日志目录建不出来时构造与写入都不抛异常 [9 ms]
+  已通过 FbAuto.Tests.FileAppLoggerTests.错误日志包含异常类型与堆栈 [19 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.谷歌行缺目录时仍然载入但记警告 [11 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.转义的双引号被还原 [11 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.文件不存在时返回空清单而不是抛异常 [1 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.别名查找不区分大小写 [14 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.空行和注释行被跳过 [21 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.正常两行按列名读出字段 [11 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.带BOM的文件也能认出别名列 [12 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别保存按钮一直不可用时判失败 [147 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.失败一条后仍继续删下一条 [313 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.已知profile_id时不再打开主页 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.默认不因数量没降而停 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.汇总里写出实际删除条数 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.默认地址指向官方页面 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.删到上限就停 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.取消令牌在导航前生效 [2 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.某通道没有账号时返回空 [11 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.停用的账号不参与分配 [6 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.单条超时判失败而不是中断 [254 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.引号包裹的字段里的逗号不会切错列 [35 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.重新加载能读到后来新增的行 [14 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.按通道轮询分配账号 [6 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.别名重复时保留第一次出现的 [12 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.未知通道的行被跳过并记警告 [14 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.缺必需列时返回空清单并说清缺什么 [14 ms]
+  已通过 FbAuto.Tests.AccountListCsvTests.列顺序打乱仍能按列名读对 [12 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.封面被拒检测 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.观测结果直接喂给决策器_能关掉 [2 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.关闭封面被拒提示_没有关闭按钮就按键 [1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.关闭封面被拒提示_有关闭按钮就点 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.执行点击动作 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.观测弹窗_可见且可用 [1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.观测弹窗_可见但禁用 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.空操作不产生任何页面动作 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.执行按键动作 [< 1 ms]
+  已通过 FbAuto.Tests.PageInteropExtensionTests.未接通的占位实现_查询返回否_动作抛异常 [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.没有图片_空计划并警告 [4 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.非图片文件静默忽略_不刷警告 [9 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.PNG", expected: True) [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.png", expected: True) [3 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别搜索框缺失时判失败 [138 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.gif", expected: False) [1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.未启用发帖设置时明确记为跳过 [1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.取消原样抛出 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名去首尾空白后再写 [< 1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.webp", expected: True) [1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.发帖设置正常时按顺序点三下 [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.jpg", expected: True) [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a", expected: False) [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.jpeg", expected: True) [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "", expected: False) [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名判定(path: "a.mp4", expected: False) [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.未配置目录_给出配置提示(directory: null) [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.未配置目录_给出配置提示(directory: "") [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.未配置目录_给出配置提示(directory: "   ") [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.白名单扩展名都被扫描到 [18 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.图片传入顺序不影响分配结果 [4 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.重复别名只算一次 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.同一账号反复取_永远是同一张 [4 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.图片够时不同账号拿到不同图片 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.头像与背景图必须同图 [1 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.没有账号_空计划并警告 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.洗牌后不是简单按顺序取第一张 [5 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.账号多于图片_重复并明确告知几个账号重复 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.只有空文件时_整体不可用 [3 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.目录不存在_说清路径 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.空文件被跳过并说明原因 [6 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.取不在计划里的账号返回null [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.同一个种子_分配完全可复现 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.只有一张图_所有账号同图并给出警告 [2 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.结果按文件名排序_与创建顺序无关 [13 ms]
+  已通过 FbAuto.Tests.ImageLibraryTests.扩展名不区分大小写 [6 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.每种任务类型在表里恰好一条 [2 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.删除消息跟随全局浏览器类型(global: Bit, expected: Bit) [< 1 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.删除消息跟随全局浏览器类型(global: Google, expected: Google) [< 1 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.左栏显示名与原版一字不差 [< 1 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.带版本后缀的任务不跟随全局(kind: VideoUploadGoogle, global: Bit, expected: Google) [< 1 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.带版本后缀的任务不跟随全局(kind: ProfileEditGoogle, global: Bit, expected: Google) [< 1 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.带版本后缀的任务不跟随全局(kind: VideoUploadBit, global: Google, expected: Bit) [< 1 ms]
+  已通过 FbAuto.Tests.TaskTypeCatalogTests.带版本后缀的任务不跟随全局(kind: ProfileEditBit, global: Google, expected: Bit) [< 1 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.取消后所有任务都落到终态不会卡在执行中 [250 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.迭代次数记在文件头因此换参数仍能读旧文件 [21 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.找不到输入框时判失败 [131 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.签名失败不中断后面两项 [2 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别正常修改时按顺序点三下 [1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.类别值里的反斜杠被转义 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.当前类别已是目标时跳过 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.空白地址退回默认值 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.覆盖后的地址生效 [< 1 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.两个签名入口都没有时判失败 [< 1 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.文件被截断时拒绝读取 [23 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令错误时拒绝解开 [16 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令过短或为空时拒绝保存(passphrase: "") [2 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令过短或为空时拒绝保存(passphrase: "   ") [3 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.口令过短或为空时拒绝保存(passphrase: "1234567") [2 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.不同口令保存的两份私钥互不能解 [18 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.私钥文件里不出现明文私钥字节 [20 ms]
+  已通过 FbAuto.Tests.ProfileEditTests.发帖设置行缺失时判失败 [131 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.配置里的ChromePath会传到通道 [17 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.文件魔数被改时拒绝读取 [71 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.未知通道直接拒绝 [4 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.谷歌通道返回Chrome实现 [2 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.比特通道返回比特实现 [2 ms]
+  已通过 FbAuto.Tests.BrowserChannelFactoryTests.日志为空时拒绝创建 [2 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "null") [14 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "{ 这不是 JSON") [362 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "") [3 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.配置损坏时回退默认值并记错误日志(brokenJson: "{\"ConcurrentCount\": \"三个\"}") [4 ms]
+  已通过 FbAuto.Tests.PrivateKeyVaultTests.保存后能用同一口令读回且公钥一致 [399 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.金样本重新编码后与原串完全一致 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.分组后字符数因连字符增加但内容不变 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.负载字节必须能被重构回来 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.长度不足时提示少复制了一段 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.含非法字符时提示具体字符 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.金样本解码后各字段正确 [1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.空输入给出可读提示(input: "   ") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.空输入给出可读提示(input: "\r\n\t") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.空输入给出可读提示(input: "") [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.版本号不匹配时明确说是版本问题 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.签发日超过可表示范围应报错 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.签发日纪元边界可正常往返 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.加了连字符和空格仍能解码 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.有效天数为零的码被拒绝 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.金样本长度是一百二十字符 [< 1 ms]
+  已通过 FbAuto.Tests.LicenseCodeCodecTests.长度过多时同样报长度不对 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.追加参数原样透传且过滤空白 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.没给profile目录直接拒绝 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.代理补全协议头(input: "socks5://127.0.0.1:1080", expected: "socks5://127.0.0.1:1080") [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.代理补全协议头(input: "127.0.0.1:7890", expected: "http://127.0.0.1:7890") [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.代理补全协议头(input: "http://127.0.0.1:7890", expected: "http://127.0.0.1:7890") [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.默认不带无头参数 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.显式要求无头时才加headless [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.参数里不手工加引号交给进程启动器转义 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.未配代理时不加代理参数 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.必带独立profile与调试端口0 [< 1 ms]
+  已通过 FbAuto.Tests.ChromeOptionsBuilderTests.路径末尾的分隔符会被去掉 [< 1 ms]
+  已通过 FbAuto.Tests.UploadBatchJudgeTests.一个都没注进去也不能发布 [6 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.允许注释与尾逗号便于人工维护 [20 ms]
+  已通过 FbAuto.Tests.UploadBatchJudgeTests.全部失败时跳过发布并提示账号疑似被封 [< 1 ms]
+  已通过 FbAuto.Tests.UploadBatchJudgeTests.全部成功直接发布 [< 1 ms]
+  已通过 FbAuto.Tests.UploadBatchJudgeTests.负数参数是程序错误 [< 1 ms]
+  已通过 FbAuto.Tests.UploadBatchJudgeTests.部分成功要先删失败条目再发布 [< 1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP起始码错误_报损坏 [4 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG_渐进式SOF2也能识别 [3 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG_读出宽高 [4 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8L无损格式读宽高 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.GIF_识别出格式但不属于白名单 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.PNG宽为0_报尺寸非法 [2 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.保存后重新加载值一致且中文不被转义 [24 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP子格式不支持_报具体块名 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.空数据_报文件头不足 [1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_文件不存在_说清路径 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.PNG_读出宽高 [2 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.只改部分字段时其余字段保持默认 [10 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_空文件_报文件头不足 [6 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_路径为空 [2 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.文件不存在时生成默认配置且默认值取自原版实测 [7 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG没有SOF段_报未找到 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.BMP_负高度取绝对值 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.高度为0时宽高比返回0而不是除零 [4 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8X格式读画布尺寸(width: 400, height: 150) [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8X格式读画布尺寸(width: 820, height: 312) [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8X格式读画布尺寸(width: 1640, height: 624) [1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.宽高比按宽除高计算 [2 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.PNG签名正确但缺IHDR块_报损坏 [1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.垃圾数据_报无法识别 [1 ms]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.WebP_VP8有损格式读宽高 [1 ms]
+  已通过 FbAuto.Tests.JsonConfigServiceTests.谷歌版与比特版配置互不覆盖 [23 ms]
+[11368:18940:1112/174524.448:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.JPEG_跳过超长EXIF段仍能找到SOF [1 ms]
+  已通过 FbAuto.Tests.BitBrowserApiClientTests.客户端没开时报中文错误并说明是本地接口连不上 [2 s]
+  已通过 FbAuto.Tests.ImageHeaderReaderTests.读文件_落盘的真实PNG [13 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.打开窗口后会话字段与接口返回一致 [15 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.关闭窗口调的是接口而不是杀进程 [28 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.两次浏览器启动之间至少隔设定的秒数 [1 s]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.关闭浏览器失败也不会让程序崩 [6 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.执行器抛异常时任务失败且程序不崩 [8 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.每个任务开一个独立页面并带上账号的profile [6 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.只执行待执行的任务 [7 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.不限条数且列表数量不降时由轮次上限兜住 [1 s]
+  已通过 FbAuto.Tests.MessageDeleteTests.列表空了就停 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.轮次上限按条数上限自动推算 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.列表本来就空时一次都不点 [97 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.并发数为二时确实并行 [223 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.账号不存在时失败原因是中文且指出清单文件 [6 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.删满上限即停 [56 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.成功一次就把连续失败清零 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.不限条数时删到列表空为止 [54 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.轮次超过显式上限就停 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.失败不计入删除条数 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.负上限也按不限处理 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.上限为零表示不限 [< 1 ms]
+  已通过 FbAuto.Tests.MessageDeleteTests.显式开启后连续两次数量没降就停 [< 1 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.执行中再次开始会被忽略 [332 ms]
+DevTools listening on ws://127.0.0.1:58996/devtools/browser/cf4f12ff-eebb-4b06-b0f3-ee1b25f8163a
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.成功的任务结果里带耗时 [61 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.队列里没有待执行任务时什么也不启动 [5 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.浏览器启动失败时任务失败且原因是中文 [6 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.已成功的任务在下一轮不会被重跑 [5 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.一个任务失败不影响同批其他任务 [43 ms]
+  已通过 FbAuto.Tests.TaskQueueRunnerTests.账号被停用时跳过且不启浏览器 [35 ms]
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.全部失败时绝不点发布 [748 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.进程在但调试端口不通时判为不活 [2 s]
+[4180:21888:1112/174527.588:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.BitBrowserChannelTests.进程在且调试端口可达才算活 [10 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.没给窗口ID时直接报中文错误 [5 ms]
+DevTools listening on ws://127.0.0.1:59039/devtools/browser/d0d8aeb7-70b6-4f29-805a-db3bc764c64e
+  已通过 FbAuto.Tests.BitBrowserChannelTests.关闭失败只记警告不抛异常 [2 s]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.进程已退出时判为不活 [68 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.ws地址取回后可直接用于连接 [6 ms]
+  已通过 FbAuto.Tests.BitBrowserChannelTests.没有ws时取地址报会话已关闭 [1 ms]
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.描述为空时不填但流程照走 [883 ms]
+[29616:5052:1112/174529.699:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+DevTools listening on ws://127.0.0.1:59069/devtools/browser/b9e76b14-e328-48a6-88cf-338998da167e
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.进度转成版权审核也判上传完成 [683 ms]
+[29216:2796:1112/174531.748:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.全部成功_整批注入并发布到完成 [734 ms]
+DevTools listening on ws://127.0.0.1:59107/devtools/browser/86c115fa-1446-4bf5-8718-6bf7c170ef74
+[23044:1000:1112/174533.793:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.失败条目晚于进度条出现_仍然要清理后再发布 [1 s]
+DevTools listening on ws://127.0.0.1:59145/devtools/browser/3d02e330-9d07-4771-bc87-f1b040967351
+[26216:20800:1112/174536.145:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.从主页列表页提取asset_id [137 ms]
+DevTools listening on ws://127.0.0.1:59175/devtools/browser/14d7402d-123d-44ce-94b9-3aea06d915b3
+[20644:11368:1112/174537.709:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.有失败条目时先移除再发布 [903 ms]
+DevTools listening on ws://127.0.0.1:59206/devtools/browser/a30256d7-dcff-42e0-bbb0-16f78df7b653
+[19408:25220:1112/174539.890:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.初始没有文件输入框时先点添加视频 [1 s]
+DevTools listening on ws://127.0.0.1:59239/devtools/browser/3155477a-f6b9-4335-8463-a72810d02e7b
+[14880:6792:1112/174542.201:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.VideoUploadFlowIntegrationTests.定时发布时填入日期与小时 [737 ms]
+DevTools listening on ws://127.0.0.1:59277/devtools/browser/8c2b2cfb-8b62-482e-82a2-20f0ad21e664
+[11544:28096:1112/174544.370:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.TaskQueueRunnerIntegrationTests.执行器失败时任务记为失败且浏览器照样关闭 [2 s]
+DevTools listening on ws://127.0.0.1:59314/devtools/browser/91de4a05-b46c-4dcd-9866-f7ae270648c6
+[25184:25168:1112/174546.317:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.TaskQueueRunnerIntegrationTests.一条任务从调度到成功并把浏览器关掉 [2 s]
+DevTools listening on ws://127.0.0.1:59349/devtools/browser/4bf6467a-12f7-4abb-b51e-d66bdfce027a
+[9088:4456:1112/174549.147:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.类别能选到目标选项并保存 [696 ms]
+DevTools listening on ws://127.0.0.1:59393/devtools/browser/3dfecc97-3f22-46ae-a49b-078ce7998808
+[29408:27116:1112/174551.430:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.当前类别已是目标时不点也不保存 [136 ms]
+DevTools listening on ws://127.0.0.1:59431/devtools/browser/910292e6-6ac1-489f-a07c-95b23512ae26
+[24324:26116:1112/174552.854:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.保存按钮延迟解禁仍能等到并点下去 [806 ms]
+DevTools listening on ws://127.0.0.1:59469/devtools/browser/866ecceb-00d3-4754-a41c-38031a1637f7
+[23724:13928:1112/174555.020:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.类别名带双引号也能命中 [600 ms]
+DevTools listening on ws://127.0.0.1:59493/devtools/browser/e35e50d7-30f0-4e35-9037-fc3d7b14dc52
+[22740:16296:1112/174557.262:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.发帖设置改为仅限自己并保存 [418 ms]
+DevTools listening on ws://127.0.0.1:59531/devtools/browser/3b996a48-3ab4-40a6-9fb7-7e4d1efd93cd
+[8352:17924:1112/174559.207:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.没有保存按钮仍算改成功 [186 ms]
+DevTools listening on ws://127.0.0.1:59569/devtools/browser/8661081b-e1d7-4f81-8cb1-a6ddb1845e8b
+[7684:7564:1112/174601.373:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.已有签名时走编辑入口并保存 [521 ms]
+DevTools listening on ws://127.0.0.1:59596/devtools/browser/c529b2dc-383c-4368-8a21-ba3447169b7b
+[13164:1452:1112/174603.481:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.主页没有profile链接时整条失败且不碰设置页 [88 ms]
+DevTools listening on ws://127.0.0.1:59635/devtools/browser/b3cfe883-b103-407d-bf98-574c85224b90
+[29480:23872:1112/174604.901:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.没有签名时走关于你入口 [403 ms]
+DevTools listening on ws://127.0.0.1:59670/devtools/browser/0ab64a35-ffd1-4dba-acfa-2df51da4d81f
+[10380:25448:1112/174606.767:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.从主页解析profile_id后三项照改 [1 s]
+DevTools listening on ws://127.0.0.1:59713/devtools/browser/e31bb25e-784d-4898-a3db-799dd730d971
+[18328:15356:1112/174609.988:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.签名找不到入口时后两项照跑 [970 ms]
+DevTools listening on ws://127.0.0.1:59748/devtools/browser/5035e43a-f7ea-4da9-a34b-f90cd7deb825
+[9184:27320:1112/174612.171:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ProfileEditFlowIntegrationTests.三项全改成功 [1 s]
+DevTools listening on ws://127.0.0.1:59787/devtools/browser/fa8f76d8-1751-4ac0-82ce-de46aafb4bd5
+[21808:7784:1112/174614.592:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.点不到元素时按秒数报错并带上序号 [1 s]
+DevTools listening on ws://127.0.0.1:59824/devtools/browser/b13485a3-eab6-4fde-9a3a-05b5ea933f23
+[26816:7576:1112/174617.048:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.禁用的元素点不动_与可用性判定一致 [1 s]
+DevTools listening on ws://127.0.0.1:59865/devtools/browser/201f6d6d-1587-4028-aa97-c7cd373660e3
+[29552:27368:1112/174619.590:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.可见性区分存在_隐藏_不存在 [110 ms]
+DevTools listening on ws://127.0.0.1:59898/devtools/browser/e5b40624-7f03-4433-9521-36beeddc9f94
+[28576:21188:1112/174620.982:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.隐藏的_file_input_能直接注入 [148 ms]
+DevTools listening on ws://127.0.0.1:59929/devtools/browser/1dd9b882-ff53-4d0b-9ef1-870a1b99d8e4
+[21048:12500:1112/174622.477:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.序号按可见匹配数_隐藏元素不占位 [280 ms]
+DevTools listening on ws://127.0.0.1:59962/devtools/browser/74f5dcc5-6608-47cd-a560-b8a17646a441
+[29500:13380:1112/174624.122:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.真实选择器能命中封面的_file_input [220 ms]
+DevTools listening on ws://127.0.0.1:59986/devtools/browser/d014570d-3613-4eb4-80da-df311a32a572
+[27840:14184:1112/174626.107:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.隐藏元素排在前面也判为可见 [152 ms]
+DevTools listening on ws://127.0.0.1:60019/devtools/browser/ef0c1905-cb6f-457b-b5d5-a9206be2558f
+[16820:20500:1112/174627.602:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.无效选择器报中文错误而不是英文原始异常 [88 ms]
+DevTools listening on ws://127.0.0.1:60053/devtools/browser/b30a06e6-8eb5-4c8f-82f1-4dc3ebd18eed
+[7492:25220:1112/174629.030:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.注入不存在的文件时报中文错误 [151 ms]
+DevTools listening on ws://127.0.0.1:60091/devtools/browser/7608cfe7-4b1e-4fe6-8259-cc1c5d8dbf96
+[1256:14612:1112/174631.669:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.按_Escape_会真的落到页面上 [121 ms]
+DevTools listening on ws://127.0.0.1:60126/devtools/browser/00163f69-4777-4097-aa24-4a06842ff687
+[10200:24244:1112/174633.825:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PlaywrightPageInteropIntegrationTests.可用性认_aria_disabled_也认原生_disabled [222 ms]
+DevTools listening on ws://127.0.0.1:60163/devtools/browser/258c4c50-fbe5-47ea-9ff0-081a07eff71e
+[15548:28284:1112/174636.605:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.草稿清理_倒序移除三条全清且顺序是倒的 [1 s]
+DevTools listening on ws://127.0.0.1:60215/devtools/browser/c82d6635-7ade-43fa-b4ea-674bffb45eb3
+[12332:22236:1112/174640.588:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_全部被页面拒绝时判失败并记次数 [462 ms]
+DevTools listening on ws://127.0.0.1:60236/devtools/browser/a438fac0-6245-47d9-9365-9cac2053bbfb
+[24136:5904:1112/174642.990:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.弹窗清理_没有弹窗时绝不按_Escape [142 ms]
+DevTools listening on ws://127.0.0.1:60271/devtools/browser/2ec46210-6d06-4c83-a289-d12020a80688
+[29264:11976:1112/174644.404:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.弹窗清理_点关闭按钮后弹窗真的消失 [251 ms]
+DevTools listening on ws://127.0.0.1:60310/devtools/browser/4e9d36de-d1cb-4560-805e-936cabfaeed5
+[26292:7020:1112/174645.991:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_头像路径不做尺寸预检 [2 s]
+DevTools listening on ws://127.0.0.1:60351/devtools/browser/54ff6df2-820d-423a-9210-c40eda14bb38
+[1444:23060:1112/174649.548:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.草稿清理_列表为空时不点任何东西 [104 ms]
+DevTools listening on ws://127.0.0.1:60391/devtools/browser/27e24028-b65a-4d2b-827c-2ad9afb30876
+[21244:11088:1112/174650.970:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_本地挡掉的图不会真的上传 [2 s]
+DevTools listening on ws://127.0.0.1:60435/devtools/browser/ee09ffee-dcab-4b8d-b2b5-9d5e34160d1e
+[19716:18196:1112/174654.723:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.草稿清理_位置被禁用时跳过且不影响其他条目 [594 ms]
+DevTools listening on ws://127.0.0.1:60468/devtools/browser/b1ebde5a-e36b-43cb-be4c-1d101e10b32a
+[22320:17564:1112/174656.814:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.弹窗清理_关闭按钮禁用时改用_Escape [246 ms]
+DevTools listening on ws://127.0.0.1:60497/devtools/browser/0deba6ee-a18a-4857-96a0-c7eb71b6cca3
+[13488:22836:1112/174658.313:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.PageFlowIntegrationTests.封面换图_对话框没有关闭按钮时按_Escape [2 s]
+DevTools listening on ws://127.0.0.1:60542/devtools/browser/8cb7d4aa-d88b-4ddd-a771-4ef7ef90f2b8
+[14556:13296:1112/174702.032:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.MessageDeleteFlowIntegrationTests.删满上限就停在真页面上同样成立 [955 ms]
+DevTools listening on ws://127.0.0.1:60584/devtools/browser/5b61d51a-f417-408e-825c-73f5420848a5
+[16836:29552:1112/174704.313:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.MessageDeleteFlowIntegrationTests.列表满是空的时候一次都不点 [4 s]
+DevTools listening on ws://127.0.0.1:60635/devtools/browser/2d1b3fb1-d260-4a9c-a457-64ede56b98b6
+[17860:1000:1112/174709.898:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.MessageDeleteFlowIntegrationTests.确认后列表没变时日志写明未下降 [3 s]
+DevTools listening on ws://127.0.0.1:60688/devtools/browser/752dec96-37be-4857-945c-cff779cf4bf2
+[21424:19540:1112/174714.826:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.MessageDeleteFlowIntegrationTests.详情入口缺失时连续失败后中止 [12 s]
+DevTools listening on ws://127.0.0.1:60784/devtools/browser/04f0d84c-889f-4e0b-b866-f3cb86f68c55
+[24480:17168:1112/174729.005:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.等不到元素时抛中文超时错误 [3 s]
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.可执行文件不存在时报中文错误而不是崩溃 [16 ms]
+DevTools listening on ws://127.0.0.1:60834/devtools/browser/2d795600-5a7a-4ac9-909a-0c67e4546903
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.进程在但调试端口不通时判为不活 [2 s]
+DevTools listening on ws://127.0.0.1:60874/devtools/browser/31f1ae7a-2ecc-4c20-bf6a-c3a1f0540af4
+[12332:22308:1112/174735.751:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.上次残留的端口文件会被清掉不会连到旧端口 [1 s]
+DevTools listening on ws://127.0.0.1:60907/devtools/browser/bbfd29e7-2ddb-4f97-a53b-2c26275cf6c9
+[18580:17212:1112/174737.316:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.同一浏览器可开多页且互不影响 [1 s]
+DevTools listening on ws://127.0.0.1:60944/devtools/browser/6ebaa4df-b1ac-4e21-831e-5365a8ac3072
+[25084:10272:1112/174738.773:ERROR:chrome\browser\ui\webui\ntp\new_tab_ui.cc:54] Requested load of chrome://newtab/ for incorrect profile type.
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.导航到打不开的地址时报中文错误 [1 s]
+[xUnit.net 00:02:17.88]   Finished:    FbAuto.Tests
+数据收集器“Blame”消息: 所有测试都已运行完毕，将不生成序列文件。
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.启动到关闭整条链路可用 [1 s]
+  已通过 FbAuto.Tests.ChromeChannelIntegrationTests.进程不存在时探活返回false [1 ms]
+
+测试运行成功。
+测试总数: 553
+     通过数: 553
+总时间: 2.3148 分钟
+     1>已完成生成项目“D:\AI\workbuddy\短视频工具\FbAuto\tests\FbAuto.Tests\FbAuto.Tests.csproj”(VSTest 个目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:02:26.20

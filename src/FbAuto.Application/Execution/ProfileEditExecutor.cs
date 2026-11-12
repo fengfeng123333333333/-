@@ -17,13 +17,26 @@ namespace FbAuto.Application.Execution;
 public sealed class ProfileEditExecutor : ITaskExecutor
 {
     private readonly AppConfig _config;
+    private readonly TaskKind _kind;
+    private readonly ProfileEditOptions? _options;
 
-    public ProfileEditExecutor(AppConfig config)
+    /// <param name="config">全局配置。</param>
+    /// <param name="kind">任务类型，决定读哪一套业务参数（谷歌版 / 比特版）。</param>
+    /// <param name="options">调参覆盖，仅测试用。</param>
+    public ProfileEditExecutor(
+        AppConfig config,
+        TaskKind kind = TaskKind.ProfileEditGoogle,
+        ProfileEditOptions? options = null)
     {
         _config = config ?? throw new ArgumentNullException(nameof(config));
+        _kind = kind;
+        _options = options;
     }
 
-    public TaskKind Kind => TaskKind.ProfileEditGoogle;
+    public TaskKind Kind => _kind;
+
+    /// <summary>本执行器实际使用的那套业务参数。公开出来给用例钉住「没读错通道」。</summary>
+    public ChannelProfile Profile => _config.ForChannel(TaskTypeCatalog.ChannelOf(_kind));
 
     public async Task<TaskExecutionResult> ExecuteAsync(
         TaskExecutionContext context,
@@ -32,7 +45,10 @@ public sealed class ProfileEditExecutor : ITaskExecutor
         ArgumentNullException.ThrowIfNull(context);
         var logger = context.Logger;
 
-        var (signature, sourceLines) = SignatureSource.Read(_config.SignatureFile);
+        var profile = Profile;
+        logger.Info($"按 {profile.DisplayName} 取配置：签名文件 {profile.SignatureFile}");
+
+        var (signature, sourceLines) = SignatureSource.Read(profile.SignatureFile);
         foreach (var line in sourceLines)
         {
             logger.Info(line);
@@ -40,8 +56,8 @@ public sealed class ProfileEditExecutor : ITaskExecutor
 
         var request = new ProfileEditRequest(
             signature,
-            _config.ProfileCategory,
-            _config.UpdatePostingSettings);
+            profile.ProfileCategory,
+            profile.UpdatePostingSettings);
 
         var page = new PlaywrightPageInterop(context.Page);
 
@@ -51,6 +67,7 @@ public sealed class ProfileEditExecutor : ITaskExecutor
             result = await ProfileEditFlow.RunAsync(
                 page,
                 request,
+                options: _options,
                 cancellationToken: cancellationToken).ConfigureAwait(false);
         }
         catch (PageActionException ex)
