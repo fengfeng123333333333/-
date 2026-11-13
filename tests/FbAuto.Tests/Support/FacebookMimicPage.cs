@@ -621,6 +621,190 @@ public static class FacebookMimicPage
 
 
     /// <summary>
+    /// 主页首页仿真页：头像与背景图都在这一页上改。
+    /// </summary>
+    /// <remarks>
+    /// 结构和原版串逐条对上：
+    /// <list type="bullet">
+    /// <item>头像入口是 <c>[aria-label='头像操作']</c>；点它才出现
+    /// <c>div[role='menuitem']</c> 的「选择头像」；点菜单项才**动态创建**
+    /// <c>div[aria-label='上传照片']</c> 与它的 <c>input[type='file']</c>。
+    /// 动态创建是刻意的：真页面上这个 input 在点开对话框之前根本不在 DOM 里，
+    /// 若一开始就写进 HTML，「必须先点两步」这件事在测试里就永远测不出来。</item>
+    /// <item>封面 file input 是 <c>div[role='button']:has-text('封面照片')</c> 的**兄弟**，
+    /// 且始终存在于 DOM —— 与头像相反，封面不需要点开任何菜单。</item>
+    /// <item>两个保存按钮初始都 <c>aria-disabled='true'</c>，注入图片后隔一小段才解禁，
+    /// 用来验证「不主动等就会卡一个点击超时」。</item>
+    /// <item>拒绝对话框沿用 <c>div[aria-label='请选择其他封面照片'][aria-modal='true'][role='dialog']</c>；
+    /// 文件名含 reject 就弹它。</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="withAvatarEntry">是否渲染「头像操作」。false 用来制造「找不到头像入口」。</param>
+    /// <param name="withAvatarMenu">点头像区域后是否弹出「选择头像」菜单。</param>
+    /// <param name="withCoverInput">是否渲染封面 file input。</param>
+    /// <param name="saveEnableDelayMilliseconds">注入后隔多久解禁保存按钮。</param>
+    public static string ProfileHome(
+        bool withAvatarEntry = true,
+        bool withAvatarMenu = true,
+        bool withCoverInput = true,
+        int saveEnableDelayMilliseconds = 120)
+    {
+        var avatarEntry = withAvatarEntry
+            ? """<div class="btn" role="button" aria-label="头像操作" id="avatar-area">头像</div>"""
+            : string.Empty;
+
+        var cover = withCoverInput
+            ? """
+              <div class="cover-wrap">
+                <div class="btn" role="button" aria-label="编辑封面照片" id="edit-cover">封面照片</div>
+                <input type="file" id="cover-input" accept="image/*" style="display:none">
+              </div>
+              """
+            : string.Empty;
+
+        return $$"""
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8">
+              <title>主页</title>
+              <style>
+                body { font-family: sans-serif; padding: 20px; }
+                .btn { display: inline-block; padding: 6px 14px; border: 1px solid #888;
+                       border-radius: 6px; cursor: pointer; margin: 4px 6px 4px 0; }
+                #avatar-menu, #cover-panel { display: none; margin-top: 8px; }
+              </style>
+            </head>
+            <body>
+              {{avatarEntry}}
+
+              <div id="avatar-menu">
+                <div role="menuitem" id="avatar-choose">选择头像</div>
+              </div>
+
+              <div id="avatar-upload"></div>
+
+              <div id="cover-panel" style="display:none">
+                <div class="btn" role="button" aria-label="保存更改" id="cover-save"
+                     aria-disabled="true">保存更改</div>
+              </div>
+
+              {{cover}}
+
+              <div id="reject-dialog" aria-label="请选择其他封面照片" aria-modal="true" role="dialog"
+                   style="display:none;position:fixed;top:40px;left:40px;border:1px solid #888;padding:12px">
+                <div>请选择其他封面照片</div>
+                <div class="btn" role="button" aria-label="关闭" id="reject-close">关闭</div>
+              </div>
+
+              <script>
+                var SAVE_DELAY = {{saveEnableDelayMilliseconds}};
+
+                window.__avatarUploads = [];
+                window.__avatarSaved = false;
+                window.__coverUploads = [];
+                window.__coverAccepted = null;
+                window.__coverSaved = false;
+                window.__rejectClosed = 0;
+
+                var dialog = document.getElementById('reject-dialog');
+
+                function enableLater(id) {
+                  setTimeout(function () {
+                    var el = document.getElementById(id);
+                    if (el) { el.removeAttribute('aria-disabled'); }
+                  }, SAVE_DELAY);
+                }
+
+                document.getElementById('reject-close').addEventListener('click', function () {
+                  window.__rejectClosed = window.__rejectClosed + 1;
+                  dialog.style.display = 'none';
+                });
+
+                (function bindAvatar() {
+                  var area = document.getElementById('avatar-area');
+                  if (!area) { return; }
+
+                  area.addEventListener('click', function () {
+                    document.getElementById('avatar-menu').style.display = 'block';
+                  });
+
+                  var choose = document.getElementById('avatar-choose');
+                  if (!choose) { return; }
+
+                  choose.addEventListener('click', function () {
+                    var host = document.getElementById('avatar-upload');
+                    if (host.getAttribute('data-ready') === '1') { return; }
+                    host.setAttribute('data-ready', '1');
+
+                    // 真页面：点「选择头像」之后才渲染「上传照片」对话框与它的 file input。
+                    var label = document.createElement('div');
+                    label.setAttribute('aria-label', '上传照片');
+                    label.textContent = '上传照片';
+
+                    var input = document.createElement('input');
+                    input.type = 'file';
+                    input.id = 'avatar-input';
+                    input.accept = 'image/*';
+                    input.style.display = 'none';
+
+                    var panel = document.createElement('div');
+                    panel.id = 'avatar-save-panel';
+                    panel.style.display = 'none';
+                    panel.innerHTML = '<div class="btn" role="button" aria-label="保存" id="avatar-save"'
+                      + ' aria-disabled="true">保存</div>';
+
+                    input.addEventListener('change', function (e) {
+                      var name = e.target.files && e.target.files.length ? e.target.files[0].name : '';
+                      window.__avatarUploads.push(name);
+                      panel.style.display = 'block';
+                      enableLater('avatar-save');
+                    });
+
+                    host.appendChild(label);
+                    host.appendChild(input);
+                    host.appendChild(panel);
+
+                    panel.querySelector('#avatar-save').addEventListener('click', function (e) {
+                      if (e.currentTarget.getAttribute('aria-disabled') === 'true') { return; }
+                      window.__avatarSaved = true;
+                      // 保存后面板关掉 —— 「保存完成」在页面上的唯一信号。
+                      panel.style.display = 'none';
+                    });
+                  });
+                })();
+
+                (function bindCover() {
+                  var input = document.getElementById('cover-input');
+                  if (!input) { return; }
+
+                  input.addEventListener('change', function (e) {
+                    var name = e.target.files && e.target.files.length ? e.target.files[0].name : '';
+                    window.__coverUploads.push(name);
+                    if (/reject/i.test(name)) {
+                      dialog.style.display = 'block';
+                      return;
+                    }
+
+                    window.__coverAccepted = name;
+                    document.getElementById('cover-panel').style.display = 'block';
+                    enableLater('cover-save');
+                  });
+
+                  var save = document.getElementById('cover-save');
+                  save.addEventListener('click', function () {
+                    if (save.getAttribute('aria-disabled') === 'true') { return; }
+                    window.__coverSaved = true;
+                    document.getElementById('cover-panel').style.display = 'none';
+                  });
+                })();
+              </script>
+            </body>
+            </html>
+            """;
+    }
+
+    /// <summary>
     /// Messenger 收件箱仿真页：删除走「进会话 → 会话详情 → 删除对话 → 二次确认」四步。
     /// </summary>
     /// <remarks>

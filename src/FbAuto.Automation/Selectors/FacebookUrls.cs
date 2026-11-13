@@ -11,6 +11,20 @@ namespace FbAuto.Automation.Selectors;
 /// </remarks>
 public static class FacebookUrls
 {
+    /// <summary>
+    /// 业务主页首页（头像与背景图都在这一页上改）。
+    /// </summary>
+    /// <remarks>
+    /// 这条地址**不是从一条完整原版串里挖出来的**，是把两段证据拼起来的：
+    /// 原版日志「导航到个人主页(设置 i_user Cookie)...」，以及同段里反复出现的
+    /// <c>profile.php?id=</c>（<c>无法从链接提取账号ID</c> 紧跟着它）。
+    /// 前半截 <c>https://www.facebook.com/</c> 与其余地址一致。
+    ///
+    /// **真机第一件事**：确认这个地址打开的是主页而不是登录页或跳转页 ——
+    /// 头像与背景图两步都以「页面已就绪」为前提，地址错了会一路报「未找到头像操作按钮」。
+    /// </remarks>
+    public const string ProfileHome = "https://www.facebook.com/profile.php?id={0}";
+
     /// <summary>签名所在页。原版串：<c>&amp;sk=directory_intro</c> 挂在 profile.php 后面。</summary>
     public const string ProfileIntro = "https://www.facebook.com/profile.php?id={0}&sk=directory_intro";
 

@@ -55,6 +55,8 @@ public sealed partial class MainViewModel : ObservableObject
         _scheduledStartHour = config.ScheduledStartHour;
         _bitVideoDirectory = config.BitVideoDirectory;
         _bitDescriptionFile = config.BitDescriptionFile;
+        _imageDirectory = config.ImageDirectory;
+        _bitImageDirectory = config.BitImageDirectory;
         _commentsBlockWords = string.Join(",", config.CommentsBlockWords);
         _deleteMessageLimit = config.DeleteMessageLimit.ToString(System.Globalization.CultureInfo.InvariantCulture);
         _deleteMessageCookieRootPath = config.DeleteMessageCookieRootPath;
@@ -116,6 +118,21 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>比特版的描述文件（原版键名 BitDescriptionFilePath）。</summary>
     [ObservableProperty]
     private string _bitDescriptionFile;
+
+    /// <summary>
+    /// 头像与背景图共用的图片目录（谷歌版）。
+    /// </summary>
+    /// <remarks>
+    /// **一个目录，不是两个**。早先界面按「头像 / 背景图」摆了俩输入框，
+    /// 但原版提示是「头像和背景图均从该目录随机选取」+「同一账号内使用同一张随机图片」，
+    /// 拆成两个反而会让人以为可以配两套图。S11 合成一个。
+    /// </remarks>
+    [ObservableProperty]
+    private string _imageDirectory;
+
+    /// <summary>比特版的图片目录（与谷歌版成对，互不覆盖）。</summary>
+    [ObservableProperty]
+    private string _bitImageDirectory;
 
     /// <summary>评论屏蔽词（不是「删除消息」的屏蔽词 —— 原版键名是 CommentsBlockText）。</summary>
     [ObservableProperty]
@@ -365,6 +382,8 @@ public sealed partial class MainViewModel : ObservableObject
         config.ScheduledStartHour = ScheduledStartHour;
         config.BitVideoDirectory = BitVideoDirectory ?? string.Empty;
         config.BitDescriptionFile = BitDescriptionFile ?? string.Empty;
+        config.ImageDirectory = ImageDirectory ?? string.Empty;
+        config.BitImageDirectory = BitImageDirectory ?? string.Empty;
 
         config.CommentsBlockWords = CommentsBlockWords
             .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

@@ -37,6 +37,17 @@ public sealed class AppConfig
     /// <summary>资料修改时是否把「谁能在你的公共主页发帖」改为仅限自己。</summary>
     public bool UpdatePostingSettings { get; set; } = true;
 
+    /// <summary>
+    /// 头像与背景图共用的图片目录（**谷歌版**）。
+    /// </summary>
+    /// <remarks>
+    /// 一个目录而不是两个：原版提示「头像和背景图均从该目录随机选取」，
+    /// 以及「头像和背景图在同一账号内使用同一张随机图片，不同账号随机不同」。
+    /// 早先界面摆了两个选择框（头像 / 背景图），那是照着「两个功能」想当然画的，
+    /// 与证据不符，S11 已合成一个。
+    /// </remarks>
+    public string ImageDirectory { get; set; } = string.Empty;
+
     /// <summary>结果保存目录。</summary>
     public string SaveDirectory { get; set; } = string.Empty;
 
@@ -105,6 +116,9 @@ public sealed class AppConfig
     /// <summary>比特版的评论屏蔽词。</summary>
     public string[] BitCommentsBlockWords { get; set; } = [".com", "https", "pn", "dn", "inbox"];
 
+    /// <summary>比特版的头像与背景图图片目录。</summary>
+    public string BitImageDirectory { get; set; } = string.Empty;
+
     /// <summary>
     /// 按通道取业务参数。执行器只调这一个方法，不直接读字段 ——
     /// 这样「比特版读成了谷歌版的目录」这类错误只有一处可能发生，且能被单测钉住。
@@ -118,7 +132,8 @@ public sealed class AppConfig
             BitSignatureFile,
             BitProfileCategory,
             BitUpdatePostingSettings,
-            BitCommentsBlockWords),
+            BitCommentsBlockWords,
+            BitImageDirectory),
         _ => new ChannelProfile(
             BrowserChannelKind.Google,
             VideoDirectory,
@@ -126,7 +141,8 @@ public sealed class AppConfig
             SignatureFile,
             ProfileCategory,
             UpdatePostingSettings,
-            CommentsBlockWords),
+            CommentsBlockWords,
+            ImageDirectory),
     };
 
     /// <summary>

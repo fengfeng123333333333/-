@@ -38,6 +38,8 @@ public sealed class JsonConfigServiceTests : IDisposable
         Assert.Equal(string.Empty, config.BitProfileCategory);
         Assert.True(config.BitUpdatePostingSettings);
         Assert.Equal(5, config.BitCommentsBlockWords.Length);
+        Assert.Equal(string.Empty, config.ImageDirectory);
+        Assert.Equal(string.Empty, config.BitImageDirectory);
         Assert.True(_logger.Contains("INF", "配置文件不存在"));
     }
 
@@ -115,12 +117,16 @@ public sealed class JsonConfigServiceTests : IDisposable
         var config = first.Load();
         config.VideoDirectory = @"D://g-videos";
         config.BitVideoDirectory = @"D://b-videos";
+        config.ImageDirectory = @"D://g-images";
+        config.BitImageDirectory = @"D://b-images";
         first.Save();
 
         var reloaded = new JsonConfigService(_dir.Path, new TestLogger()).Load();
 
         Assert.Equal(@"D://g-videos", reloaded.VideoDirectory);
         Assert.Equal(@"D://b-videos", reloaded.BitVideoDirectory);
+        Assert.Equal(@"D://g-images", reloaded.ImageDirectory);
+        Assert.Equal(@"D://b-images", reloaded.BitImageDirectory);
     }
 
     [Fact]

@@ -1,0 +1,41 @@
+S11 头像与背景图 —— 测试与注入证据
+=====================================
+
+命令：build\test.cmd
+时间：2026-11-13 09:33 起，耗时 2 分 26 秒
+结果：失败 0，通过 579，跳过 0，总计 579
+
+原始输出末行：
+  已通过! - 失败:     0，通过:   579，已跳过:     0，总计:   579，持续时间: 2 m 26 s - FbAuto.Tests.dll (net10.0)
+
+基线：S10 为 553，本轮新增 26 条（AvatarCoverEditorTests 16、AccountImageCandidatesTests 7、
+ProfileEditFlowIntegrationTests 新增 3、ChannelProfileTests / JsonConfigServiceTests 补断言若干）。
+
+
+反向注入（逐项改坏产品代码 → 确认对应用例变红 → 还原）
+-----------------------------------------------------
+A. CoverAttemptFlow：每轮注入前的 prepareAsync 改成只在第一轮调用
+   → 红 1 条：头像_被拒之后重开菜单再注第二张
+   说明「被拒后必须重开菜单」这条语义有守卫。
+
+B. AvatarEditor：保存按钮一直不可用时不再返回失败，继续按成功走
+   → 红 1 条：头像_保存按钮一直不可用时报失败而不是当成功
+
+C. AccountImageCandidates：洗牌种子由「别名的稳定哈希」退化成常量 0
+   → 红 1 条：不同账号不应全部拿到同一张
+
+D. AccountImageCandidates：别名缺失时不再用占位键，直接传空串
+   → 红 1 条：别名缺失时仍然分到一张图而不是空
+
+E. ProfileEditFlow：把背景图提到头像前面
+   → 红 1 条：编排_五项顺序与原版日志一致
+
+F. AppConfig.ForChannel：比特版的 ImageDirectory 回落成谷歌版
+   → 红 2 条：比特通道不会读到谷歌版的路径、两套参数各自独立赋值
+   （注：注入前先给这两条用例补了「谷歌版图片目录非空」的反例配置，
+     否则两边都是空串，回落看不出来、注入打不红，等于没有守卫。）
+
+G. AvatarEditor：删掉「没有候选图就跳过」的提前返回
+   → 红 2 条：头像_没有候选图时跳过且不碰页面、编排_五项顺序与原版日志一致
+
+七次注入全部命中，还原后全量 579 全绿；grep -rn "MUTATION" src tests 无输出。

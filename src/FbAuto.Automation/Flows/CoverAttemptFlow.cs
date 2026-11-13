@@ -94,6 +94,10 @@ public static class CoverAttemptFlow
     /// 没找到头像被拒时页面弹的是什么。所以头像目前复用同一条判定信号 ——
     /// 若真机上头像被拒时弹的是别的文案，这条流程会把它当「通过」。真机验收必须确认这一点。
     /// </remarks>
+    /// <param name="prepareAsync">
+    /// 每一轮注入之前要做的事。头像必须传：它的 file input 只在「点头像区域 → 点选择头像」
+    /// 打开的对话框里才有，被拒一次对话框就关了，不重开就注不进第二张。
+    /// </param>
     public static Task<CoverAttemptResult> RunForAvatarAsync(
         IPageInterop page,
         IEnumerable<string>? candidates,
@@ -101,7 +105,8 @@ public static class CoverAttemptFlow
         int maxAttempts = 3,
         TimeSpan? rejectionWindow = null,
         TimeSpan? dismissTimeout = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        Func<CancellationToken, Task>? prepareAsync = null)
         => RunAsync(
             page,
             candidates,
@@ -110,7 +115,8 @@ public static class CoverAttemptFlow
             maxAttempts,
             rejectionWindow,
             dismissTimeout,
-            cancellationToken);
+            cancellationToken,
+            prepareAsync);
 
     /// <summary>
     /// 核心实现。<paramref name="rule"/> 为 null 表示跳过本地预校验。
@@ -128,7 +134,8 @@ public static class CoverAttemptFlow
         int maxAttempts,
         TimeSpan? rejectionWindow,
         TimeSpan? dismissTimeout,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Func<CancellationToken, Task>? prepareAsync = null)
     {
         ArgumentNullException.ThrowIfNull(page);
         ArgumentException.ThrowIfNullOrWhiteSpace(fileInputSelector);
@@ -173,6 +180,14 @@ public static class CoverAttemptFlow
                 lines.Add("上一张的拒绝提示仍未关闭，停止换图");
                 break;
             }
+
+            // 顺序不能反：先确认提示已关，再重开入口。
+            // 反了的话，提示没关时重开菜单会点在一个被遮罩挡住的区域上，卡到点击超时。
+            if (prepareAsync is not null)
+            {
+                await prepareAsync(cancellationToken).ConfigureAwait(false);
+            }
+
 
             await page.SetFileInputAsync(fileInputSelector, path, cancellationToken).ConfigureAwait(false);
             lines.Add($"已注入图片: {Path.GetFileName(path)}");

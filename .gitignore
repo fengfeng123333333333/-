@@ -19,8 +19,19 @@ playwright-driver/
 # ---------- 敏感：账号凭据与浏览器 Profile（S0 硬约束） ----------
 # 仓库内不得出现任何 Cookie / 登录态 / 账号密码文件
 data.ini
-profiles/
-**/Profile*/
+# 锚定仓库根目录的 profiles/（运行时 cookie/登录态存放处）。
+# 原来写 profiles/ 未锚定，Windows 上 core.ignorecase=true 会不分大小写地
+# 连源码目录 src/**/Profiles/ 一起吃掉 —— 资料修改、头像、背景图的源码根本没进仓库，
+# 别人 clone 下来编译不过，而 git status 上一切干净。S11 收尾时才发现。
+/profiles/
+# 浏览器用户资料子目录：Chrome 下叫 "Profile 1" / "Profile 2"（中间有空格），
+# 有的工具导出成 profile1/、xxx-profile/。
+# 注意这里**不能**用 **/Profile*/ 这种宽匹配 —— 它会把源码目录 src/**/Profiles/
+# 一起忽略掉，结果是资料修改、头像、背景图的源码根本没进仓库，
+# 别人 clone 下来编译不过，而 git status 上一切干净。S11 收尾时才发现，见该日执行记录。
+**/Profile [0-9]*/
+**/Profile[0-9]*/
+**/*-profile/
 User Data/
 *.cookie
 *.cookies

@@ -20,6 +20,11 @@ namespace FbAuto.Core.Configuration;
 /// <param name="ProfileCategory">资料修改要设置的主页类别，空表示不改。</param>
 /// <param name="UpdatePostingSettings">是否把发帖权限改成仅限自己。</param>
 /// <param name="CommentsBlockWords">评论屏蔽词。</param>
+/// <param name="ImageDirectory">
+/// 头像与背景图共用的图片目录。**一个目录、一张图**：原版提示是
+/// 「头像和背景图均从该目录随机选取」+「头像和背景图在同一账号内使用同一张随机图片，不同账号随机不同」。
+/// 默认空串，排在最后 —— 老配置反序列化时缺这个键，落到空串正好是「没配就不改」。
+/// </param>
 public sealed record ChannelProfile(
     BrowserChannelKind Channel,
     string VideoDirectory,
@@ -27,7 +32,8 @@ public sealed record ChannelProfile(
     string SignatureFile,
     string ProfileCategory,
     bool UpdatePostingSettings,
-    IReadOnlyList<string> CommentsBlockWords)
+    IReadOnlyList<string> CommentsBlockWords,
+    string ImageDirectory = "")
 {
     /// <summary>通道的显示名，写日志用。</summary>
     public string DisplayName => Channel.ToDisplay();

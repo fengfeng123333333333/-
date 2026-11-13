@@ -1,18 +1,20 @@
+using FbAuto.Automation.Media;
 using FbAuto.Automation.Pages;
 using FbAuto.Automation.Profiles;
+using FbAuto.Core.Abstractions;
 using FbAuto.Core.Configuration;
 using FbAuto.Core.Models;
 
 namespace FbAuto.Application.Execution;
 
 /// <summary>
-/// 资料修改（谷歌版）执行器：读签名文件 → 交给流程 → 汇总。
+/// 资料修改（谷歌版）执行器：读签名文件 + 扫图片目录 → 交给流程 → 汇总。
 /// </summary>
 /// <remarks>
-/// 这一版只做三项：个性签名、类别、发帖设置。
-/// 主页名称要走 iframe + 主账号密码二次确认，头像与背景图要复用 S5/S6 的换图流程，
-/// 两者单独做 —— 硬塞进来会让这一步的验收标准变成「六项都过」，
-/// 而其中两项的失败原因和前三项完全不同（一个是权限/审核，一个是图片尺寸）。
+/// 五项：头像、背景图、发帖设置、个性签名、类别（顺序与原版日志块一致）。
+/// 还剩两项单独做：<b>粉丝公开内容</b>（关键词屏蔽）与<b>主页名字</b>（iframe + 主账号密码二次确认）。
+/// 不硬塞进来的理由：这两项的失败原因和前五项完全不同（一项是权限/审核，一项要跨 frame 与二次验证），
+/// 混在一起会让「这一步算不算过」变得说不清。
 /// </remarks>
 public sealed class ProfileEditExecutor : ITaskExecutor
 {
@@ -46,7 +48,7 @@ public sealed class ProfileEditExecutor : ITaskExecutor
         var logger = context.Logger;
 
         var profile = Profile;
-        logger.Info($"按 {profile.DisplayName} 取配置：签名文件 {profile.SignatureFile}");
+        logger.Info($"按 {profile.DisplayName} 取配置：签名文件 {profile.SignatureFile}，图片目录 {profile.ImageDirectory}");
 
         var (signature, sourceLines) = SignatureSource.Read(profile.SignatureFile);
         foreach (var line in sourceLines)
@@ -54,10 +56,13 @@ public sealed class ProfileEditExecutor : ITaskExecutor
             logger.Info(line);
         }
 
+        var images = BuildImageCandidates(context.Account.Alias, profile.ImageDirectory, logger);
+
         var request = new ProfileEditRequest(
             signature,
             profile.ProfileCategory,
-            profile.UpdatePostingSettings);
+            profile.UpdatePostingSettings,
+            images);
 
         var page = new PlaywrightPageInterop(context.Page);
 
@@ -83,5 +88,47 @@ public sealed class ProfileEditExecutor : ITaskExecutor
         return result.Success
             ? TaskExecutionResult.Ok(result.Summary)
             : await context.FailAsync(result.Summary).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 把图片目录变成「本账号那张图在最前」的候选列表。
+    /// </summary>
+    /// <remarks>
+    /// 选图规则在 <see cref="AccountImageCandidates"/> 里（可单测，不碰页面也不碰浏览器）。
+    /// 这里只负责把扫描结果与告警写进日志 —— 「配了目录但一张能用的都没有」必须让人看见，
+    /// 否则使用者会以为头像换了，实际两项都被跳过。
+    /// </remarks>
+    private static IReadOnlyList<string> BuildImageCandidates(string alias, string directory, IAppLogger logger)
+    {
+        var scan = ImageDirectoryScanner.Scan(directory);
+        if (!scan.IsUsable)
+        {
+            logger.Info(scan.Failure ?? "图片目录不可用，头像与背景图两项将跳过");
+            return [];
+        }
+
+        logger.Info($"图片目录可用 {scan.Count} 张：{directory}");
+        foreach (var skip in scan.Skipped)
+        {
+            logger.Warn($"跳过图片 {Path.GetFileName(skip.Path)}：{skip.Reason}");
+        }
+
+        var selection = AccountImageCandidates.Build(alias, scan);
+        if (selection.IsEmpty)
+        {
+            logger.Warn($"账号 {alias} 没有分到图片，头像与背景图两项将跳过");
+            return [];
+        }
+
+        // 「目录里只有一张图」这类情况只在同一批账号一起跑时才看得出来，
+        // 而执行器是逐任务跑的 —— 所以计划自带的告警在这里必须照抄一遍。
+        foreach (var warning in selection.Warnings)
+        {
+            logger.Warn(warning);
+        }
+
+        logger.Info(
+            $"账号 {alias} 使用图片：{Path.GetFileName(selection.Primary!)}（备选 {selection.AlternateCount} 张）");
+        return selection.Candidates;
     }
 }

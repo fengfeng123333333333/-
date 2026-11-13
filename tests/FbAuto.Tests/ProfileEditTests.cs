@@ -639,7 +639,12 @@ public sealed class ProfileEditTests
 
         Assert.True(result.Success);
         Assert.Equal(0, result.FailedCount);
-        Assert.Equal(3, result.SkippedCount);
+
+        // 五项全跳过：头像、背景图（没给候选图）、发帖设置（没启用）、签名、类别。
+        Assert.Equal(5, result.SkippedCount);
+        Assert.Equal(
+            ["头像", "背景图", "发帖设置", "个性签名", "类别"],
+            result.Fields.Select(f => f.Field));
 
         // 什么都没要求改，就不该碰页面。
         Assert.Empty(page.NavigatedUrls);

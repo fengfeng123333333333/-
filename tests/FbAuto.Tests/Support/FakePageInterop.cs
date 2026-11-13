@@ -58,6 +58,15 @@ public sealed class FakePageInterop : IPageInterop
     /// </remarks>
     public Action<string, int>? OnClick { get; set; }
 
+    /// <summary>
+    /// 注入回调（选择器, 文件路径）。默认 null。
+    /// </summary>
+    /// <remarks>
+    /// 用来模拟「注入之后页面弹了提示」。头像换图的重点在「被拒之后有没有重开入口」，
+    /// 没有这个钩子就只能断言「注入了两次」，测不出「第二次注入之前菜单重开过」。
+    /// </remarks>
+    public Action<string, string>? OnInject { get; set; }
+
     public Task NavigateAsync(string url, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -141,6 +150,7 @@ public sealed class FakePageInterop : IPageInterop
     {
         cancellationToken.ThrowIfCancellationRequested();
         FileInjections.Add((selector, filePath));
+        OnInject?.Invoke(selector, filePath);
         return Task.CompletedTask;
     }
 
@@ -153,6 +163,7 @@ public sealed class FakePageInterop : IPageInterop
         foreach (var path in filePaths)
         {
             FileInjections.Add((selector, path));
+            OnInject?.Invoke(selector, path);
         }
 
         return Task.CompletedTask;

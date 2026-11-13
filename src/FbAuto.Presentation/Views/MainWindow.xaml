@@ -351,21 +351,24 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="头像：" Style="{StaticResource FieldLabel}" />
-                                        <TextBox Grid.Column="1" IsEnabled="False" Text="S5 阶段接入" />
+                                        <TextBlock Text="图片目录：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding ImageDirectory, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" IsEnabled="False" />
+                                                Width="62" Height="26" Margin="6,0,0,0" />
                                     </Grid>
+                                    <TextBlock Text="头像与背景图共用这一个目录。同一账号固定取同一张，不同账号尽量不同；留空则两项都跳过。"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
+
                                     <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="86" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="背景图：" Style="{StaticResource FieldLabel}" />
-                                        <TextBox Grid.Column="1" IsEnabled="False" Text="S5 阶段接入" />
+                                        <TextBlock Text="比特图片：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding BitImageDirectory, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" IsEnabled="False" />
+                                                Width="62" Height="26" Margin="6,0,0,0" />
                                     </Grid>
                                 </StackPanel>
                             </ScrollViewer>

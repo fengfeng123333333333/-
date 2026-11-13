@@ -38,6 +38,10 @@ public sealed class ChannelProfileTests
             DescriptionFile = @"D:\g\desc.txt",
             SignatureFile = @"D:\g\sig.txt",
             ProfileCategory = "教育",
+
+            // 图片目录也要给谷歌版填上非空值：留空的话「比特版回落谷歌版」这条规则
+            // 在断言上完全看不出来（两边都是空串），注入实验打不红，等于没有守卫。
+            ImageDirectory = @"D:\g\images",
         };
 
         var bit = config.ForChannel(BrowserChannelKind.Bit);
@@ -47,6 +51,9 @@ public sealed class ChannelProfileTests
         Assert.Equal(string.Empty, bit.DescriptionFile);
         Assert.Equal(string.Empty, bit.SignatureFile);
         Assert.Equal(string.Empty, bit.ProfileCategory);
+
+        // 图片目录同样是成对的：回落的后果是给比特版账号换上了谷歌版那批头像。
+        Assert.Equal(string.Empty, bit.ImageDirectory);
     }
 
     [Fact]
@@ -58,6 +65,7 @@ public sealed class ChannelProfileTests
             BitDescriptionFile = @"D:\b\desc.txt",
             BitSignatureFile = @"D:\b\sig.txt",
             BitProfileCategory = "戏剧",
+            BitImageDirectory = @"D:\b\images",
         };
 
         var google = config.ForChannel(BrowserChannelKind.Google);
@@ -66,6 +74,7 @@ public sealed class ChannelProfileTests
         Assert.Equal(string.Empty, google.DescriptionFile);
         Assert.Equal(string.Empty, google.SignatureFile);
         Assert.Equal(string.Empty, google.ProfileCategory);
+        Assert.Equal(string.Empty, google.ImageDirectory);
     }
 
     [Fact]
@@ -75,6 +84,8 @@ public sealed class ChannelProfileTests
         {
             VideoDirectory = @"D:\g",
             BitVideoDirectory = @"D:\b",
+            ImageDirectory = @"D:\g\images",
+            BitImageDirectory = @"D:\b\images",
             UpdatePostingSettings = false,
             BitUpdatePostingSettings = true,
             CommentsBlockWords = ["g1", "g2"],
@@ -86,6 +97,8 @@ public sealed class ChannelProfileTests
 
         Assert.Equal(@"D:\g", google.VideoDirectory);
         Assert.Equal(@"D:\b", bit.VideoDirectory);
+        Assert.Equal(@"D:\g\images", google.ImageDirectory);
+        Assert.Equal(@"D:\b\images", bit.ImageDirectory);
         Assert.False(google.UpdatePostingSettings);
         Assert.True(bit.UpdatePostingSettings);
         Assert.Equal(["g1", "g2"], google.CommentsBlockWords);
