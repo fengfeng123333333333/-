@@ -42,6 +42,11 @@ public sealed class ChannelProfileTests
             // 图片目录也要给谷歌版填上非空值：留空的话「比特版回落谷歌版」这条规则
             // 在断言上完全看不出来（两边都是空串），注入实验打不红，等于没有守卫。
             ImageDirectory = @"D:\g\images",
+
+            // 名称文件与密码同理，必须给谷歌版非空值 —— 这一条是注入实验打不红才补上的：
+            // 只加断言不加反例，等于写着检查、实际永远绿。
+            NamesFile = @"D:\g\names.txt",
+            PageNamePassword = "g-pw",
         };
 
         var bit = config.ForChannel(BrowserChannelKind.Bit);
@@ -54,6 +59,11 @@ public sealed class ChannelProfileTests
 
         // 图片目录同样是成对的：回落的后果是给比特版账号换上了谷歌版那批头像。
         Assert.Equal(string.Empty, bit.ImageDirectory);
+
+        // 名称文件与密码：回落的后果是比特版账号改成谷歌版那份名字清单里的名字，
+        // 而名字一改就要走 FB 审核，比换错头像严重得多。
+        Assert.Equal(string.Empty, bit.NamesFile);
+        Assert.Equal(string.Empty, bit.PageNamePassword);
     }
 
     [Fact]
@@ -66,6 +76,8 @@ public sealed class ChannelProfileTests
             BitSignatureFile = @"D:\b\sig.txt",
             BitProfileCategory = "戏剧",
             BitImageDirectory = @"D:\b\images",
+            BitNamesFile = @"D:\b\names.txt",
+            BitPageNamePassword = "b-pw",
         };
 
         var google = config.ForChannel(BrowserChannelKind.Google);
@@ -75,6 +87,8 @@ public sealed class ChannelProfileTests
         Assert.Equal(string.Empty, google.SignatureFile);
         Assert.Equal(string.Empty, google.ProfileCategory);
         Assert.Equal(string.Empty, google.ImageDirectory);
+        Assert.Equal(string.Empty, google.NamesFile);
+        Assert.Equal(string.Empty, google.PageNamePassword);
     }
 
     [Fact]
@@ -86,6 +100,10 @@ public sealed class ChannelProfileTests
             BitVideoDirectory = @"D:\b",
             ImageDirectory = @"D:\g\images",
             BitImageDirectory = @"D:\b\images",
+            NamesFile = @"D:\g\names.txt",
+            BitNamesFile = @"D:\b\names.txt",
+            PageNamePassword = "g-pw",
+            BitPageNamePassword = "b-pw",
             UpdatePostingSettings = false,
             BitUpdatePostingSettings = true,
             CommentsBlockWords = ["g1", "g2"],
@@ -99,6 +117,10 @@ public sealed class ChannelProfileTests
         Assert.Equal(@"D:\b", bit.VideoDirectory);
         Assert.Equal(@"D:\g\images", google.ImageDirectory);
         Assert.Equal(@"D:\b\images", bit.ImageDirectory);
+        Assert.Equal(@"D:\g\names.txt", google.NamesFile);
+        Assert.Equal(@"D:\b\names.txt", bit.NamesFile);
+        Assert.Equal("g-pw", google.PageNamePassword);
+        Assert.Equal("b-pw", bit.PageNamePassword);
         Assert.False(google.UpdatePostingSettings);
         Assert.True(bit.UpdatePostingSettings);
         Assert.Equal(["g1", "g2"], google.CommentsBlockWords);

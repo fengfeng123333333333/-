@@ -124,6 +124,24 @@ public sealed class AppConfig
     public string BitImageDirectory { get; set; } = string.Empty;
 
     /// <summary>
+    /// 主页名称文件（.txt，一行一个名字；**谷歌版**）。
+    /// </summary>
+    /// <remarks>
+    /// 原版键名 <c>GoogleNamesFilePath</c>。与签名文件的区别：签名是**整段一份**（所有账号同一段话），
+    /// 名字是**一行一个**（每个账号一个），所以这里要按别名挑一行。
+    /// </remarks>
+    public string NamesFile { get; set; } = string.Empty;
+
+    /// <summary>改主页名字时输的主账号密码（**谷歌版**，原版 <c>GooglePageNamePassword</c>）。</summary>
+    public string PageNamePassword { get; set; } = string.Empty;
+
+    /// <summary>主页名称文件（比特版）。</summary>
+    public string BitNamesFile { get; set; } = string.Empty;
+
+    /// <summary>改主页名字时输的主账号密码（比特版）。</summary>
+    public string BitPageNamePassword { get; set; } = string.Empty;
+
+    /// <summary>
     /// 按通道取业务参数。执行器只调这一个方法，不直接读字段 ——
     /// 这样「比特版读成了谷歌版的目录」这类错误只有一处可能发生，且能被单测钉住。
     /// </summary>
@@ -137,7 +155,9 @@ public sealed class AppConfig
             BitProfileCategory,
             BitUpdatePostingSettings,
             BitCommentsBlockWords,
-            BitImageDirectory),
+            BitImageDirectory,
+            BitNamesFile,
+            BitPageNamePassword),
         _ => new ChannelProfile(
             BrowserChannelKind.Google,
             VideoDirectory,
@@ -146,7 +166,9 @@ public sealed class AppConfig
             ProfileCategory,
             UpdatePostingSettings,
             CommentsBlockWords,
-            ImageDirectory),
+            ImageDirectory,
+            NamesFile,
+            PageNamePassword),
     };
 
     /// <summary>

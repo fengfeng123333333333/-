@@ -319,7 +319,7 @@ public sealed class AvatarCoverEditorTests : IDisposable
     // ── 编排 ─────────────────────────────────────────────────────────────
 
     [Fact]
-    public async Task 编排_六项顺序与原版分发串一致()
+    public async Task 编排_七项顺序与原版分发串一致()
     {
         var page = new FakePageInterop();
 
@@ -330,16 +330,17 @@ public sealed class AvatarCoverEditorTests : IDisposable
             options: Fast);
 
         // 顺序取自原版的分发串（每项一条「已跳过」）：
-        // 已跳过【修改背景图】→【修改头像】→ 发帖设置 → 粉丝公开内容 → 个性签名 → 类别。
+        // 已跳过【修改背景图】→【修改头像】→ 发帖设置 → 粉丝公开内容 → 个性签名 → 类别 → 主页名字。
         // 早先按字符串堆的先后排成「头像→背景图」，那是方法体书写顺序，不是执行顺序。
         Assert.Equal(
-            ["背景图", "头像", "发帖设置", "粉丝公开内容", "个性签名", "类别"],
+            ["背景图", "头像", "发帖设置", "粉丝公开内容", "个性签名", "类别", "主页名字"],
             result.Fields.Select(f => f.Field).ToArray());
 
         // 跳过也要留一行日志，否则日志里从「改完了」直接跳到结果，看不出这几项被跳过了。
         Assert.Contains(result.LogLines, x => x == AvatarEditor.SkipLine);
         Assert.Contains(result.LogLines, x => x == CoverPhotoEditor.SkipLine);
         Assert.Contains(result.LogLines, x => x == FollowersContentEditor.SkipLine);
+        Assert.Contains(result.LogLines, x => x == PageNameEditor.SkipLine);
     }
 
     [Fact]

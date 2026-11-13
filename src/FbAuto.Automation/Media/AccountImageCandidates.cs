@@ -85,24 +85,12 @@ public static class AccountImageCandidates
     }
 
     /// <summary>
-    /// 别名 → 洗牌种子（FNV-1a 32 位）。
+    /// 别名 → 洗牌种子。
     /// </summary>
     /// <remarks>
-    /// 不用 <c>string.GetHashCode()</c>：它在 .NET 里**每个进程都不同**（随机化哈希），
-    /// 同一台机器上今天跑是这张图、明天跑是另一张，断点续跑会莫名其妙换头像。
+    /// 实现移到 <see cref="Support.StableHash"/>：主页名字也要按别名挑，
+    /// 两处各写一份 FNV-1a 迟早在某一次修改后算出不同的值，表现为「同一账号的头像与名字对不上人」。
+    /// 具体理由（为什么不能用 <c>string.GetHashCode()</c>）见那里。
     /// </remarks>
-    private static int StableSeed(string value)
-    {
-        const uint offsetBasis = 2166136261;
-        const uint prime = 16777619;
-
-        var hash = offsetBasis;
-        foreach (var b in System.Text.Encoding.UTF8.GetBytes(value))
-        {
-            hash ^= b;
-            hash *= prime;
-        }
-
-        return unchecked((int)(hash & 0x7FFF_FFFF));
-    }
+    private static int StableSeed(string value) => Support.StableHash.Of(value);
 }

@@ -154,7 +154,7 @@ public sealed class PlaywrightPageInterop : IPageInterop
         try
         {
             // 探测不做等待：不存在就是「不可用」，等下去会让每个弹窗规则都拖一个超时。
-            var locator = await FindVisibleAsync(selector, index, TimeSpan.Zero, cancellationToken)
+            var locator = await FindVisibleAsync(_page.Locator(selector), index, TimeSpan.Zero, cancellationToken)
                 .ConfigureAwait(false);
             if (locator is null)
             {
@@ -181,7 +181,7 @@ public sealed class PlaywrightPageInterop : IPageInterop
         ILocator? locator;
         try
         {
-            locator = await FindVisibleAsync(selector, index, timeout, cancellationToken).ConfigureAwait(false);
+            locator = await FindVisibleAsync(_page.Locator(selector), index, timeout, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex) when (IsPageFailure(ex))
         {
@@ -237,7 +237,7 @@ public sealed class PlaywrightPageInterop : IPageInterop
         ILocator? locator;
         try
         {
-            locator = await FindVisibleAsync(selector, index, timeout, cancellationToken).ConfigureAwait(false);
+            locator = await FindVisibleAsync(_page.Locator(selector), index, timeout, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex) when (IsPageFailure(ex))
         {
@@ -279,7 +279,7 @@ public sealed class PlaywrightPageInterop : IPageInterop
         ILocator? locator;
         try
         {
-            locator = await FindVisibleAsync(selector, index, timeout, cancellationToken).ConfigureAwait(false);
+            locator = await FindVisibleAsync(_page.Locator(selector), index, timeout, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex) when (IsPageFailure(ex))
         {
@@ -500,6 +500,224 @@ public sealed class PlaywrightPageInterop : IPageInterop
         }
     }
 
+    public async Task<IReadOnlyList<FrameRef>> GetFramesAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        IReadOnlyList<IFrame> frames;
+        try
+        {
+            frames = _page.Frames;
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("读取 frame 列表", "frames", ex);
+        }
+
+        var result = new List<FrameRef>(frames.Count);
+        for (var i = 0; i < frames.Count; i++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // 逐个 try：frame 可能在遍历途中被移除（导航或组件卸载），读它的 URL 会抛。
+            // 一个 frame 掉了不该让整份清单读不出来 —— 清单本来就是用来排查问题的一手信息。
+            string url;
+            try
+            {
+                url = frames[i].Url ?? string.Empty;
+            }
+            catch (Exception ex) when (IsPageFailure(ex))
+            {
+                continue;
+            }
+
+            result.Add(new FrameRef(i, url));
+        }
+
+        return result;
+    }
+
+    public async Task<bool> FrameExistsAsync(
+        string frameUrlContains,
+        string selector,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(frameUrlContains);
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return await WaitFrameElementAsync(frameUrlContains, selector, cancellationToken).ConfigureAwait(false)
+            is not null;
+    }
+
+    public async Task FrameFillAsync(
+        string frameUrlContains,
+        string selector,
+        string text,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(frameUrlContains);
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentNullException.ThrowIfNull(text);
+
+        var timeout = _options.EffectiveActionTimeout;
+        IFrame? frame;
+        try
+        {
+            frame = await WaitFrameElementAsync(frameUrlContains, selector, cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("在 frame 内填写文本", selector, ex);
+        }
+
+        if (frame is null)
+        {
+            throw PageActionException.NotFound(
+                "在 frame 内填写文本",
+                selector,
+                index: 0,
+                (int)timeout.TotalSeconds);
+        }
+
+        try
+        {
+            await frame.Locator(selector).First.FillAsync(text, new LocatorFillOptions
+            {
+                Timeout = (float)timeout.TotalMilliseconds,
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw WrapActionFailure("在 frame 内填写文本", selector, ex);
+        }
+    }
+
+    public async Task FrameClickAsync(
+        string frameUrlContains,
+        string selector,
+        int index = 0,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(frameUrlContains);
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
+
+        var timeout = _options.EffectiveActionTimeout;
+        IFrame? frame;
+        try
+        {
+            frame = await WaitFrameElementAsync(frameUrlContains, selector, cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("在 frame 内点击", selector, ex);
+        }
+
+        if (frame is null)
+        {
+            throw PageActionException.NotFound("在 frame 内点击", selector, index, (int)timeout.TotalSeconds);
+        }
+
+        ILocator? locator;
+        try
+        {
+            // 与主 frame 同一套「按可见序号定位」的实现（见 FindVisibleAsync 的注释）。
+            locator = await FindVisibleAsync(frame.Locator(selector), index, timeout, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("在 frame 内点击", selector, ex);
+        }
+
+        if (locator is null)
+        {
+            throw PageActionException.NotFound("在 frame 内点击", selector, index, (int)timeout.TotalSeconds);
+        }
+
+        try
+        {
+            await locator.ClickAsync(new LocatorClickOptions
+            {
+                Timeout = (float)timeout.TotalMilliseconds,
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw WrapActionFailure("在 frame 内点击", selector, ex);
+        }
+    }
+
+    /// <summary>
+    /// 等「URL 含片段的 frame」里出现某个元素，返回那个 frame。
+    /// </summary>
+    /// <remarks>
+    /// 两个条件一起等：frame 可能还没建出来（FB 的设置页是先出壳再挂 iframe），
+    /// 元素也可能已建好但还没渲染进 DOM。分开等会让「frame 在、元素还没到」
+    /// 这种情况白等一个超时。
+    ///
+    /// 找不到返回 null 而不抛异常：调用方要按原版日志分别记「未找到包含 cquick 的 frame」
+    /// 与「未找到表单」，抛异常就把这两种情况压成一句了。
+    /// </remarks>
+    private async Task<IFrame?> WaitFrameElementAsync(
+        string frameUrlContains,
+        string selector,
+        CancellationToken cancellationToken)
+    {
+        var deadline = DateTime.UtcNow + _options.EffectiveActionTimeout;
+
+        try
+        {
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var frame = FindFrame(frameUrlContains);
+                if (frame is not null
+                    && await frame.Locator(selector).CountAsync().ConfigureAwait(false) > 0)
+                {
+                    return frame;
+                }
+
+                if (DateTime.UtcNow >= deadline)
+                {
+                    return null;
+                }
+
+                await Task.Delay(_options.EffectivePollInterval, cancellationToken).ConfigureAwait(false);
+            }
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("等待 frame 内元素", selector, ex);
+        }
+    }
+
+    /// <summary>按 URL 片段找 frame；找不到返回 null。</summary>
+    private IFrame? FindFrame(string frameUrlContains)
+    {
+        foreach (var frame in _page.Frames)
+        {
+            string url;
+            try
+            {
+                url = frame.Url ?? string.Empty;
+            }
+            catch (Exception ex) when (IsPageFailure(ex))
+            {
+                continue;
+            }
+
+            if (url.Contains(frameUrlContains, StringComparison.OrdinalIgnoreCase))
+            {
+                return frame;
+            }
+        }
+
+        return null;
+    }
+
     /// <summary>
     /// 这个异常是不是「页面层面的失败」（而不是取消）。
     /// </summary>
@@ -536,14 +754,17 @@ public sealed class PlaywrightPageInterop : IPageInterop
     /// <summary>
     /// 找第 <paramref name="index"/> 个可见匹配。<paramref name="timeout"/> 为零表示只查一次。
     /// </summary>
+    /// <remarks>
+    /// 参数是**已经解析好的 locator** 而不是选择器字符串：frame 内操作要复用同一套
+    /// 「按可见序号定位」的口径，若各自写一份，主 frame 与 iframe 的序号语义迟早会分叉。
+    /// </remarks>
     /// <returns>找不到返回 null（不抛异常，由调用方决定怎么报）。</returns>
     private async Task<ILocator?> FindVisibleAsync(
-        string selector,
+        ILocator locator,
         int index,
         TimeSpan timeout,
         CancellationToken cancellationToken)
     {
-        var locator = _page.Locator(selector);
         var deadline = DateTime.UtcNow + timeout;
 
         while (true)

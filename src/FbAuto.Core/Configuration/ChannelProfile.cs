@@ -28,6 +28,13 @@ namespace FbAuto.Core.Configuration;
 /// 「头像和背景图均从该目录随机选取」+「头像和背景图在同一账号内使用同一张随机图片，不同账号随机不同」。
 /// 默认空串，排在最后 —— 老配置反序列化时缺这个键，落到空串正好是「没配就不改」。
 /// </param>
+/// <param name="NamesFile">
+/// 主页名称文件（.txt，一行一个名字）。原版键名 <c>Google/BitNamesFilePath</c>。
+/// </param>
+/// <param name="PageNamePassword">
+/// 改主页名字时要输的主账号密码。原版把密码也存在 settings.json 的明文字段里
+/// （<c>Google/BitPageNamePassword</c>）；本实现沿用同一位置，但界面上是密码框。
+/// </param>
 public sealed record ChannelProfile(
     BrowserChannelKind Channel,
     string VideoDirectory,
@@ -36,7 +43,9 @@ public sealed record ChannelProfile(
     string ProfileCategory,
     bool UpdatePostingSettings,
     IReadOnlyList<string> CommentsBlockWords,
-    string ImageDirectory = "")
+    string ImageDirectory = "",
+    string NamesFile = "",
+    string PageNamePassword = "")
 {
     /// <summary>通道的显示名，写日志用。</summary>
     public string DisplayName => Channel.ToDisplay();

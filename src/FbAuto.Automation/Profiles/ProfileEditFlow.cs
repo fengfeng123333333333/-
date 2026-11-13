@@ -14,12 +14,21 @@ namespace FbAuto.Automation.Profiles;
 /// <param name="BlockWords">
 /// 粉丝公开内容里的屏蔽关键词。空表示不改这一项（原版日志「已跳过【修改粉丝公开内容】」）。
 /// </param>
+/// <param name="PageName">
+/// 主页名字。空表示不改这一项（原版日志「已跳过【修改主页名字】」）。
+/// </param>
+/// <param name="PageNamePassword">
+/// 改主页名字时要输的主账号密码。**留空不是错误**：原版的语义就是「未配置密码，跳过」，
+/// 但那样点下去多半不会生效，所以结果里会带一句「需人工确认」。
+/// </param>
 public sealed record ProfileEditRequest(
     string Signature = "",
     string Category = "",
     bool UpdatePostingSettings = false,
     IReadOnlyList<string>? ImageCandidates = null,
-    IReadOnlyList<string>? BlockWords = null)
+    IReadOnlyList<string>? BlockWords = null,
+    string PageName = "",
+    string PageNamePassword = "")
 {
     /// <summary>候选图片，永不为 null。</summary>
     public IReadOnlyList<string> Images => ImageCandidates ?? [];
@@ -72,7 +81,8 @@ public sealed record ProfileEditResult(
 /// 教训：堆里两段串的先后不能当执行先后用，要找同一组「每项一条」的串来定顺序。
 /// </para>
 ///
-/// 还差一项：<b>主页名字</b>（iframe + 主账号密码二次确认），单独做。
+/// 七项至此齐备。**主页名字放最后**：它是唯一需要主账号密码、也是唯一会触发 FB 侧审核的一项，
+/// 前面任何一项出问题都不该让这一项白跑（密码与审核都有次数成本）。
 /// </remarks>
 public static class ProfileEditFlow
 {
@@ -163,6 +173,12 @@ public static class ProfileEditFlow
         fields.Add(await GuardAsync(
             CategoryEditor.FieldName,
             () => CategoryEditor.RunAsync(page, id!, request.Category, options, cancellationToken),
+            lines,
+            cancellationToken).ConfigureAwait(false));
+
+        fields.Add(await GuardAsync(
+            PageNameEditor.FieldName,
+            () => PageNameEditor.RunAsync(page, request.PageName, request.PageNamePassword, options, cancellationToken),
             lines,
             cancellationToken).ConfigureAwait(false));
 

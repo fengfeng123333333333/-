@@ -1,0 +1,78 @@
+S13 主页名字（iframe + 密码二次确认）—— 测试与注入证据
+========================================================
+
+命令：build\test.cmd
+时间：2026-11-13 17:30 起，耗时 2 分 58 秒
+结果：失败 0，通过 611，跳过 0，总计 611
+
+原始输出末行：
+  已通过! - 失败:     0，通过:   611，已跳过:     0，总计:   611，持续时间: 2 m 58 s - FbAuto.Tests.dll (net10.0)
+
+基线：S12 为 590，本轮新增 21 条：
+  PageNameEditorTests 12
+  NameSourceTests 7
+  真 Chrome 集成 2（主页名字全链路 / 没有 cquick 的 frame）
+
+另更新 2 条既有断言：七项顺序、七项全跳过的计数。
+
+
+反向注入（逐项改坏产品代码 → 确认对应用例变红 → 还原）
+-----------------------------------------------------
+A. PageNameEditor：不填名字，只打「名字已填入」
+   → 红 2 条：成功路径_先填名字再点预览最后输密码确认（纯逻辑）
+             主页名字_在iframe里填名字并走完密码确认（真 Chrome，预览页读到的名字为空）
+
+B. PageNameEditor：密码框改用 FrameFillAsync（错 frame）
+   → 红 2 条：同上两条（真 Chrome 里密码值断言为空）
+   这条钉的是「密码框与确认按钮在主 frame」——串用的表现是日志「未找到密码输入框」，
+   然后流程以为没配密码，直接点确认，看起来一切正常。
+
+C. PageNameEditor：只读一次 frame 清单，不等 iframe 挂上来
+   → 红 1 条：frame后挂上来时等一下仍能成功
+   真 Chrome 通常第一次采样就能命中，等 frame 的逻辑主要靠这条纯逻辑用例守。
+
+D. PageNameEditor：没有【预览修改】按钮也继续往下点确认
+   → 红 1 条：没有预览按钮时失败且不再点确认
+
+E. NameSource：名字永远取文件第一行
+   → 红 1 条：不同账号不会全挑到第一行
+
+F. AppConfig：比特版回落谷歌版名称文件
+   → 第 1 次 0 条（守卫用例只有断言、没有非空反例，见下）
+   → 补反例后 2 条：比特通道不会读到谷歌版的路径、两套参数各自独立赋值
+
+G. PageNameEditor：不检查 URL 片段，只要有 frame 就往下走
+   → 红 2 条：找不到cquick的frame时失败且把frame清单写进日志（纯逻辑）
+             主页名字_没有cquick的frame时失败且不进预览页（真 Chrome）
+
+还原后 grep MUTATION 无残留。
+
+
+注入 F 第一次打不红（同类问题第二次出现）
+----------------------------------------
+给 ChannelProfileTests 加了「比特版不读谷歌版名称文件」的断言，但谷歌版那一侧
+NamesFile / PageNamePassword 仍是空串 —— 两边都空，回落在断言上看不出来。
+S11 记过一次同样的教训，这次又犯。
+
+修法：给谷歌版补 NamesFile = @"D:\g\names.txt"、PageNamePassword = "g-pw"，
+比特版补 BitNamesFile / BitPageNamePassword，再注入 F 命中 2 条。
+做法改成：写完守卫用例先做一次注入，再声称写完。
+
+
+另修：xunit 的 DoesNotContain 会「忽略」U+FEFF
+--------------------------------------------
+Assert.DoesNotContain("\uFEFF", 干净字符串) 会报「在位置 0 找到」。
+该重载走文化相关比较，U+FEFF 为零权重字符会被忽略，于是对任何字符串都成立。
+改为 Assert.False(name.Contains('\uFEFF'))（char 重载 = 序数比较）。
+
+
+跑挂起的排查记录
+----------------
+期间有两次全量跑卡住（8 分钟无输出）。查进程发现：测试 Chrome 还活着（页面停在
+upload-schedule.html），testhost 空转。但该用例单独跑 2 秒通过，视频上传类单独跑 9 条全绿。
+
+原因是我在前一轮把 testhost 强杀了（超时被工具 kill），留下的测试 Chrome 拖住了下一轮。
+按 user-data-dir 匹配清掉测试 Chrome 后，一次性跑 611 条 2m58s 全绿。
+
+结论：这是环境/残留问题，不是用例缺陷；排查顺序应是「先清测试 Chrome 再重跑」，
+不要边跑边杀 testhost。

@@ -1159,4 +1159,113 @@ public static class FacebookMimicPage
             </html>
             """;
     }
+
+    // ── 资料修改：主页名字（iframe） ────────────────────────────────────────
+    //
+    // 这一项必须用真 iframe 才测得出来：产品代码按「frame 的 URL 含 cquick」挑 frame，
+    // 再用 frame 内的 locator 找表单/输入框。用同页面模拟的话，frame 清单永远是空的，
+    // 「找错 frame」「frame 内选择器写错」这两类问题一个都抓不到。
+    //
+    // 三份页面配合成一条链：
+    //   主页面（含 iframe） → 点 iframe 里的【预览修改】→ 顶层跳到预览页（密码 + 申请更改）。
+    // 顶层跳转用 `window.top.location.href`：file:// 下父子页面是不同源，读对方的 DOM 会被拦，
+    // 但**写 location 是跨源允许的**。跳转时把输入框的值带进查询串，
+    // 于是「名字到底有没有填进 iframe 的输入框」能被测试断言，而不是只看日志说「名字已填入」。
+
+    /// <summary>
+    /// 主页名字设置的主页面：只负责挂一个 iframe。
+    /// </summary>
+    /// <param name="frameFileName">
+    /// iframe 的文件名。**必须含 <c>cquick</c>**，产品代码就是按这个片段找 frame 的；
+    /// 传一个不含它的名字即可造出「未找到包含 cquick 的 frame」。
+    /// </param>
+    public static string NameSettingsHost(string frameFileName)
+    {
+        return $$"""
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8">
+              <title>主页名字设置</title>
+              <style>
+                body { font-family: sans-serif; padding: 20px; }
+                iframe { width: 760px; height: 320px; border: 1px solid #ccc; }
+              </style>
+            </head>
+            <body>
+              <h3>主页名字</h3>
+              <iframe id="frame" src="{{frameFileName}}"></iframe>
+            </body>
+            </html>
+            """;
+    }
+
+    /// <summary>iframe 内的页面：名字表单 + 名字框 +【预览修改】。</summary>
+    public static string NameSettingsFrame()
+    {
+        return """
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8">
+              <title>名字表单</title>
+              <style>
+                body { font-family: sans-serif; padding: 12px; }
+              </style>
+            </head>
+            <body>
+              <form action="/settings/name_change_preview/" onsubmit="return false;">
+                <input type="text" name="pseudonymous_name" id="name" autocomplete="off">
+                <button type="submit" id="preview">预览修改</button>
+              </form>
+
+              <script>
+                // 顶层跳转并带上输入框的值：证明「名字确实填进了这个框」。
+                document.getElementById('preview').addEventListener('click', function () {
+                  var value = document.getElementById('name').value;
+                  window.top.location.href = 'name-preview.html?n=' + encodeURIComponent(value);
+                });
+              </script>
+            </body>
+            </html>
+            """;
+    }
+
+    /// <summary>预览之后落到的主页面：密码框 +【申请更改】。</summary>
+    /// <remarks>
+    /// 密码框与确认按钮都在主 frame —— 产品代码若拿 Frame* 原语去点它们，这里会点不动。
+    /// </remarks>
+    public static string NamePreview()
+    {
+        return """
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+              <meta charset="utf-8">
+              <title>确认改名</title>
+              <style>
+                body { font-family: sans-serif; padding: 20px; }
+              </style>
+            </head>
+            <body>
+              <div id="shown"></div>
+              <input type="password" id="save_password" autocomplete="off">
+              <button type="button" value="1" class="layerConfirm" id="confirm">申请更改</button>
+
+              <script>
+                window.__name = new URLSearchParams(location.search).get('n') || '';
+                window.__confirmed = false;
+                window.__password = '';
+
+                document.getElementById('shown').textContent = '新名字：' + window.__name;
+
+                document.getElementById('confirm').addEventListener('click', function () {
+                  window.__password = document.getElementById('save_password').value;
+                  window.__confirmed = true;
+                });
+              </script>
+            </body>
+            </html>
+            """;
+    }
 }

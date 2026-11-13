@@ -128,6 +128,65 @@ public interface IPageInterop
 
     /// <summary>可见匹配的个数（隐藏元素不计）。用于「第 n 个继续按钮」这类按序号定位的场景。</summary>
     Task<int> CountAsync(string selector, CancellationToken cancellationToken = default);
+
+    // ── frame 内操作 ──────────────────────────────────────────────────────
+    //
+    // 为什么要单独一组：FB 的主页名称设置页把表单放在**内嵌 iframe** 里
+    // （原版串：「未找到包含 cquick 的 frame」→「使用 frame 查找表单...」），
+    // 上面所有原语都只作用于主 frame，对 iframe 里的元素一律「找不到」。
+    //
+    // 定位方式一律用「frame 的 URL 含某个片段」，而不是 frame 的序号或 name：
+    // 序号随页面加载顺序变，name 在 FB 上基本为空。URL 片段（cquick）是原版自己用的口径。
+
+    /// <summary>
+    /// 当前页面里的所有 frame（含主 frame 本身），按 Playwright 给出的顺序。
+    /// </summary>
+    /// <remarks>
+    /// 列入返回值而不是只提供「按片段找」一个方法，是因为原版日志会打印
+    /// 「当前共有 N 个 frame」加每个 frame 的 URL —— 排查「frame 还没加载出来」
+    /// 和「加载出来了但地址不对」这两种情况，只看一句「未找到」是分不出来的。
+    /// </remarks>
+    Task<IReadOnlyList<FrameRef>> GetFramesAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// URL 含 <paramref name="frameUrlContains"/> 的那个 frame 里，元素是否存在于 DOM。
+    /// </summary>
+    /// <remarks>
+    /// 与主 frame 的 <see cref="ExistsAsync"/> 同口径：**不看可见性**，并且会等到超时。
+    /// 找不到 frame 本身也返回 false —— 对调用方来说「frame 没有」和「元素没有」
+    /// 都是「这一步做不下去」，区别由它自己按 frame 清单另记一条日志。
+    /// </remarks>
+    Task<bool> FrameExistsAsync(
+        string frameUrlContains,
+        string selector,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>在指定 frame 里填文本（会先清空原有内容）。</summary>
+    Task FrameFillAsync(
+        string frameUrlContains,
+        string selector,
+        string text,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>在指定 frame 里点第 <paramref name="index"/> 个可见匹配（0 起）。</summary>
+    Task FrameClickAsync(
+        string frameUrlContains,
+        string selector,
+        int index = 0,
+        CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// 一个 frame 的标识。原版日志就是按「序号 + URL」打印的，所以这两个字段足够。
+/// </summary>
+/// <param name="Index">序号（0 起），与 Playwright 的 <c>Page.Frames</c> 顺序一致。</param>
+/// <param name="Url">frame 当前 URL。跨域 frame 也能读到，但可能滞后一瞬。</param>
+public sealed record FrameRef(int Index, string Url)
+{
+    /// <summary>URL 是否含指定片段（忽略大小写）。</summary>
+    public bool Matches(string fragment) =>
+        !string.IsNullOrEmpty(fragment)
+        && Url.Contains(fragment, StringComparison.OrdinalIgnoreCase);
 }
 
 /// <summary>
@@ -198,6 +257,29 @@ public sealed class NotConnectedPageInterop : IPageInterop
 
     public Task<int> CountAsync(string selector, CancellationToken cancellationToken = default) =>
         Task.FromResult(0);
+
+    public Task<IReadOnlyList<FrameRef>> GetFramesAsync(CancellationToken cancellationToken = default) =>
+        Task.FromResult<IReadOnlyList<FrameRef>>([]);
+
+    public Task<bool> FrameExistsAsync(
+        string frameUrlContains,
+        string selector,
+        CancellationToken cancellationToken = default) =>
+        Task.FromResult(false);
+
+    public Task FrameFillAsync(
+        string frameUrlContains,
+        string selector,
+        string text,
+        CancellationToken cancellationToken = default) =>
+        throw new InvalidOperationException("页面尚未接通，不能在 frame 内填写文本");
+
+    public Task FrameClickAsync(
+        string frameUrlContains,
+        string selector,
+        int index = 0,
+        CancellationToken cancellationToken = default) =>
+        throw new InvalidOperationException("页面尚未接通，不能在 frame 内点击");
 }
 
 /// <summary>

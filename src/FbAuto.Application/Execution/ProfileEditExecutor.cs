@@ -8,13 +8,18 @@ using FbAuto.Core.Models;
 namespace FbAuto.Application.Execution;
 
 /// <summary>
-/// 资料修改（谷歌版）执行器：读签名文件 + 扫图片目录 → 交给流程 → 汇总。
+/// 资料修改执行器：读签名文件 + 扫图片目录 + 挑名字 → 交给流程 → 汇总。
 /// </summary>
 /// <remarks>
-/// 五项：头像、背景图、发帖设置、个性签名、类别（顺序与原版日志块一致）。
-/// 还剩两项单独做：<b>粉丝公开内容</b>（关键词屏蔽）与<b>主页名字</b>（iframe + 主账号密码二次确认）。
-/// 不硬塞进来的理由：这两项的失败原因和前五项完全不同（一项是权限/审核，一项要跨 frame 与二次验证），
-/// 混在一起会让「这一步算不算过」变得说不清。
+/// 七项齐备：背景图、头像、发帖设置、粉丝公开内容、个性签名、类别、主页名字
+/// （顺序即原版分发串的顺序）。
+///
+/// 三项输入来源完全不同，别混：
+/// <list type="bullet">
+/// <item><b>签名</b>：整段 txt 一份，所有账号同一段话。</item>
+/// <item><b>图片</b>：目录里一张图，按别名稳定哈希分，同账号同图。</item>
+/// <item><b>名字</b>：txt 一行一个，按别名稳定哈希挑一行。缺密码时名字改不动。</item>
+/// </list>
 /// </remarks>
 public sealed class ProfileEditExecutor : ITaskExecutor
 {
@@ -58,12 +63,27 @@ public sealed class ProfileEditExecutor : ITaskExecutor
 
         var images = BuildImageCandidates(context.Account.Alias, profile.ImageDirectory, logger);
 
+        // 名字按别名挑一行：逐任务执行时只有当前账号一个别名，按行号取会永远是第一行，
+        // 表现是「所有账号改成同一个名字」（头像图片踩过同一个坑）。
+        var nameSelection = NameSource.Pick(profile.NamesFile, context.Account.Alias);
+        foreach (var line in nameSelection.LogLines)
+        {
+            logger.Info(line);
+        }
+
+        if (string.IsNullOrWhiteSpace(profile.PageNamePassword) && nameSelection.Found)
+        {
+            logger.Warn("没有配置主页名称密码：主页名字会提交，但很可能不会生效，请在页面上人工核对");
+        }
+
         var request = new ProfileEditRequest(
             signature,
             profile.ProfileCategory,
             profile.UpdatePostingSettings,
             images,
-            profile.CommentsBlockWords);
+            profile.CommentsBlockWords,
+            nameSelection.Name ?? string.Empty,
+            profile.PageNamePassword);
 
         var page = new PlaywrightPageInterop(context.Page);
 

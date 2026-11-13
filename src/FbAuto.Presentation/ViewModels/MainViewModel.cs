@@ -57,6 +57,12 @@ public sealed partial class MainViewModel : ObservableObject
         _bitDescriptionFile = config.BitDescriptionFile;
         _imageDirectory = config.ImageDirectory;
         _bitImageDirectory = config.BitImageDirectory;
+        _signatureFile = config.SignatureFile;
+        _bitSignatureFile = config.BitSignatureFile;
+        _namesFile = config.NamesFile;
+        _bitNamesFile = config.BitNamesFile;
+        _pageNamePassword = config.PageNamePassword;
+        _bitPageNamePassword = config.BitPageNamePassword;
         _commentsBlockWords = string.Join(",", config.CommentsBlockWords);
         _deleteMessageLimit = config.DeleteMessageLimit.ToString(System.Globalization.CultureInfo.InvariantCulture);
         _deleteMessageCookieRootPath = config.DeleteMessageCookieRootPath;
@@ -133,6 +139,30 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>比特版的图片目录（与谷歌版成对，互不覆盖）。</summary>
     [ObservableProperty]
     private string _bitImageDirectory;
+
+    /// <summary>签名文件（谷歌版）。整段 txt 作为一段个性签名。</summary>
+    [ObservableProperty]
+    private string _signatureFile;
+
+    /// <summary>签名文件（比特版）。</summary>
+    [ObservableProperty]
+    private string _bitSignatureFile;
+
+    /// <summary>主页名称文件（谷歌版）。一行一个名字，按别名挑一行。</summary>
+    [ObservableProperty]
+    private string _namesFile;
+
+    /// <summary>主页名称文件（比特版）。</summary>
+    [ObservableProperty]
+    private string _bitNamesFile;
+
+    /// <summary>改主页名字时输的主账号密码（谷歌版）。留空则名字多半改不动。</summary>
+    [ObservableProperty]
+    private string _pageNamePassword;
+
+    /// <summary>改主页名字时输的主账号密码（比特版）。</summary>
+    [ObservableProperty]
+    private string _bitPageNamePassword;
 
     /// <summary>评论屏蔽词（不是「删除消息」的屏蔽词 —— 原版键名是 CommentsBlockText）。</summary>
     [ObservableProperty]
@@ -384,6 +414,12 @@ public sealed partial class MainViewModel : ObservableObject
         config.BitDescriptionFile = BitDescriptionFile ?? string.Empty;
         config.ImageDirectory = ImageDirectory ?? string.Empty;
         config.BitImageDirectory = BitImageDirectory ?? string.Empty;
+        config.SignatureFile = SignatureFile ?? string.Empty;
+        config.BitSignatureFile = BitSignatureFile ?? string.Empty;
+        config.NamesFile = NamesFile ?? string.Empty;
+        config.BitNamesFile = BitNamesFile ?? string.Empty;
+        config.PageNamePassword = PageNamePassword ?? string.Empty;
+        config.BitPageNamePassword = BitPageNamePassword ?? string.Empty;
 
         config.CommentsBlockWords = CommentsBlockWords
             .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

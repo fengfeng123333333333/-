@@ -210,4 +210,82 @@ public sealed class FakePageInterop : IPageInterop
         cancellationToken.ThrowIfCancellationRequested();
         return Task.FromResult(Counts.TryGetValue(selector, out var count) ? count : 0);
     }
+
+    // ── frame 内操作 ──────────────────────────────────────────────────────
+
+    /// <summary>页面里的 frame 清单。默认空 —— 「一个 iframe 都没有」是最常见的失败场景。</summary>
+    public List<FrameRef> Frames { get; } = [];
+
+    /// <summary>
+    /// 覆盖 frame 清单的来源。默认 null（直接用 <see cref="Frames"/>）。
+    /// </summary>
+    /// <remarks>
+    /// 用来模拟「iframe 后挂上来」：设置页先出壳，frame 清单第一次是空的、第二次才含 cquick。
+    /// 若没有这个钩子，「等 frame」这段逻辑在假页面上永远走的是「第一次就有」，
+    /// 把等待删掉也不会有用例变红。
+    /// </remarks>
+    public Func<IReadOnlyList<FrameRef>>? FramesProvider { get; set; }
+
+    /// <summary>
+    /// frame 里存在的选择器。
+    /// </summary>
+    /// <remarks>
+    /// 刻意**不按 frame 分开存**：被测流程只用一种片段（cquick）定位同一个 frame，
+    /// 按 frame 分组会让假页面比真页面更难写对，反而掩盖「找错 frame」这类问题 ——
+    /// 那种问题应该由「Frames 里没有 cquick」这一条直接暴露。
+    /// </remarks>
+    public HashSet<string> FrameSelectors { get; } = new(StringComparer.Ordinal);
+
+    public List<(string FrameUrlContains, string Selector, string Text)> FrameFilled { get; } = [];
+
+    public List<(string FrameUrlContains, string Selector, int Index)> FrameClicked { get; } = [];
+
+    /// <summary>frame 内点击回调（frame 片段, 选择器, 序号）。</summary>
+    /// <remarks>
+    /// 用来模拟「点了【预览修改】之后主页面才出现密码框」——
+    /// 没有这个钩子，「密码框还没出来就去点确认」这种顺序错误测不出来。
+    /// </remarks>
+    public Action<string, string, int>? OnFrameClick { get; set; }
+
+    public Task<IReadOnlyList<FrameRef>> GetFramesAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(FramesProvider?.Invoke() ?? (IReadOnlyList<FrameRef>)Frames.ToArray());
+    }
+
+    public Task<bool> FrameExistsAsync(
+        string frameUrlContains,
+        string selector,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var hasFrame = Frames.Exists(f => f.Matches(frameUrlContains));
+        return Task.FromResult(hasFrame && FrameSelectors.Contains(selector));
+    }
+
+    public Task FrameFillAsync(
+        string frameUrlContains,
+        string selector,
+        string text,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        FrameFilled.Add((frameUrlContains, selector, text));
+        Timeline.Add($"frame-fill:{text}");
+        return Task.CompletedTask;
+    }
+
+    public Task FrameClickAsync(
+        string frameUrlContains,
+        string selector,
+        int index = 0,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        FrameClicked.Add((frameUrlContains, selector, index));
+        Timeline.Add($"frame-click:{selector}");
+        OnFrameClick?.Invoke(frameUrlContains, selector, index);
+        return Task.CompletedTask;
+    }
 }

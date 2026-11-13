@@ -86,7 +86,8 @@ public sealed record ProfileEditOptions(
     string? ProfileHomeUrlTemplate = null,
     TimeSpan? ImageRejectionWindow = null,
     TimeSpan? SaveSettleTimeout = null,
-    string? FollowersContentUrl = null)
+    string? FollowersContentUrl = null,
+    string? NameSettingsUrl = null)
 {
     public static ProfileEditOptions Default { get; } = new();
 
@@ -123,6 +124,12 @@ public sealed record ProfileEditOptions(
         string.IsNullOrWhiteSpace(FollowersContentUrl)
             ? Selectors.FacebookUrls.FollowersContent
             : FollowersContentUrl;
+
+    /// <summary>主页名字设置页地址。</summary>
+    public string EffectiveNameSettingsUrl =>
+        string.IsNullOrWhiteSpace(NameSettingsUrl)
+            ? Selectors.FacebookUrls.NameSettings
+            : NameSettingsUrl;
 
     /// <summary>等元素出现。</summary>
     public async Task<bool> WaitVisibleAsync(

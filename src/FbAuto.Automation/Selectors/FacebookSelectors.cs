@@ -233,6 +233,57 @@ public static class FacebookSelectors
     /// </summary>
     public const string PostingSettingSave = "div[aria-label='保存隐私分享对象选择并关闭对话框']";
 
+    // ── 资料修改：主页名字 ─────────────────────────────────────────────────
+    //
+    // 这一项与其他项最大的不同：**表单在 iframe 里**。
+    // 原版日志「当前共有 N 个 frame:」→「frame[i] url=」→「未找到包含 cquick 的 frame」
+    // →「使用 frame 查找表单...」证明它是先枚举 frame、按 URL 片段挑一个再进去操作的。
+    // 下面四个选择器都必须在**那个 frame 内**使用（见 IPageInterop 的 Frame* 系列原语）。
+
+    /// <summary>
+    /// 名字表单所在 frame 的 URL 片段。原版串：<c>未找到包含 cquick 的 frame</c>
+    /// </summary>
+    public const string NameFrameUrlFragment = "cquick";
+
+    /// <summary>
+    /// 名字表单。原版串：<c>form[action='/settings/name_change_preview/']</c>
+    /// </summary>
+    /// <remarks>
+    /// 用 <c>action</c> 属性定位而不是 id/class：<c>action</c> 是表单提交地址，
+    /// 与后端接口绑定，比样式名稳定得多。
+    /// </remarks>
+    public const string NameForm = "form[action='/settings/name_change_preview/']";
+
+    /// <summary>名字输入框。原版串：<c>input[name='pseudonymous_name']</c></summary>
+    public const string NameInput = "input[name='pseudonymous_name']";
+
+    /// <summary>
+    /// 「预览修改」提交按钮。原版串只剩 <c>button[type='submit']</c>。
+    /// </summary>
+    /// <remarks>
+    /// 没有 aria-label 可依，只能按 <c>type='submit'</c> 认。若真机上这一页有多个 submit
+    /// （名字表单里通常只有一个），会按可见序号点第一个 —— 真机验收要确认点的是哪个。
+    /// </remarks>
+    public const string NamePreviewButton = "button[type='submit']";
+
+    /// <summary>
+    /// 二次确认里的主账号密码框。原版串：<c>#save_password</c>
+    /// </summary>
+    /// <remarks>
+    /// 这个框在**主 frame**（弹出的对话框）里，不在 cquick 那个 iframe 内。
+    /// 混用会表现为「未找到密码输入框」，然后流程以为没配密码直接去点确认。
+    /// </remarks>
+    public const string NamePasswordInput = "#save_password";
+
+    /// <summary>
+    /// 「申请更改」按钮。原版串：<c>button[value='1'].layerConfirm</c>
+    /// </summary>
+    /// <remarks>
+    /// <c>layerConfirm</c> 是 FB 老式图层对话框的类名，页面上可能同时存在多个，
+    /// 所以取「可见序号 0」—— 与 <c>IPageInterop</c> 的序号口径一致（隐藏的不占位）。
+    /// </remarks>
+    public const string NameConfirmButton = "button[value='1'].layerConfirm";
+
     // ── 删除消息 ───────────────────────────────────────────────────────────
     //
     // ⚠ 这一组**没有原版证据**。原版 DLL 里「删除消息」只有任务名与三句生命周期日志

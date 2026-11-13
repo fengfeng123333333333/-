@@ -640,10 +640,10 @@ public sealed class ProfileEditTests
         Assert.True(result.Success);
         Assert.Equal(0, result.FailedCount);
 
-        // 六项全跳过：背景图、头像（没给候选图）、发帖设置（没启用）、粉丝公开内容（没给屏蔽词）、签名、类别。
-        Assert.Equal(6, result.SkippedCount);
+        // 七项全跳过：背景图、头像（没给候选图）、发帖设置（没启用）、粉丝公开内容（没给屏蔽词）、签名、类别、主页名字。
+        Assert.Equal(7, result.SkippedCount);
         Assert.Equal(
-            ["背景图", "头像", "发帖设置", "粉丝公开内容", "个性签名", "类别"],
+            ["背景图", "头像", "发帖设置", "粉丝公开内容", "个性签名", "类别", "主页名字"],
             result.Fields.Select(f => f.Field));
 
         // 什么都没要求改，就不该碰页面。

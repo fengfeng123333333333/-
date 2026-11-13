@@ -470,4 +470,74 @@ public sealed class ProfileEditFlowIntegrationTests : ChromePageTestBase
         Assert.Equal(FollowersContentEditor.NoInputLine, result.Message);
         Assert.False(await ReadAsync<bool>(page, "() => window.__saved"));
     }
+
+    // ── 主页名字（iframe） ────────────────────────────────────────────────
+
+    /// <summary>
+    /// 七项里的最后一项，也是唯一跨 frame 的一项。
+    /// </summary>
+    /// <remarks>
+    /// 这条用例真正压住的是三件事：
+    /// <list type="number">
+    /// <item>frame 是按 URL 片段找到的（找错 frame 就填不进去）；</item>
+    /// <item>名字确实落进了 iframe 里那个输入框 —— 由预览页从查询串读出来断言，
+    /// 不是只看日志说「名字已填入」；</item>
+    /// <item>密码与确认按钮在**主 frame**，用 Frame* 原语会找不到。</item>
+    /// </list>
+    /// </remarks>
+    [Fact]
+    public async Task 主页名字_在iframe里填名字并走完密码确认()
+    {
+        WritePage(FacebookMimicPage.NameSettingsFrame(), "cquick-name.html");
+        WritePage(FacebookMimicPage.NamePreview(), "name-preview.html");
+        var host = WritePage(FacebookMimicPage.NameSettingsHost("cquick-name.html"), "name-settings.html");
+
+        var page = await Channel.NewPageAsync(Browser);
+        var interop = new PlaywrightPageInterop(page);
+        var options = NameOptions(host);
+
+        var result = await PageNameEditor.RunAsync(interop, "新主页名 01", "s3cret", options);
+
+        Assert.True(
+            result.Status == FieldEditStatus.Changed,
+            string.Join("\n", result.LogLines));
+
+        // frame 清单要打出来（原版就是「当前共有 N 个 frame」+ 每条 url）。
+        Assert.Contains(result.LogLines, x => x.Contains("当前共有"));
+        Assert.Contains(result.LogLines, x => x.Contains("frame[") && x.Contains("cquick-name.html"));
+
+        var name = await ReadAsync<string>(page, "() => window.__name");
+        Assert.Equal("新主页名 01", name);
+
+        Assert.True(await ReadAsync<bool>(page, "() => window.__confirmed"));
+        Assert.Equal("s3cret", await ReadAsync<string>(page, "() => window.__password"));
+    }
+
+    [Fact]
+    public async Task 主页名字_没有cquick的frame时失败且不进预览页()
+    {
+        WritePage(FacebookMimicPage.NameSettingsFrame(), "plain-frame.html");
+        WritePage(FacebookMimicPage.NamePreview(), "name-preview.html");
+        var host = WritePage(FacebookMimicPage.NameSettingsHost("plain-frame.html"), "name-settings.html");
+
+        var page = await Channel.NewPageAsync(Browser);
+        var interop = new PlaywrightPageInterop(page);
+
+        var result = await PageNameEditor.RunAsync(interop, "新名字", "s3cret", NameOptions(host));
+
+        Assert.Equal(FieldEditStatus.Failed, result.Status);
+        Assert.Contains(PageNameEditor.NoFrameLine, result.LogLines);
+
+        // 清单要能看到「frame 在，只是地址不含 cquick」——这是页面改版与 iframe 没挂上的分界线。
+        Assert.Contains(result.LogLines, x => x.Contains("plain-frame.html"));
+
+        Assert.DoesNotContain("name-preview", page.Url);
+    }
+
+    /// <summary>主页名字这一项的调参：只覆盖地址，等待参数压短。</summary>
+    private static ProfileEditOptions NameOptions(string hostPath) => new(
+        ActionTimeout: TimeSpan.FromSeconds(4),
+        SaveEnabledTimeout: TimeSpan.FromSeconds(4),
+        PollInterval: TimeSpan.FromMilliseconds(20),
+        NameSettingsUrl: Base(hostPath));
 }
