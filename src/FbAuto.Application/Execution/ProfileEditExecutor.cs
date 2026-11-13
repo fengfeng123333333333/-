@@ -62,7 +62,8 @@ public sealed class ProfileEditExecutor : ITaskExecutor
             signature,
             profile.ProfileCategory,
             profile.UpdatePostingSettings,
-            images);
+            images,
+            profile.CommentsBlockWords);
 
         var page = new PlaywrightPageInterop(context.Page);
 

@@ -31,6 +31,19 @@ public sealed class FakePageInterop : IPageInterop
 
     public int EscapeCount { get; private set; }
 
+    /// <summary>按键记录：(选择器, 键名, 序号)。</summary>
+    public List<(string Selector, string Key, int Index)> PressedKeys { get; } = [];
+
+    /// <summary>
+    /// 动作的**交错**时间线，例如 <c>fill:spam</c>、<c>press:Enter</c>。
+    /// </summary>
+    /// <remarks>
+    /// <see cref="Filled"/> 与 <see cref="PressedKeys"/> 各自成表，能数总量但看不出先后。
+    /// 「填一个词、按一次回车」这类流程，真正的语义在先后上 —— 先按回车再填，
+    /// 填的那个词就留在框里没变成标签，而两个表的长度完全一样。
+    /// </remarks>
+    public List<string> Timeline { get; } = [];
+
     public List<(string Selector, string FilePath)> FileInjections { get; } = [];
 
     /// <summary>导航过的 URL，按顺序。</summary>
@@ -66,6 +79,15 @@ public sealed class FakePageInterop : IPageInterop
     /// 没有这个钩子就只能断言「注入了两次」，测不出「第二次注入之前菜单重开过」。
     /// </remarks>
     public Action<string, string>? OnInject { get; set; }
+
+    /// <summary>
+    /// 按键回调（选择器, 键名）。默认 null。
+    /// </summary>
+    /// <remarks>
+    /// 用来数「回车按了几次」：屏蔽关键词是「一个词一次回车变成一个标签」，
+    /// 漏按一次不会报错，只是少一个词生效 —— 只有把次数钉住才看得出来。
+    /// </remarks>
+    public Action<string, string>? OnPressKey { get; set; }
 
     public Task NavigateAsync(string url, CancellationToken cancellationToken = default)
     {
@@ -111,6 +133,7 @@ public sealed class FakePageInterop : IPageInterop
     {
         cancellationToken.ThrowIfCancellationRequested();
         Filled.Add((selector, text, index));
+        Timeline.Add($"fill:{text}");
         return Task.CompletedTask;
     }
 
@@ -143,6 +166,19 @@ public sealed class FakePageInterop : IPageInterop
     {
         cancellationToken.ThrowIfCancellationRequested();
         EscapeCount++;
+        return Task.CompletedTask;
+    }
+
+    public Task PressKeyAsync(
+        string selector,
+        string key,
+        int index = 0,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        PressedKeys.Add((selector, key, index));
+        Timeline.Add($"press:{key}");
+        OnPressKey?.Invoke(selector, key);
         return Task.CompletedTask;
     }
 

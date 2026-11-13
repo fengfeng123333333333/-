@@ -222,6 +222,48 @@ public sealed class PlaywrightPageInterop : IPageInterop
         }
     }
 
+    public async Task PressKeyAsync(
+        string selector,
+        string key,
+        int index = 0,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var timeout = _options.EffectiveActionTimeout;
+        ILocator? locator;
+        try
+        {
+            locator = await FindVisibleAsync(selector, index, timeout, cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw PageActionException.EngineFailed("按键", selector, ex);
+        }
+
+        if (locator is null)
+        {
+            throw PageActionException.NotFound("按键", selector, index, (int)timeout.TotalSeconds);
+        }
+
+        try
+        {
+            // PressAsync 自己会先聚焦目标元素再按键，所以不用单独 Focus 一次。
+            // 这也正是不能拿页面级 Keyboard.PressAsync 顶替的原因：那个打在没有焦点的页面上。
+            await locator.PressAsync(key, new LocatorPressOptions
+            {
+                Timeout = (float)timeout.TotalMilliseconds,
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex) when (IsPageFailure(ex))
+        {
+            throw WrapActionFailure($"按键 {key}", selector, ex);
+        }
+    }
+
     public async Task FillAsync(
         string selector,
         string text,

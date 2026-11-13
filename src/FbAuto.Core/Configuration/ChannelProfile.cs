@@ -19,7 +19,10 @@ namespace FbAuto.Core.Configuration;
 /// <param name="SignatureFile">签名文件（.txt，整段一份）。</param>
 /// <param name="ProfileCategory">资料修改要设置的主页类别，空表示不改。</param>
 /// <param name="UpdatePostingSettings">是否把发帖权限改成仅限自己。</param>
-/// <param name="CommentsBlockWords">评论屏蔽词。</param>
+/// <param name="CommentsBlockWords">
+/// 屏蔽关键词，「资料修改 → 粉丝公开内容」用（原版 <c>Google/BitCommentsBlockText</c>）。
+/// 默认那五个词与原版串里的 <c>.com https pn dn inbox</c> 一致。
+/// </param>
 /// <param name="ImageDirectory">
 /// 头像与背景图共用的图片目录。**一个目录、一张图**：原版提示是
 /// 「头像和背景图均从该目录随机选取」+「头像和背景图在同一账号内使用同一张随机图片，不同账号随机不同」。

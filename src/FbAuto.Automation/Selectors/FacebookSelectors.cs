@@ -177,6 +177,20 @@ public static class FacebookSelectors
     /// <summary>资料页的「保存更改」按钮。原版串：<c>[aria-label='保存更改']</c></summary>
     public const string SaveChangesButton = "[aria-label='保存更改']";
 
+    /// <summary>
+    /// 粉丝公开内容页的「屏蔽关键词」输入框。
+    /// 原版串：<c>textarea[id='CometUSFTagInputFreeformDialogTagEditor'][placeholder*='限 1000']</c>
+    /// </summary>
+    /// <remarks>
+    /// 这是一个「输入即打标签」的框：敲一个词按回车才变成一个标签，只填不回车则一个词都不会生效。
+    /// 所以这一项必须用 <c>PressKeyAsync</c>（Enter），不能只 <c>FillAsync</c>。
+    ///
+    /// <c>id</c> 里的 <c>Comet</c> 是 FB 的内部代号，改版时最容易变；<c>placeholder*='限 1000'</c>
+    /// 是兜底 —— 只写 id 的话，id 一变就整项失效。
+    /// </remarks>
+    public const string FollowersKeywordInput =
+        "textarea[id='CometUSFTagInputFreeformDialogTagEditor'][placeholder*='限 1000']";
+
     /// <summary>类别编辑入口。原版串：<c>[aria-label='编辑类别']</c></summary>
     public const string EditCategoryButton = "[aria-label='编辑类别']";
 

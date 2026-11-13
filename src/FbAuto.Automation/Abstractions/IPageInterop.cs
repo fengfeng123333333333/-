@@ -89,6 +89,23 @@ public interface IPageInterop
     Task PressEscapeAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// 先聚焦第 <paramref name="index"/> 个可见匹配，再按一个键（<c>Enter</c> / <c>Tab</c> 这类 Playwright 键名）。
+    /// </summary>
+    /// <remarks>
+    /// 单独一个原语而不是复用 <see cref="FillAsync"/>：FB 的「屏蔽关键词」是一个输入框加标签列表，
+    /// 每敲一个词都要按回车才会变成一个标签，只填文本不按回车，保存后一个词都不会生效 ——
+    /// 而日志上「已输入 5 个屏蔽词」看起来一切正常。
+    ///
+    /// 也不复用 <see cref="PressEscapeAsync"/>：那个是页面级按键（不针对元素），
+    /// 拿它去「给输入框回车」会打在一个没有焦点的页面上，什么都不会发生。
+    /// </remarks>
+    Task PressKeyAsync(
+        string selector,
+        string key,
+        int index = 0,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// 给 file input 注入文件路径（不弹系统对话框）。
     /// </summary>
     /// <remarks>
@@ -161,6 +178,13 @@ public sealed class NotConnectedPageInterop : IPageInterop
         Task.FromResult(string.Empty);
 
     public Task PressEscapeAsync(CancellationToken cancellationToken = default) =>
+        throw new InvalidOperationException("页面尚未接通，不能按键");
+
+    public Task PressKeyAsync(
+        string selector,
+        string key,
+        int index = 0,
+        CancellationToken cancellationToken = default) =>
         throw new InvalidOperationException("页面尚未接通，不能按键");
 
     public Task SetFileInputAsync(string selector, string filePath, CancellationToken cancellationToken = default) =>

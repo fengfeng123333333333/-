@@ -418,4 +418,56 @@ public sealed class ProfileEditFlowIntegrationTests : ChromePageTestBase
         Assert.Contains("未找到【头像操作】按钮", result.Message);
         Assert.Equal(0, await ReadAsync<int>(page, "() => window.__avatarUploads.length"));
     }
+
+    // ── 粉丝公开内容 ─────────────────────────────────────────────────────
+
+    private ProfileEditOptions FollowersOptionsFor(string path) => new(
+        ActionTimeout: TimeSpan.FromSeconds(4),
+        SaveEnabledTimeout: TimeSpan.FromSeconds(4),
+        PollInterval: TimeSpan.FromMilliseconds(20),
+        FollowersContentUrl: Base(path));
+
+    /// <summary>
+    /// 屏蔽关键词必须真的变成标签，而不是只填进输入框。
+    /// </summary>
+    /// <remarks>
+    /// 仿真页只在 <c>keydown Enter</c> 时才把输入框内容变成 <c>.tag</c> 节点，
+    /// 与真页面一致。若产品代码漏掉 <c>PressKeyAsync</c>，页面上 <c>__tags</c> 会是空数组 ——
+    /// 而日志里「已添加屏蔽词: x」照样一行不少。这条用例就是压这个差别。
+    /// </remarks>
+    [Fact]
+    public async Task 屏蔽关键词逐词回车后变成标签()
+    {
+        var path = WritePage(FollowersMimicPage.Build(), "followers.html");
+        var page = await Channel.NewPageAsync(Browser);
+        var interop = new PlaywrightPageInterop(page);
+
+        var result = await FollowersContentEditor.RunAsync(
+            interop,
+            [".com", "https", "pn"],
+            FollowersOptionsFor(path));
+
+        Assert.Equal(FieldEditStatus.Changed, result.Status);
+
+        var tags = await ReadAsync<string[]>(page, "() => window.__tags");
+        Assert.Equal([".com", "https", "pn"], tags);
+        Assert.True(await ReadAsync<bool>(page, "() => window.__saved"));
+    }
+
+    [Fact]
+    public async Task 粉丝公开内容页没有关键词框时跳过()
+    {
+        var path = WritePage(FollowersMimicPage.Build(withInput: false), "followers-empty.html");
+        var page = await Channel.NewPageAsync(Browser);
+        var interop = new PlaywrightPageInterop(page);
+
+        var result = await FollowersContentEditor.RunAsync(
+            interop,
+            ["spam"],
+            FollowersOptionsFor(path));
+
+        Assert.Equal(FieldEditStatus.Skipped, result.Status);
+        Assert.Equal(FollowersContentEditor.NoInputLine, result.Message);
+        Assert.False(await ReadAsync<bool>(page, "() => window.__saved"));
+    }
 }

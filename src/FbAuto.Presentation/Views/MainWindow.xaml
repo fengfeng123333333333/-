@@ -299,16 +299,6 @@
 
                                     <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
 
-                                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
-
-                                    <TextBlock Text="评论屏蔽词（逗号分隔，命中即跳过该条评论）：" Style="{StaticResource FieldLabel}"
-                                               HorizontalAlignment="Left" Margin="0,0,0,6" />
-                                    <TextBox Height="56" AcceptsReturn="True" TextWrapping="Wrap"
-                                             VerticalContentAlignment="Top"
-                                             Text="{Binding CommentsBlockWords, UpdateSourceTrigger=PropertyChanged}" />
-                                    <TextBlock Text="默认与原版一致：.com,https,pn,dn,inbox（原版键名是 CommentsBlockText，评论用的）"
-                                               Style="{StaticResource Muted}" Margin="0,6,0,0" />
-
                                     <TextBlock Text="公共主页发帖设置：主页名称 · 个性签名 · 密码 · 头像 · 评论区屏蔽词"
                                                Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,4" />
                                     <TextBlock Text="密码与凭据不在界面明文保存，只存 cred:// 引用（与原版的差异点）"
@@ -370,6 +360,16 @@
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
                                                 Width="62" Height="26" Margin="6,0,0,0" />
                                     </Grid>
+
+                                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
+
+                                    <TextBlock Text="屏蔽关键词（粉丝公开内容，逗号分隔）：" Style="{StaticResource FieldLabel}"
+                                               HorizontalAlignment="Left" Margin="0,0,0,6" />
+                                    <TextBox Height="56" AcceptsReturn="True" TextWrapping="Wrap"
+                                             VerticalContentAlignment="Top"
+                                             Text="{Binding CommentsBlockWords, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Text="原版默认：.com,https,pn,dn,inbox。这一项是「资料修改 → 粉丝公开内容」，不是视频上传用的。"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,6,0,0" />
                                 </StackPanel>
                             </ScrollViewer>
                         </TabItem>

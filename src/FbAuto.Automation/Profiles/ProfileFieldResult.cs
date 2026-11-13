@@ -31,6 +31,17 @@ public sealed record ProfileFieldResult(
     public static ProfileFieldResult Skipped(string field, string message) =>
         new(field, FieldEditStatus.Skipped, message, [message]);
 
+    /// <summary>
+    /// 跳过，但保留已经走过的日志行。
+    /// </summary>
+    /// <remarks>
+    /// 与上一个重载的区别在「半路跳过」：例如粉丝公开内容已经跳转过去了，
+    /// 才发现关键词输入框不在 —— 不把「跳转到粉丝公开内容设置页...」带上，
+    /// 日志里就看不到它其实动过页面。
+    /// </remarks>
+    public static ProfileFieldResult Skipped(string field, string message, IReadOnlyList<string> lines) =>
+        new(field, FieldEditStatus.Skipped, message, lines);
+
     public static ProfileFieldResult Failed(string field, string message, IReadOnlyList<string> lines) =>
         new(field, FieldEditStatus.Failed, message, lines);
 
@@ -74,7 +85,8 @@ public sealed record ProfileEditOptions(
     string? PostingSettingsUrl = null,
     string? ProfileHomeUrlTemplate = null,
     TimeSpan? ImageRejectionWindow = null,
-    TimeSpan? SaveSettleTimeout = null)
+    TimeSpan? SaveSettleTimeout = null,
+    string? FollowersContentUrl = null)
 {
     public static ProfileEditOptions Default { get; } = new();
 
@@ -105,6 +117,12 @@ public sealed record ProfileEditOptions(
     /// <summary>主页首页地址模板。</summary>
     public string EffectiveProfileHomeUrlTemplate =>
         string.IsNullOrWhiteSpace(ProfileHomeUrlTemplate) ? Selectors.FacebookUrls.ProfileHome : ProfileHomeUrlTemplate;
+
+    /// <summary>粉丝公开内容设置页地址。</summary>
+    public string EffectiveFollowersContentUrl =>
+        string.IsNullOrWhiteSpace(FollowersContentUrl)
+            ? Selectors.FacebookUrls.FollowersContent
+            : FollowersContentUrl;
 
     /// <summary>等元素出现。</summary>
     public async Task<bool> WaitVisibleAsync(

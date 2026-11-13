@@ -11,14 +11,21 @@ namespace FbAuto.Automation.Profiles;
 /// 头像与背景图的候选图片，**第一个是本账号应得的那张**，其余作换图备选（被页面拒绝时依次换）。
 /// 空表示不改这两项。
 /// </param>
+/// <param name="BlockWords">
+/// 粉丝公开内容里的屏蔽关键词。空表示不改这一项（原版日志「已跳过【修改粉丝公开内容】」）。
+/// </param>
 public sealed record ProfileEditRequest(
     string Signature = "",
     string Category = "",
     bool UpdatePostingSettings = false,
-    IReadOnlyList<string>? ImageCandidates = null)
+    IReadOnlyList<string>? ImageCandidates = null,
+    IReadOnlyList<string>? BlockWords = null)
 {
     /// <summary>候选图片，永不为 null。</summary>
     public IReadOnlyList<string> Images => ImageCandidates ?? [];
+
+    /// <summary>屏蔽关键词，永不为 null。</summary>
+    public IReadOnlyList<string> Words => BlockWords ?? [];
 }
 
 /// <summary>资料修改的整体结果。</summary>
@@ -51,12 +58,21 @@ public sealed record ProfileEditResult(
 /// 但**汇总时只要有一项失败就判整体失败**。不能因为「改成了两项」就报成功 ——
 /// 使用者看到成功就不会去核对页面，而漏改的那一项要等他自己发现。
 ///
-/// **顺序按原版日志块排**：<c>修改头像…</c>、<c>修改背景图…</c>、<c>修改公共主页发帖设置…</c>、
-/// <c>修改个性签名…</c>、<c>修改类别…</c>、<c>修改主页名字…</c>。
+/// **顺序按原版的分发串排**。原版在同一个方法里按项出现了「主文案 / 失败 / 跳过」三连，
+/// 顺序是：
+/// <code>
+/// 已跳过【修改背景图】 → 已跳过【修改头像】 → 修改公共主页发帖设置 → 修改粉丝公开内容
+/// → 修改个性签名 → 修改类别 → 修改主页名字 → 修改完成
+/// </code>
 /// 顺序本身不影响结果（每项自己导航、自己保存），照它排是为了拿原版日志逐行对照时不用先做一次换算。
 ///
-/// 还差两项：<b>粉丝公开内容</b>（关键词屏蔽那一段）与<b>主页名字</b>（iframe + 主账号密码二次确认），
-/// 两者单独做。这一版先补上头像与背景图。
+/// <para>
+/// **早先这里是错的**：S11 只看了「修改头像…」在字符串堆里比「修改背景图…」靠前就定了顺序，
+/// 但字符串堆反映的是**方法体的书写顺序**，不是**分发顺序**。真正决定执行先后的是上面那串跳过/失败/完成的分发文案。
+/// 教训：堆里两段串的先后不能当执行先后用，要找同一组「每项一条」的串来定顺序。
+/// </para>
+///
+/// 还差一项：<b>主页名字</b>（iframe + 主账号密码二次确认），单独做。
 /// </remarks>
 public static class ProfileEditFlow
 {
@@ -112,14 +128,14 @@ public static class ProfileEditFlow
         var fields = new List<ProfileFieldResult>();
 
         fields.Add(await GuardAsync(
-            AvatarEditor.FieldName,
-            () => AvatarEditor.RunAsync(page, id!, request.Images, options, cancellationToken),
+            CoverPhotoEditor.FieldName,
+            () => CoverPhotoEditor.RunAsync(page, id!, request.Images, options, cancellationToken),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         fields.Add(await GuardAsync(
-            CoverPhotoEditor.FieldName,
-            () => CoverPhotoEditor.RunAsync(page, id!, request.Images, options, cancellationToken),
+            AvatarEditor.FieldName,
+            () => AvatarEditor.RunAsync(page, id!, request.Images, options, cancellationToken),
             lines,
             cancellationToken).ConfigureAwait(false));
 
@@ -129,6 +145,12 @@ public static class ProfileEditFlow
                 ? PostingSettingsEditor.RunAsync(page, options, cancellationToken)
                 : Task.FromResult(ProfileFieldResult.Skipped(
                     PostingSettingsEditor.FieldName, "未启用发帖设置修改")),
+            lines,
+            cancellationToken).ConfigureAwait(false));
+
+        fields.Add(await GuardAsync(
+            FollowersContentEditor.FieldName,
+            () => FollowersContentEditor.RunAsync(page, request.Words, options, cancellationToken),
             lines,
             cancellationToken).ConfigureAwait(false));
 

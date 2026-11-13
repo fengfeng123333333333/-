@@ -45,6 +45,15 @@ public static class FacebookUrls
     public const string NameSettings = "https://www.facebook.com/settings?tab=profile&section=name&view";
 
     /// <summary>
+    /// 粉丝公开内容设置页。原版串：<c>settings?tab=followers_and_public_content</c>
+    /// （串里被拆成 <c>https</c> / <c>settings</c> / <c>tab</c> / <c>followers_and_public_content</c> 几段）。
+    /// </summary>
+    /// <remarks>
+    /// 这一页上做的是「屏蔽关键词」：一个输入框加标签列表，敲一个词按一次回车变成一个标签。
+    /// </remarks>
+    public const string FollowersContent = "https://www.facebook.com/settings?tab=followers_and_public_content";
+
+    /// <summary>
     /// Messenger 收件箱（会话列表）。
     /// </summary>
     /// <remarks>

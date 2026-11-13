@@ -75,17 +75,21 @@ public sealed class AppConfig
     public int ScheduledStartHour { get; set; }
 
     /// <summary>
-    /// 评论屏蔽词，默认与原版一致。
+    /// 屏蔽关键词，默认与原版一致。**它属于「资料修改 → 粉丝公开内容」**，不是评论、也跟视频上传无关。
     /// </summary>
     /// <remarks>
-    /// **这条跟「删除消息」无关。** 早先这里叫 <c>MessageBlockWords</c> 并注释成
-    /// 「删除消息的屏蔽词」，是看着字段名猜的：原版 settings.json 里它的键是
-    /// <c>GoogleCommentsBlockText</c> / <c>BitCommentsBlockText</c>，指的是**评论**。
+    /// 这一项前后错了两次，都记在这里：
+    /// <list type="number">
+    /// <item>先叫 <c>MessageBlockWords</c> 并注释成「删除消息的屏蔽词」——看着字段名猜的。
+    /// 原版键名是 <c>GoogleCommentsBlockText</c> / <c>BitCommentsBlockText</c>。</item>
+    /// <item>改名成 <c>CommentsBlockWords</c> 后又被理解成「评论」，界面放进了视频上传页。
+    /// 回证据才看清它出现在**粉丝公开内容**那一段串里：
+    /// 「跳转到粉丝公开内容设置页...」→ <c>textarea[id='CometUSFTagInputFreeformDialogTagEditor']</c>
+    /// → 「输入屏蔽词...」→ <c>.com https pn dn inbox</c> → 「共 N 个屏蔽词:」→ <c>Enter</c>
+    /// → 「已添加屏蔽词:」→ 「粉丝公开内容设置完成」。
+    /// 默认值那五个词与这段串一字不差，就是这条的证据。</item>
+    /// </list>
     /// 删除消息在原版里唯一的专属参数是 <see cref="DeleteMessageCookieRootPath"/>。
-    /// 名字错了的代价是「做删除消息时以为屏蔽词有用」，方向直接带偏。
-    ///
-    /// 旧配置里若有 <c>MessageBlockWords</c> 键，读不到会回落到这里的默认值 ——
-    /// 而默认值就是原版那五个词，所以不影响行为。
     /// </remarks>
     public string[] CommentsBlockWords { get; set; } = [".com", "https", "pn", "dn", "inbox"];
 
