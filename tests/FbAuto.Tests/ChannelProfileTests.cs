@@ -47,6 +47,9 @@ public sealed class ChannelProfileTests
             // 只加断言不加反例，等于写着检查、实际永远绿。
             NamesFile = @"D:\g\names.txt",
             PageNamePassword = "g-pw",
+
+            // 结果保存目录同上：回落的后果是比特版账号的失败写进谷歌版那份清单。
+            ProfileEditResultExportDir = @"D:\g\export",
         };
 
         var bit = config.ForChannel(BrowserChannelKind.Bit);
@@ -64,6 +67,9 @@ public sealed class ChannelProfileTests
         // 而名字一改就要走 FB 审核，比换错头像严重得多。
         Assert.Equal(string.Empty, bit.NamesFile);
         Assert.Equal(string.Empty, bit.PageNamePassword);
+
+        // 结果保存目录：回落的后果是比特版的失败混进谷歌版那份 AccountErrors 文件。
+        Assert.Equal(string.Empty, bit.ProfileEditResultExportDir);
     }
 
     [Fact]
@@ -78,6 +84,7 @@ public sealed class ChannelProfileTests
             BitImageDirectory = @"D:\b\images",
             BitNamesFile = @"D:\b\names.txt",
             BitPageNamePassword = "b-pw",
+            BitProfileEditResultExportDir = @"D:\b\export",
         };
 
         var google = config.ForChannel(BrowserChannelKind.Google);
@@ -89,6 +96,7 @@ public sealed class ChannelProfileTests
         Assert.Equal(string.Empty, google.ImageDirectory);
         Assert.Equal(string.Empty, google.NamesFile);
         Assert.Equal(string.Empty, google.PageNamePassword);
+        Assert.Equal(string.Empty, google.ProfileEditResultExportDir);
     }
 
     [Fact]
@@ -104,6 +112,8 @@ public sealed class ChannelProfileTests
             BitNamesFile = @"D:\b\names.txt",
             PageNamePassword = "g-pw",
             BitPageNamePassword = "b-pw",
+            ProfileEditResultExportDir = @"D:\g\export",
+            BitProfileEditResultExportDir = @"D:\b\export",
             UpdatePostingSettings = false,
             BitUpdatePostingSettings = true,
             CommentsBlockWords = ["g1", "g2"],
@@ -121,10 +131,117 @@ public sealed class ChannelProfileTests
         Assert.Equal(@"D:\b\names.txt", bit.NamesFile);
         Assert.Equal("g-pw", google.PageNamePassword);
         Assert.Equal("b-pw", bit.PageNamePassword);
+        Assert.Equal(@"D:\g\export", google.ProfileEditResultExportDir);
+        Assert.Equal(@"D:\b\export", bit.ProfileEditResultExportDir);
         Assert.False(google.UpdatePostingSettings);
         Assert.True(bit.UpdatePostingSettings);
         Assert.Equal(["g1", "g2"], google.CommentsBlockWords);
         Assert.Equal(["b1"], bit.CommentsBlockWords);
+    }
+
+    /// <summary>
+    /// 七项开关也必须成对 —— 谷歌版关掉的一项不能让比特版跟着关。
+    /// </summary>
+    /// <remarks>
+    /// **两侧都显式赋成不同的值**，不靠默认值。这是 S11 与 S13 各栽过一次的地方：
+    /// 只写「谷歌版是 false」的断言，在两边都落到默认值（同为 true 或同为空串）时也成立，
+    /// 往 ForChannel 里注入「比特版回落谷歌版」这类错，用例照样绿。
+    ///
+    /// 发帖设置那一项用的是 <c>UpdatePostingSettings</c>（原版键名 EditPagePostSettings），
+    /// 它本来就在这条链路上，这里一并钉住。
+    /// </remarks>
+    [Fact]
+    public void 七项开关各自独立不互相回落()
+    {
+        var config = new AppConfig
+        {
+            EditCoverImage = false,
+            BitEditCoverImage = true,
+            EditAvatar = true,
+            BitEditAvatar = false,
+            UpdatePostingSettings = false,
+            BitUpdatePostingSettings = true,
+            EditFollowersContent = true,
+            BitEditFollowersContent = false,
+            EditSignature = false,
+            BitEditSignature = true,
+            EditCategory = true,
+            BitEditCategory = false,
+            EditPageName = false,
+            BitEditPageName = true,
+        };
+
+        var google = config.ForChannel(BrowserChannelKind.Google);
+        var bit = config.ForChannel(BrowserChannelKind.Bit);
+
+        Assert.False(google.EditCoverImage);
+        Assert.True(bit.EditCoverImage);
+        Assert.True(google.EditAvatar);
+        Assert.False(bit.EditAvatar);
+        Assert.False(google.UpdatePostingSettings);
+        Assert.True(bit.UpdatePostingSettings);
+        Assert.True(google.EditFollowersContent);
+        Assert.False(bit.EditFollowersContent);
+        Assert.False(google.EditSignature);
+        Assert.True(bit.EditSignature);
+        Assert.True(google.EditCategory);
+        Assert.False(bit.EditCategory);
+        Assert.False(google.EditPageName);
+        Assert.True(bit.EditPageName);
+    }
+
+    /// <summary>
+    /// 缺键的老配置必须仍然「七项照改」。
+    /// </summary>
+    /// <remarks>
+    /// 原版两份 settings.json 里都没有 <c>EditXxx</c> 这七个键，所以老配置反序列化时走的是初值。
+    /// 初值一旦写成 false，升级后的使用者会看到任务全部报成功、实际一项没改 ——
+    /// 而且没有任何失败记录可查，比直接报错难查得多。
+    ///
+    /// 这条用例盯的就是初值本身：把 <c>AppConfig</c> 里任意一个 <c>= true</c> 改成 <c>false</c> 就会红。
+    /// </remarks>
+    [Fact]
+    public void 老配置缺开关键时七项照改()
+    {
+        var profile = new AppConfig().ForChannel(BrowserChannelKind.Google);
+        var bitProfile = new AppConfig().ForChannel(BrowserChannelKind.Bit);
+
+        Assert.True(profile.EditCoverImage);
+        Assert.True(profile.EditAvatar);
+        Assert.True(profile.UpdatePostingSettings);
+        Assert.True(profile.EditFollowersContent);
+        Assert.True(profile.EditSignature);
+        Assert.True(profile.EditCategory);
+        Assert.True(profile.EditPageName);
+
+        Assert.True(bitProfile.EditCoverImage);
+        Assert.True(bitProfile.EditAvatar);
+        Assert.True(bitProfile.UpdatePostingSettings);
+        Assert.True(bitProfile.EditFollowersContent);
+        Assert.True(bitProfile.EditSignature);
+        Assert.True(bitProfile.EditCategory);
+        Assert.True(bitProfile.EditPageName);
+
+        // 七项全开时，清单必须是完整七项且按原版分发顺序。
+        Assert.Equal(
+            ["背景图", "头像", "发帖设置", "粉丝公开内容", "个性签名", "类别", "主页名字"],
+            profile.EnabledEditItems);
+    }
+
+    /// <summary>关掉的项不出现在「本次要改」清单里，且顺序不因缺项而变。</summary>
+    [Fact]
+    public void 关掉的项不进入待改清单()
+    {
+        var config = new AppConfig
+        {
+            EditCoverImage = false,
+            EditCategory = false,
+            EditPageName = false,
+        };
+
+        var profile = config.ForChannel(BrowserChannelKind.Google);
+
+        Assert.Equal(["头像", "发帖设置", "粉丝公开内容", "个性签名"], profile.EnabledEditItems);
     }
 
     /// <summary>

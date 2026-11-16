@@ -18,6 +18,15 @@ public static class SignatureEditor
 {
     public const string FieldName = "个性签名";
 
+    /// <summary>
+    /// 原版跳过串，本项未勾选时打这一句。
+    /// </summary>
+    /// <remarks>
+    /// 签名文件为空走的是另一句更具体的说明（「签名文件为空…」），两者别混：
+    /// 前者是「这次不打算改」，后者是「想改但没料」。
+    /// </remarks>
+    public const string SkipLine = "已跳过【修改个性签名】";
+
     public static async Task<ProfileFieldResult> RunAsync(
         IPageInterop page,
         string profileId,

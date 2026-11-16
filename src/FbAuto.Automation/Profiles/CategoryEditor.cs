@@ -32,6 +32,15 @@ public static class CategoryEditor
 {
     public const string FieldName = "类别";
 
+    /// <summary>
+    /// 原版跳过串，本项未勾选时打这一句。
+    /// </summary>
+    /// <remarks>
+    /// 类别为空走的是「类别为空，跳过该项」，两者别混：
+    /// 前者是「这次不打算改」，后者是「想改但没料」。
+    /// </remarks>
+    public const string SkipLine = "已跳过【修改类别】";
+
     public static async Task<ProfileFieldResult> RunAsync(
         IPageInterop page,
         string profileId,

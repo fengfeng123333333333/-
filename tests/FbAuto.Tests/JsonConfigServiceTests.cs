@@ -44,7 +44,53 @@ public sealed class JsonConfigServiceTests : IDisposable
         Assert.Equal(string.Empty, config.BitNamesFile);
         Assert.Equal(string.Empty, config.PageNamePassword);
         Assert.Equal(string.Empty, config.BitPageNamePassword);
+
+        // 结果保存目录默认空 = 不导出，与原版两份 settings.json 的取值一致。
+        Assert.Equal(string.Empty, config.ProfileEditResultExportDir);
+        Assert.Equal(string.Empty, config.BitProfileEditResultExportDir);
         Assert.True(_logger.Contains("INF", "配置文件不存在"));
+    }
+
+    /// <summary>
+    /// 老 config.json 里没有七项开关键时，读出来必须是「七项都改」。
+    /// </summary>
+    /// <remarks>
+    /// 走的是真实的反序列化路径（不是直接 new AppConfig）：
+    /// <c>JsonSerializer.Deserialize</c> 先执行无参构造器的初值，再只覆盖 JSON 里出现的键。
+    /// 这条用例钉的正是「缺键 = 保留初值」这个前提 —— 它一旦不成立（比如换了序列化器、
+    /// 或有人给开关加了 <c>JsonIgnore(Condition = WhenWritingDefault)</c>），
+    /// 升级后所有老用户的任务都会变成「报成功但一项没改」。
+    /// </remarks>
+    [Fact]
+    public void 老配置缺开关键时读出七项都改()
+    {
+        var service = CreateService();
+        File.WriteAllText(service.ConfigFilePath, """
+            {
+              "VideoDirectory": "D:\\g\\videos",
+              "SignatureFile": "D:\\g\\sig.txt",
+              "BitSignatureFile": "D:\\b\\sig.txt",
+              "PageNamePassword": "pw"
+            }
+            """);
+
+        var config = service.Load();
+
+        Assert.Equal(@"D:\g\sig.txt", config.SignatureFile);
+        Assert.True(config.EditCoverImage);
+        Assert.True(config.EditAvatar);
+        Assert.True(config.UpdatePostingSettings);
+        Assert.True(config.EditFollowersContent);
+        Assert.True(config.EditSignature);
+        Assert.True(config.EditCategory);
+        Assert.True(config.EditPageName);
+        Assert.True(config.BitEditCoverImage);
+        Assert.True(config.BitEditAvatar);
+        Assert.True(config.BitUpdatePostingSettings);
+        Assert.True(config.BitEditFollowersContent);
+        Assert.True(config.BitEditSignature);
+        Assert.True(config.BitEditCategory);
+        Assert.True(config.BitEditPageName);
     }
 
     [Theory]
@@ -127,6 +173,8 @@ public sealed class JsonConfigServiceTests : IDisposable
         config.BitNamesFile = @"D://b-names.txt";
         config.PageNamePassword = "g-pw";
         config.BitPageNamePassword = "b-pw";
+        config.ProfileEditResultExportDir = @"D://g-export";
+        config.BitProfileEditResultExportDir = @"D://b-export";
         first.Save();
 
         var reloaded = new JsonConfigService(_dir.Path, new TestLogger()).Load();
@@ -139,6 +187,8 @@ public sealed class JsonConfigServiceTests : IDisposable
         Assert.Equal(@"D://b-names.txt", reloaded.BitNamesFile);
         Assert.Equal("g-pw", reloaded.PageNamePassword);
         Assert.Equal("b-pw", reloaded.BitPageNamePassword);
+        Assert.Equal(@"D://g-export", reloaded.ProfileEditResultExportDir);
+        Assert.Equal(@"D://b-export", reloaded.BitProfileEditResultExportDir);
     }
 
     [Fact]

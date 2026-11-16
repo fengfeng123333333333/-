@@ -141,6 +141,68 @@ public sealed class AppConfig
     /// <summary>改主页名字时输的主账号密码（比特版）。</summary>
     public string BitPageNamePassword { get; set; } = string.Empty;
 
+    // ── 资料修改的七项开关（原版 GoogleEditXxx / BitEditXxx）──────────────────
+    //
+    // **默认一律 true**。两份原版 settings.json 里都没有这七个键（原版不持久化），
+    // 所以老配置反序列化时缺键，落到初值 —— 初值必须是「照旧改」，
+    // 否则升级后任务会全部报成功、实际一项没改（详见 ChannelProfile 的 remarks）。
+    //
+    // 为什么这些初值能生效：JsonConfigService 走的是 `JsonSerializer.Deserialize<AppConfig>`，
+    // 它先调无参构造器（初值器执行），再只覆盖 JSON 里出现的属性。缺键 = 初值保留。
+    //
+    // 发帖设置那一项没有对应字段：它的开关是上面的 UpdatePostingSettings
+    // （原版键名 EditPagePostSettings，改名会丢已有配置值）。
+
+    /// <summary>是否改背景图（谷歌版）。</summary>
+    public bool EditCoverImage { get; set; } = true;
+
+    /// <summary>是否改头像（谷歌版）。</summary>
+    public bool EditAvatar { get; set; } = true;
+
+    /// <summary>是否改粉丝公开内容（谷歌版）。</summary>
+    public bool EditFollowersContent { get; set; } = true;
+
+    /// <summary>是否改个性签名（谷歌版）。</summary>
+    public bool EditSignature { get; set; } = true;
+
+    /// <summary>是否改类别（谷歌版）。</summary>
+    public bool EditCategory { get; set; } = true;
+
+    /// <summary>是否改主页名字（谷歌版）。</summary>
+    public bool EditPageName { get; set; } = true;
+
+    /// <summary>是否改背景图（比特版）。</summary>
+    public bool BitEditCoverImage { get; set; } = true;
+
+    /// <summary>是否改头像（比特版）。</summary>
+    public bool BitEditAvatar { get; set; } = true;
+
+    /// <summary>是否改粉丝公开内容（比特版）。</summary>
+    public bool BitEditFollowersContent { get; set; } = true;
+
+    /// <summary>是否改个性签名（比特版）。</summary>
+    public bool BitEditSignature { get; set; } = true;
+
+    /// <summary>是否改类别（比特版）。</summary>
+    public bool BitEditCategory { get; set; } = true;
+
+    /// <summary>是否改主页名字（比特版）。</summary>
+    public bool BitEditPageName { get; set; } = true;
+
+    // ── 「资料修改结果保存目录」（原版 Google/BitProfileEditResultExportDir）──
+    //
+    // 原版两份 settings.json 里这个键都存在，值是空串 —— 默认不导出。
+    // 空串必须保持「不导出」语义：不能回落到程序目录，否则使用者会莫名其妙多出一堆文件。
+    //
+    // 原版的谷歌侧键名带 Google 前缀，这里按本类既有约定用不带前缀的名字
+    // （与 NamesFile 对 GoogleNamesFilePath 的处理一致），比特侧照旧加 Bit。
+
+    /// <summary>资料修改结果保存目录（谷歌版）。空 = 不导出账号失败清单。</summary>
+    public string ProfileEditResultExportDir { get; set; } = string.Empty;
+
+    /// <summary>资料修改结果保存目录（比特版）。空 = 不导出账号失败清单。</summary>
+    public string BitProfileEditResultExportDir { get; set; } = string.Empty;
+
     /// <summary>
     /// 按通道取业务参数。执行器只调这一个方法，不直接读字段 ——
     /// 这样「比特版读成了谷歌版的目录」这类错误只有一处可能发生，且能被单测钉住。
@@ -157,7 +219,14 @@ public sealed class AppConfig
             BitCommentsBlockWords,
             BitImageDirectory,
             BitNamesFile,
-            BitPageNamePassword),
+            BitPageNamePassword,
+            BitEditCoverImage,
+            BitEditAvatar,
+            BitEditFollowersContent,
+            BitEditSignature,
+            BitEditCategory,
+            BitEditPageName,
+            BitProfileEditResultExportDir),
         _ => new ChannelProfile(
             BrowserChannelKind.Google,
             VideoDirectory,
@@ -168,7 +237,14 @@ public sealed class AppConfig
             CommentsBlockWords,
             ImageDirectory,
             NamesFile,
-            PageNamePassword),
+            PageNamePassword,
+            EditCoverImage,
+            EditAvatar,
+            EditFollowersContent,
+            EditSignature,
+            EditCategory,
+            EditPageName,
+            ProfileEditResultExportDir),
     };
 
     /// <summary>

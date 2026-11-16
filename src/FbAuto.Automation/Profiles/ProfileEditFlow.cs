@@ -21,6 +21,18 @@ namespace FbAuto.Automation.Profiles;
 /// 改主页名字时要输的主账号密码。**留空不是错误**：原版的语义就是「未配置密码，跳过」，
 /// 但那样点下去多半不会生效，所以结果里会带一句「需人工确认」。
 /// </param>
+/// <param name="EditCoverImage">是否做背景图这一项（原版开关 <c>EditCoverImage</c>）。</param>
+/// <param name="EditAvatar">是否做头像这一项（原版开关 <c>EditAvatar</c>）。</param>
+/// <param name="EditFollowersContent">是否做粉丝公开内容这一项（原版开关 <c>EditFollowersContent</c>）。</param>
+/// <param name="EditSignature">是否做个性签名这一项（原版开关 <c>EditSignature</c>）。</param>
+/// <param name="EditCategory">是否做类别这一项（原版开关 <c>EditCategory</c>）。</param>
+/// <param name="EditPageName">是否做主页名字这一项（原版开关 <c>EditPageName</c>）。</param>
+/// <remarks>
+/// 六项开关默认 <c>true</c>（= 有数据就改，与 S13 之前的行为一致），
+/// 发帖设置那一项的开关是 <see cref="UpdatePostingSettings"/>（见 <c>ChannelProfile</c> 的说明）。
+/// 开关与「有没有数据」是两回事：开关关掉时**连导航都不做**，只记一行原版跳过串；
+/// 开关打开但没数据时，由各编辑器自己判并给出更具体的原因。
+/// </remarks>
 public sealed record ProfileEditRequest(
     string Signature = "",
     string Category = "",
@@ -28,7 +40,13 @@ public sealed record ProfileEditRequest(
     IReadOnlyList<string>? ImageCandidates = null,
     IReadOnlyList<string>? BlockWords = null,
     string PageName = "",
-    string PageNamePassword = "")
+    string PageNamePassword = "",
+    bool EditCoverImage = true,
+    bool EditAvatar = true,
+    bool EditFollowersContent = true,
+    bool EditSignature = true,
+    bool EditCategory = true,
+    bool EditPageName = true)
 {
     /// <summary>候选图片，永不为 null。</summary>
     public IReadOnlyList<string> Images => ImageCandidates ?? [];
@@ -83,6 +101,11 @@ public sealed record ProfileEditResult(
 ///
 /// 七项至此齐备。**主页名字放最后**：它是唯一需要主账号密码、也是唯一会触发 FB 侧审核的一项，
 /// 前面任何一项出问题都不该让这一项白跑（密码与审核都有次数成本）。
+///
+/// <para>
+/// **每一项前面都有一道开关**（原版七对 <c>EditXxx</c>）。没勾的项不导航、不碰页面，
+/// 只记一行原版跳过串 —— 勾选框的本意是「这次别动它」，而不是「动了再恢复」。
+/// </para>
 /// </remarks>
 public static class ProfileEditFlow
 {
@@ -139,50 +162,90 @@ public static class ProfileEditFlow
 
         fields.Add(await GuardAsync(
             CoverPhotoEditor.FieldName,
-            () => CoverPhotoEditor.RunAsync(page, id!, request.Images, options, cancellationToken),
+            () => RunOrSkipAsync(
+                request.EditCoverImage,
+                CoverPhotoEditor.FieldName,
+                CoverPhotoEditor.SkipLine,
+                () => CoverPhotoEditor.RunAsync(page, id!, request.Images, options, cancellationToken)),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         fields.Add(await GuardAsync(
             AvatarEditor.FieldName,
-            () => AvatarEditor.RunAsync(page, id!, request.Images, options, cancellationToken),
+            () => RunOrSkipAsync(
+                request.EditAvatar,
+                AvatarEditor.FieldName,
+                AvatarEditor.SkipLine,
+                () => AvatarEditor.RunAsync(page, id!, request.Images, options, cancellationToken)),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         fields.Add(await GuardAsync(
             PostingSettingsEditor.FieldName,
-            () => request.UpdatePostingSettings
-                ? PostingSettingsEditor.RunAsync(page, options, cancellationToken)
-                : Task.FromResult(ProfileFieldResult.Skipped(
-                    PostingSettingsEditor.FieldName, "未启用发帖设置修改")),
+            () => RunOrSkipAsync(
+                request.UpdatePostingSettings,
+                PostingSettingsEditor.FieldName,
+                PostingSettingsEditor.SkipLine,
+                () => PostingSettingsEditor.RunAsync(page, options, cancellationToken)),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         fields.Add(await GuardAsync(
             FollowersContentEditor.FieldName,
-            () => FollowersContentEditor.RunAsync(page, request.Words, options, cancellationToken),
+            () => RunOrSkipAsync(
+                request.EditFollowersContent,
+                FollowersContentEditor.FieldName,
+                FollowersContentEditor.SkipLine,
+                () => FollowersContentEditor.RunAsync(page, request.Words, options, cancellationToken)),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         fields.Add(await GuardAsync(
             SignatureEditor.FieldName,
-            () => SignatureEditor.RunAsync(page, id!, request.Signature, options, cancellationToken),
+            () => RunOrSkipAsync(
+                request.EditSignature,
+                SignatureEditor.FieldName,
+                SignatureEditor.SkipLine,
+                () => SignatureEditor.RunAsync(page, id!, request.Signature, options, cancellationToken)),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         fields.Add(await GuardAsync(
             CategoryEditor.FieldName,
-            () => CategoryEditor.RunAsync(page, id!, request.Category, options, cancellationToken),
+            () => RunOrSkipAsync(
+                request.EditCategory,
+                CategoryEditor.FieldName,
+                CategoryEditor.SkipLine,
+                () => CategoryEditor.RunAsync(page, id!, request.Category, options, cancellationToken)),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         fields.Add(await GuardAsync(
             PageNameEditor.FieldName,
-            () => PageNameEditor.RunAsync(page, request.PageName, request.PageNamePassword, options, cancellationToken),
+            () => RunOrSkipAsync(
+                request.EditPageName,
+                PageNameEditor.FieldName,
+                PageNameEditor.SkipLine,
+                () => PageNameEditor.RunAsync(page, request.PageName, request.PageNamePassword, options, cancellationToken)),
             lines,
             cancellationToken).ConfigureAwait(false));
 
         var failed = fields.Where(f => f.Status == FieldEditStatus.Failed).ToArray();
+
+        // 七项全没勾时，结果会是一串「已跳过」+ 整体成功。原版没有这句提示（它不校验这个），
+        // 但「报成功却一项没改」正是最容易让人以为任务白跑了的形态，所以加一句我们自己的话。
+        // 注意措辞不装作原版串，避免以后对不上证据。
+        if (!request.EditCoverImage
+            && !request.EditAvatar
+            && !request.UpdatePostingSettings
+            && !request.EditFollowersContent
+            && !request.EditSignature
+            && !request.EditCategory
+            && !request.EditPageName)
+        {
+            lines.Add("七项都未勾选：本次不会修改任何内容");
+        }
+
         var summary = failed.Length == 0
             ? $"资料修改完成（{fields.Count(f => f.Status == FieldEditStatus.Changed)} 项已改，"
               + $"{fields.Count(f => f.Status == FieldEditStatus.Skipped)} 项跳过）"
@@ -191,6 +254,34 @@ public static class ProfileEditFlow
         lines.Add(summary);
 
         return new ProfileEditResult(failed.Length == 0, summary, fields, lines);
+    }
+
+    /// <summary>
+    /// 闸门：这一项没勾就**连导航都不做**，直接记一条原版跳过串。
+    /// </summary>
+    /// <remarks>
+    /// 为什么放在编排层而不是各编辑器里：编辑器只知道「要改什么」，不知道「这次要不要改」。
+    /// 让它接一个开关，等于每个编辑器都要重复一遍同样的判断与同一句文案；
+    /// 放在这里则七项只有一种写法，日志词也天然一致。
+    ///
+    /// 跳过的 message 与日志行有意不同：
+    /// <list type="bullet">
+    /// <item>日志行 = 原版那句（<c>已跳过【修改X】</c>），逐行对照原版时不用换算；</item>
+    /// <item>message = 同一句 + 「（未勾选）」，因为它会进结果表，得说清是「没勾」还是「没数据」。</item>
+    /// </list>
+    /// </remarks>
+    private static Task<ProfileFieldResult> RunOrSkipAsync(
+        bool enabled,
+        string field,
+        string skipLine,
+        Func<Task<ProfileFieldResult>> action)
+    {
+        if (enabled)
+        {
+            return action();
+        }
+
+        return Task.FromResult(ProfileFieldResult.Skipped(field, $"{skipLine}（未勾选）", [skipLine]));
     }
 
     /// <summary>

@@ -311,6 +311,52 @@
                         <TabItem Header="资料修改">
                             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="14,10,14,10">
                                 <StackPanel>
+                                    <!--
+                                        七项开关（原版 GoogleEditXxx / BitEditXxx）。
+                                        放在最上面：先决定「这次做哪几项」，再填各项的料。
+                                        标签用原版的七句「已跳过【修改X】」去掉外壳，与日志同一套词。
+                                    -->
+                                    <TextBlock Text="执行项（谷歌版）：" Style="{StaticResource FieldLabel}"
+                                               HorizontalAlignment="Left" Margin="0,0,0,2" />
+                                    <UniformGrid Columns="2" Margin="0,0,0,10">
+                                        <CheckBox Content="修改背景图" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding EditCoverImage}" />
+                                        <CheckBox Content="修改头像" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding EditAvatar}" />
+                                        <CheckBox Content="修改公共主页发帖设置" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding UpdatePostingSettings}" />
+                                        <CheckBox Content="修改粉丝公开内容" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding EditFollowersContent}" />
+                                        <CheckBox Content="修改个性签名" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding EditSignature}" />
+                                        <CheckBox Content="修改类别" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding EditCategory}" />
+                                        <CheckBox Content="修改主页名字" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding EditPageName}" />
+                                    </UniformGrid>
+
+                                    <TextBlock Text="执行项（比特版）：" Style="{StaticResource FieldLabel}"
+                                               HorizontalAlignment="Left" Margin="0,0,0,2" />
+                                    <UniformGrid Columns="2" Margin="0,0,0,6">
+                                        <CheckBox Content="修改背景图" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding BitEditCoverImage}" />
+                                        <CheckBox Content="修改头像" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding BitEditAvatar}" />
+                                        <CheckBox Content="修改公共主页发帖设置" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding BitUpdatePostingSettings}" />
+                                        <CheckBox Content="修改粉丝公开内容" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding BitEditFollowersContent}" />
+                                        <CheckBox Content="修改个性签名" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding BitEditSignature}" />
+                                        <CheckBox Content="修改类别" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding BitEditCategory}" />
+                                        <CheckBox Content="修改主页名字" Style="{StaticResource EditCheck}"
+                                                  IsChecked="{Binding BitEditPageName}" />
+                                    </UniformGrid>
+                                    <TextBlock Text="未勾选的项不会打开页面，日志里只记一句「已跳过【修改X】」，也不去读它对应的文件或目录。原版每个账号改哪几项就在这里定。"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
+
+                                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,0,0,10" />
                                     <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="120" />
@@ -402,6 +448,33 @@
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
                                                 Width="62" Height="26" Margin="6,0,0,0" />
                                     </Grid>
+
+                                    <TextBlock Text="资料修改结果保存目录：" Style="{StaticResource FieldLabel}"
+                                               HorizontalAlignment="Left" Margin="0,4,0,6" />
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="谷歌版：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding ProfileEditResultExportDir, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
+                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="比特版：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding BitProfileEditResultExportDir, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
+                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                    </Grid>
+                                    <TextBlock Text="留空则不导出。填了就按 AccountErrors_日期.txt 一行一条记失败账号（浏览器、assetId、原因），同一天多次执行接在后面写，不覆盖。"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
 
                                     <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
 

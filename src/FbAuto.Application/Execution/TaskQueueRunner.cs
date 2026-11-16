@@ -81,14 +81,27 @@ public sealed class TaskQueueRunner
         var gate = new SemaphoreSlim(concurrency, concurrency);
         var counters = new Counters();
 
+        // 一轮一份失败清单：并发任务各自往里记，本轮结束一次性写盘。
+        // 逐个任务读-改-写会互相覆盖（原版只暴露 WriteAllText，没有追加写）。
+        var errorLog = new AccountErrorLog();
+
         try
         {
-            var jobs = pending.Select(task => RunOneGuardedAsync(task, options, gate, counters, cancellationToken)).ToList();
+            var jobs = pending
+                .Select(task => RunOneGuardedAsync(task, options, gate, counters, errorLog, cancellationToken))
+                .ToList();
             await Task.WhenAll(jobs);
         }
         finally
         {
             gate.Dispose();
+
+            // 写盘放在 finally：本轮被取消时已经记下的失败仍然该留档。
+            foreach (var path in errorLog.Flush(DateTime.Now, _logger.Warn))
+            {
+                _logger.Info($"账号失败清单已写入 {path}");
+            }
+
             IsRunning = false;
         }
 
@@ -102,6 +115,7 @@ public sealed class TaskQueueRunner
         TaskRunOptions options,
         SemaphoreSlim gate,
         Counters counters,
+        AccountErrorLog errorLog,
         CancellationToken cancellationToken)
     {
         var acquired = false;
@@ -110,7 +124,7 @@ public sealed class TaskQueueRunner
             // 并发闸门。停止时这里会抛 OCE —— 任务根本没开始，记中断而不是失败。
             await gate.WaitAsync(cancellationToken);
             acquired = true;
-            await ExecuteOneAsync(task, options, counters, cancellationToken);
+            await ExecuteOneAsync(task, options, counters, errorLog, cancellationToken);
         }
         catch (OperationCanceledException)
         {
@@ -135,27 +149,28 @@ public sealed class TaskQueueRunner
         AutomatedTask task,
         TaskRunOptions options,
         Counters counters,
+        AccountErrorLog errorLog,
         CancellationToken cancellationToken)
     {
         // 1. 账号与执行器先校验。这两样缺一样就不必启浏览器——省一次启动，省一次风控暴露。
         var account = _accounts.Find(task.AccountAlias);
         if (account is null)
         {
-            Fail(task, counters,
+            Fail(task, options, counters, errorLog, null,
                 $"账号清单里没有别名「{task.AccountAlias}」。请检查 {_accounts.SourcePath} 的「别名」列");
             return;
         }
 
         if (!account.IsUsable)
         {
-            Fail(task, counters, $"账号 {account.Alias} 状态为「{account.Status}」，已跳过不执行");
+            Fail(task, options, counters, errorLog, account, $"账号 {account.Alias} 状态为「{account.Status}」，已跳过不执行");
             return;
         }
 
         var executor = _executors.Find(task.Kind);
         if (executor is null)
         {
-            Fail(task, counters, $"{task.DisplayName} 没有对应的执行器（程序缺陷，请上报）");
+            Fail(task, options, counters, errorLog, account, $"{task.DisplayName} 没有对应的执行器（程序缺陷，请上报）");
             return;
         }
 
@@ -213,6 +228,7 @@ public sealed class TaskQueueRunner
                 SetStatus(task, TaskRunStatus.Failed, text, result.ScreenshotPath);
                 Interlocked.Increment(ref counters.Failed);
                 _logger.Warn($"{task.DisplayName} 失败：{result.Message}｜页面 {result.PageUrl ?? "（无）"}");
+                RecordError(errorLog, options, task, account, result.Message);
             }
         }
         catch (OperationCanceledException)
@@ -229,20 +245,21 @@ public sealed class TaskQueueRunner
             else
             {
                 // 不是用户停的，是单条超时。
-                SetStatus(task, TaskRunStatus.Failed,
-                    $"执行超时（超过 {options.TaskTimeout.TotalMinutes:F0} 分钟），已中止");
+                var text = $"执行超时（超过 {options.TaskTimeout.TotalMinutes:F0} 分钟），已中止";
+                SetStatus(task, TaskRunStatus.Failed, text);
                 Interlocked.Increment(ref counters.Failed);
+                RecordError(errorLog, options, task, account, text);
             }
         }
         catch (BrowserChannelException ex)
         {
             stopwatch.Stop();
-            Fail(task, counters, $"浏览器启动失败：{ex.Message}");
+            Fail(task, options, counters, errorLog, account, $"浏览器启动失败：{ex.Message}");
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
-            Fail(task, counters, $"执行异常（{ex.GetType().Name}）：{ex.Message}");
+            Fail(task, options, counters, errorLog, account, $"执行异常（{ex.GetType().Name}）：{ex.Message}");
         }
         finally
         {
@@ -294,12 +311,36 @@ public sealed class TaskQueueRunner
         }
     }
 
-    private void Fail(AutomatedTask task, Counters counters, string message)
+    private void Fail(
+        AutomatedTask task,
+        TaskRunOptions options,
+        Counters counters,
+        AccountErrorLog errorLog,
+        AccountEntry? account,
+        string message)
     {
         SetStatus(task, TaskRunStatus.Failed, message);
         Interlocked.Increment(ref counters.Failed);
         _logger.Warn($"{task.DisplayName} 失败：{message}");
+        RecordError(errorLog, options, task, account, message);
     }
+
+    /// <summary>
+    /// 记一条账号失败。<c>assetId</c> 取比特窗口 ID —— 原版字段名就叫 assetId，
+    /// 谷歌通道没有这个东西，留空而不是编一个。
+    /// </summary>
+    private static void RecordError(
+        AccountErrorLog errorLog,
+        TaskRunOptions options,
+        AutomatedTask task,
+        AccountEntry? account,
+        string reason) =>
+        errorLog.Record(
+            options.ExportDirectoryFor(task.Channel),
+            DateTime.Now,
+            task.BrowserName,
+            account?.BitProfileId ?? string.Empty,
+            reason);
 
     private void SetStatus(AutomatedTask task, TaskRunStatus status, string result, string? screenshotPath = null)
     {

@@ -63,6 +63,22 @@ public sealed partial class MainViewModel : ObservableObject
         _bitNamesFile = config.BitNamesFile;
         _pageNamePassword = config.PageNamePassword;
         _bitPageNamePassword = config.BitPageNamePassword;
+        _editCoverImage = config.EditCoverImage;
+        _editAvatar = config.EditAvatar;
+        _updatePostingSettings = config.UpdatePostingSettings;
+        _editFollowersContent = config.EditFollowersContent;
+        _editSignature = config.EditSignature;
+        _editCategory = config.EditCategory;
+        _editPageName = config.EditPageName;
+        _bitEditCoverImage = config.BitEditCoverImage;
+        _bitEditAvatar = config.BitEditAvatar;
+        _bitUpdatePostingSettings = config.BitUpdatePostingSettings;
+        _bitEditFollowersContent = config.BitEditFollowersContent;
+        _bitEditSignature = config.BitEditSignature;
+        _bitEditCategory = config.BitEditCategory;
+        _bitEditPageName = config.BitEditPageName;
+        _profileEditResultExportDir = config.ProfileEditResultExportDir;
+        _bitProfileEditResultExportDir = config.BitProfileEditResultExportDir;
         _commentsBlockWords = string.Join(",", config.CommentsBlockWords);
         _deleteMessageLimit = config.DeleteMessageLimit.ToString(System.Globalization.CultureInfo.InvariantCulture);
         _deleteMessageCookieRootPath = config.DeleteMessageCookieRootPath;
@@ -163,6 +179,62 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>改主页名字时输的主账号密码（比特版）。</summary>
     [ObservableProperty]
     private string _bitPageNamePassword;
+
+    // ── 资料修改的七项开关（原版 GoogleEditXxx / BitEditXxx）──────────────────
+    //
+    // 默认 true：老 config.json 里没有这些键，缺键时初值保留 = 照旧改
+    // （false 会让升级后任务全部报成功、实际一项没改）。
+    // 发帖设置那一项用 UpdatePostingSettings（原版叫 EditPagePostSettings，改名会丢已有配置值）。
+
+    [ObservableProperty]
+    private bool _editCoverImage;
+
+    [ObservableProperty]
+    private bool _editAvatar;
+
+    [ObservableProperty]
+    private bool _updatePostingSettings;
+
+    [ObservableProperty]
+    private bool _editFollowersContent;
+
+    [ObservableProperty]
+    private bool _editSignature;
+
+    [ObservableProperty]
+    private bool _editCategory;
+
+    [ObservableProperty]
+    private bool _editPageName;
+
+    [ObservableProperty]
+    private bool _bitEditCoverImage;
+
+    [ObservableProperty]
+    private bool _bitEditAvatar;
+
+    [ObservableProperty]
+    private bool _bitUpdatePostingSettings;
+
+    [ObservableProperty]
+    private bool _bitEditFollowersContent;
+
+    [ObservableProperty]
+    private bool _bitEditSignature;
+
+    [ObservableProperty]
+    private bool _bitEditCategory;
+
+    [ObservableProperty]
+    private bool _bitEditPageName;
+
+    /// <summary>资料修改结果保存目录（谷歌版）。空 = 不导出账号失败清单。</summary>
+    [ObservableProperty]
+    private string _profileEditResultExportDir;
+
+    /// <summary>资料修改结果保存目录（比特版）。</summary>
+    [ObservableProperty]
+    private string _bitProfileEditResultExportDir;
 
     /// <summary>评论屏蔽词（不是「删除消息」的屏蔽词 —— 原版键名是 CommentsBlockText）。</summary>
     [ObservableProperty]
@@ -305,6 +377,14 @@ public sealed partial class MainViewModel : ObservableObject
                 ConcurrentCount = Math.Max(1, ConcurrentCount),
                 LaunchIntervalSeconds = Math.Max(0, BrowserOpenIntervalSeconds),
                 ScreenshotDirectory = ResolveScreenshotDirectory(),
+
+                // 两个通道各查各的目录：一轮里可以混跑谷歌版和比特版，
+                // 单一目录会把两种通道的失败写进同一个 AccountErrors 文件。
+                ExportDirectories = new Dictionary<BrowserChannelKind, string>
+                {
+                    [BrowserChannelKind.Google] = ProfileEditResultExportDir ?? string.Empty,
+                    [BrowserChannelKind.Bit] = BitProfileEditResultExportDir ?? string.Empty,
+                },
             };
 
             var models = Tasks.Select(t => t.Model).ToList();
@@ -420,6 +500,22 @@ public sealed partial class MainViewModel : ObservableObject
         config.BitNamesFile = BitNamesFile ?? string.Empty;
         config.PageNamePassword = PageNamePassword ?? string.Empty;
         config.BitPageNamePassword = BitPageNamePassword ?? string.Empty;
+        config.EditCoverImage = EditCoverImage;
+        config.EditAvatar = EditAvatar;
+        config.UpdatePostingSettings = UpdatePostingSettings;
+        config.EditFollowersContent = EditFollowersContent;
+        config.EditSignature = EditSignature;
+        config.EditCategory = EditCategory;
+        config.EditPageName = EditPageName;
+        config.BitEditCoverImage = BitEditCoverImage;
+        config.BitEditAvatar = BitEditAvatar;
+        config.BitUpdatePostingSettings = BitUpdatePostingSettings;
+        config.BitEditFollowersContent = BitEditFollowersContent;
+        config.BitEditSignature = BitEditSignature;
+        config.BitEditCategory = BitEditCategory;
+        config.BitEditPageName = BitEditPageName;
+        config.ProfileEditResultExportDir = ProfileEditResultExportDir ?? string.Empty;
+        config.BitProfileEditResultExportDir = BitProfileEditResultExportDir ?? string.Empty;
 
         config.CommentsBlockWords = CommentsBlockWords
             .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

@@ -36,6 +36,18 @@
         <Setter Property="FontSize" Value="12" />
     </Style>
 
+    <!--
+        资料修改的七项开关。默认样式的字号偏小、颜色取系统色，跟其余控件不齐；
+        这里只对齐字体与配色，图形部分仍用系统默认（自绘 checkbox 的成本不划算）。
+    -->
+    <Style x:Key="EditCheck" TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{StaticResource Brush.Text}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Margin" Value="0,4,12,4" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
     <!-- ==================== 按钮 ==================== -->
 
     <Style x:Key="BaseButton" TargetType="Button">

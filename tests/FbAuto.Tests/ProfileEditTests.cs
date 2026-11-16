@@ -698,7 +698,11 @@ public sealed class ProfileEditTests
 
         var posting = result.Fields.Single(f => f.Field == PostingSettingsEditor.FieldName);
         Assert.Equal(FieldEditStatus.Skipped, posting.Status);
-        Assert.Contains("未启用", posting.Message);
+
+        // 措辞与原版跳过串一致（S14 改成与其余六项同一套词），并带「未勾选」说明原因。
+        Assert.Contains(PostingSettingsEditor.SkipLine, posting.Message);
+        Assert.Contains("未勾选", posting.Message);
+        Assert.Contains(PostingSettingsEditor.SkipLine, result.LogLines);
 
         Assert.DoesNotContain(
             page.NavigatedUrls,

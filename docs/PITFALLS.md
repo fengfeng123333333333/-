@@ -140,6 +140,31 @@
   会把左栏 `ItemsControl` 的任务类型当成队列行。
 - **改完代码只 build 测试项目不算**：Presentation 输出目录还是旧 DLL，真机验收会跑带 bug 的版本。
   真机验收前必须 `build FbAuto.slnx`。
+- **原版只暴露 `WriteAllText`，不代表它的行为就是「整体覆盖」**（S14）。字符串证据里只有
+  `WriteAllText`、没有 `AppendAllText`，据此写成覆盖会有一个具体后果：同一天跑两轮，
+  第一轮的失败记录被抹掉。并发任务逐个「读-改-写」还会互相覆盖。
+  最终做法是**一轮攒够、轮末一次写、写前把当天已有内容接在前面**，并在文档「未完成项」里
+  写明「与原版可能不同，我们只会多留不会丢」。
+- **「原版有键名」不等于「原版有值」**（S14）。`AccountErrors_`、`[账号失败] 浏览器: | assetId: | 原因:`
+  都有字面量，但**扩展名 `.txt` 没有独立字面量**（只有文件对话框的 `*.txt` 过滤器）。
+  这种情况下要么找到独立证据，要么按最合理推断实现并**逐条写进「未完成项」**，不能当已确认写。
+- **一轮执行可以混跑谷歌版和比特版，导出目录必须按通道查表**（S14）。配置层是成对的
+  （`Google/BitProfileEditResultExportDir`），`TaskRunOptions` 只给单一目录的话，
+  两种通道的失败会写进同一个文件，事后按通道对账就做不到了。
+- **连着 6 个 bool 的位置传参错位时，任何单测都发现不了**（S14）。`ProfileEditRequest` 有 14 个参数，
+  改成**具名实参**后错位在结构上不可能发生 —— 比多写几条断言更省事、更可靠。
+- **注入还原之后必须重新 build，"`--no-build` 跑全量等于在查上一个注入"**（S14）。
+  注入 I7 还原源码后直接 `--no-build` 跑，`没配目录时记了也不落盘` 报 Expected 0 / Actual 1，
+  差点被当成产品缺陷去改。判据很简单：**报错位置正好是刚才注入的那一行**，先怀疑 DLL 过期。
+- **Chrome 集成测试在「全量跑」时会偶发卡死，单跑该类却基本正常**（S14，尚未定位根因）。
+  症状：`--blame --blame-hang-timeout 90s` 会点名 `VideoUploadFlowIntegrationTests` 里的某一条，
+  但不固定是哪一条（停过的页面有 `upload.html` / `upload-nodesc.html` / `upload-schedule.html`），
+  已排除残留 Chrome、残留临时目录、残留 testhost。单跑该类 5 次里 4 次全绿、1 次以
+  `Assert.True(result.Published)` 失败 —— 抖动而非确定性缺陷。
+  需求方 2026-11-16 指示「需要调 Chrome 的测试暂时先不用」，日常改用 `build\test-nochrome.cmd`
+  （排除 7 个类共 63 条，579 条 4~6 秒全绿）。**恢复前必须先定位它**，否则全量结论不可信。
+  排查入口：`tests/FbAuto.Tests/TestResults/<guid>/Sequence_*.xml` 里找唯一
+  `Completed` 不为 `True` 的那条。
 
 ## 五、环境（本机特有）
 

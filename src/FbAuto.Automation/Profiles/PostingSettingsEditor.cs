@@ -21,6 +21,9 @@ public static class PostingSettingsEditor
 {
     public const string FieldName = "发帖设置";
 
+    /// <summary>原版跳过串，本项未勾选时打这一句。</summary>
+    public const string SkipLine = "已跳过【修改公共主页发帖设置】";
+
     public static async Task<ProfileFieldResult> RunAsync(
         IPageInterop page,
         ProfileEditOptions? options = null,

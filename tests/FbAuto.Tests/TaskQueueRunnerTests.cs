@@ -19,6 +19,13 @@ public sealed class TaskQueueRunnerTests
         acc02,google,D:\FbProfiles\acc02,,,,,,正常,
         """;
 
+    /// <summary>一条谷歌、一条比特，用来验「两个通道的失败清单各写各的目录」。</summary>
+    private const string MixedCsv = """
+        别名,通道,user-data-dir,比特窗口ID,代理,主页ID,主页名称,凭证引用,状态,备注
+        acc01,google,D:\FbProfiles\acc01,,,,,,正常,
+        acc02,bit,,asset-77,,,,,正常,
+        """;
+
     private static AutomatedTask NewTask(string alias = "acc01", TaskKind kind = TaskKind.VideoUploadGoogle) =>
         new()
         {
@@ -439,5 +446,143 @@ public sealed class TaskQueueRunnerTests
 
         Assert.Equal(0, second.Started);
         Assert.Contains(h.Logger.Entries, e => e.Contains("已有一轮执行在进行中"));
+    }
+
+    [Fact]
+    public async Task 失败任务会把账号失败写进结果目录()
+    {
+        using var h = new Harness(new StubTaskExecutor(TaskKind.VideoUploadGoogle, (_, _) =>
+            Task.FromResult(TaskExecutionResult.Fail("找不到上传按钮"))));
+
+        var exportDir = h.Temp.Combine("导出");
+        var task = NewTask();
+
+        await h.Runner.RunAsync([task], new TaskRunOptions
+        {
+            LaunchIntervalSeconds = 0,
+            ExportDirectories = new Dictionary<BrowserChannelKind, string>
+            {
+                [BrowserChannelKind.Google] = exportDir,
+            },
+        });
+
+        var path = Path.Combine(exportDir, AccountErrorLog.FileNameFor(DateTime.Now));
+        Assert.True(File.Exists(path), $"没写出 {path}");
+
+        var text = File.ReadAllText(path);
+        Assert.Contains("[账号失败]", text);
+        Assert.Contains("浏览器:Chrome-acc01", text);
+        Assert.Contains("原因:找不到上传按钮", text);
+        // 谷歌通道没有比特窗口 ID，assetId 留空而不是编一个
+        Assert.Contains("assetId: |", text);
+    }
+
+    /// <summary>
+    /// 成功的一轮不能留下空文件：使用者看到「有清单文件但里面没内容」会以为导出坏了。
+    /// </summary>
+    [Fact]
+    public async Task 全部成功时不产生清单文件()
+    {
+        using var h = new Harness(new StubTaskExecutor(TaskKind.VideoUploadGoogle));
+        var exportDir = h.Temp.Combine("导出");
+
+        await h.Runner.RunAsync([NewTask()], new TaskRunOptions
+        {
+            LaunchIntervalSeconds = 0,
+            ExportDirectories = new Dictionary<BrowserChannelKind, string>
+            {
+                [BrowserChannelKind.Google] = exportDir,
+            },
+        });
+
+        Assert.False(Directory.Exists(exportDir) && Directory.EnumerateFiles(exportDir).Any(),
+            "全部成功却写出了文件");
+    }
+
+    /// <summary>
+    /// 两个通道的目录不同，失败必须落到各自那份 ——
+    /// 混在一个文件里就没法按通道对照了（原版也是 Google / Bit 各存一份配置）。
+    /// </summary>
+    [Fact]
+    public async Task 两个通道的失败各写各的目录()
+    {
+        static Task<TaskExecutionResult> Fail(TaskExecutionContext ctx, CancellationToken _) =>
+            Task.FromResult(TaskExecutionResult.Fail($"坏了-{ctx.Account.Alias}"));
+
+        using var h = new Harness(
+            MixedCsv,
+            new StubTaskExecutor(TaskKind.VideoUploadGoogle, Fail),
+            new StubTaskExecutor(TaskKind.VideoUploadBit, Fail));
+
+        var googleDir = h.Temp.Combine("g");
+        var bitDir = h.Temp.Combine("b");
+
+        var googleTask = NewTask("acc01");
+        var bitTask = new AutomatedTask
+        {
+            Kind = TaskKind.VideoUploadBit,
+            Channel = BrowserChannelKind.Bit,
+            AccountAlias = "acc02",
+            BrowserName = "Bit-acc02",
+        };
+
+        await h.Runner.RunAsync([googleTask, bitTask], new TaskRunOptions
+        {
+            LaunchIntervalSeconds = 0,
+            ConcurrentCount = 1,
+            ExportDirectories = new Dictionary<BrowserChannelKind, string>
+            {
+                [BrowserChannelKind.Google] = googleDir,
+                [BrowserChannelKind.Bit] = bitDir,
+            },
+        });
+
+        var name = AccountErrorLog.FileNameFor(DateTime.Now);
+        var googleText = File.ReadAllText(Path.Combine(googleDir, name));
+        var bitText = File.ReadAllText(Path.Combine(bitDir, name));
+
+        Assert.Contains("坏了-acc01", googleText);
+        Assert.DoesNotContain("acc02", googleText);
+
+        Assert.Contains("坏了-acc02", bitText);
+        Assert.DoesNotContain("acc01", bitText);
+        // 比特通道要把窗口 ID 记进 assetId，否则使用者没法回比特浏览器里定位是哪个窗口
+        Assert.Contains("assetId:asset-77", bitText);
+    }
+
+    /// <summary>
+    /// 没配目录时一条都不写 —— 这是原版的默认值（两份 settings.json 里都是空串）。
+    /// </summary>
+    [Fact]
+    public async Task 没配目录时不导出()
+    {
+        using var h = new Harness(new StubTaskExecutor(TaskKind.VideoUploadGoogle, (_, _) =>
+            Task.FromResult(TaskExecutionResult.Fail("失败"))));
+
+        await h.Runner.RunAsync([NewTask()], new TaskRunOptions { LaunchIntervalSeconds = 0 });
+
+        var stray = Directory.EnumerateFiles(h.Temp.Path, "AccountErrors_*", SearchOption.AllDirectories).ToArray();
+        Assert.Empty(stray);
+    }
+
+    /// <summary>账号在清单里找不到时也该留档：这类失败最需要事后对账。</summary>
+    [Fact]
+    public async Task 账号找不到也记一条失败()
+    {
+        using var h = new Harness(new StubTaskExecutor(TaskKind.VideoUploadGoogle));
+        var exportDir = h.Temp.Combine("导出");
+
+        await h.Runner.RunAsync([NewTask("acc99")], new TaskRunOptions
+        {
+            LaunchIntervalSeconds = 0,
+            ExportDirectories = new Dictionary<BrowserChannelKind, string>
+            {
+                [BrowserChannelKind.Google] = exportDir,
+            },
+        });
+
+        var text = File.ReadAllText(Path.Combine(exportDir, AccountErrorLog.FileNameFor(DateTime.Now)));
+        Assert.Contains("acc99", text);
+        Assert.Contains("账号清单里没有别名", text);
     }
 }

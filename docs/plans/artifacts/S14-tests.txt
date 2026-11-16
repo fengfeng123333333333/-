@@ -1,0 +1,110 @@
+S14 七项开关与资料修改结果导出 —— 测试与注入证据
+================================================
+
+一、结果
+--------
+命令：build\test-nochrome.cmd（不依赖真 Chrome 的用例）
+时间：2026-11-16 11:5x，耗时 4~6 秒
+结果：失败 0，通过 579，跳过 0，总计 579（连跑两次一致）
+
+原始输出末行：
+  已通过! - 失败:     0，通过:   579，已跳过:     0，总计:   579
+
+需真 Chrome 的 7 个集成类：63 条，本轮暂缓（需求方 2026-11-16 指示）。
+  合计 642 条 = 579 + 63。
+
+新增 4 个测试类共 22 条：
+  ProfileEditSwitchTests   6
+  AccountErrorLogTests     11
+  TaskRunOptionsTests      4
+  ProfileEditBindingTests  1（S14 新建）
+
+既有用例补断言（不增条数）：
+  ChannelProfileTests      成对映射 + 两个方向都不回落的非空反例
+  JsonConfigServiceTests   缺键默认空、往返不互相覆盖
+  ProfileEditBindingTests  期望清单里加 2 个导出目录绑定
+
+
+二、反向注入（逐项改坏产品代码 → 确认对应用例变红 → 还原）
+-----------------------------------------------------------
+A. RunOrSkipAsync 的闸门失效（if (enabled) → if (enabled || true)）
+   → 红 4 条：没勾的项照样开了页面
+
+B. EditCoverImage 初值改 false（新装默认什么都不改）
+   → 红 2 条：配置层成对断言、老配置缺键仍是七项都改
+
+C. EnabledEditItems 顺序倒过来
+   → 红 1 条：开关清单与执行顺序一致
+
+D. 比特版头像开关读成 BitEditCoverImage（典型回落错）
+   → 红 1 条：七项开关成对（比特版侧）
+
+E. ProfileEditRequest.EditSignature 默认改 false
+   → 红 1 条：开关全开时各开自己页面
+
+F. 删掉「七项都未勾选」那句提示
+   → 红 1 条：七项全关时任务不碰任何页面
+
+G. 跳过原因里去掉「（未勾选）」
+   → 红 3 条：分不清「这次不改」与「没料可改」
+
+H. XAML 里 EditCategory 写成 EditCategoryX
+   → 红 1 条：资料修改页的绑定都对应 ViewModel 属性（WPF 绑定名写错是静默的）
+
+I1. 行格式去掉毫秒、去掉字段间的空格分隔
+   → 红 2 条：行格式与原版串一致、时间带毫秒且同一秒两条能区分
+
+I2. 写盘改成整体覆盖（不读当天已有内容）
+   → 红 2 条：同一天再写一轮接在已有记录后面、已有文件末尾没换行时不粘行
+
+I3. ExportDirectoryFor 未配时返回 "" 而不是 null
+   → 红 4 条：三个「取不到目录」的出口
+   （返回空串的后果：下游把当前工作目录当导出目录，文件出现在程序目录里）
+
+I4. 执行器返回失败时不再记清单
+   → 红 2 条：失败任务写进结果目录、两个通道各写各的目录
+
+I5. 比特版导出目录回落读谷歌版
+   → 红 2 条：比特通道不会读到谷歌版的路径、两套参数各自独立赋值
+
+I6. XAML 里 ProfileEditResultExportDir 少写/错写一个字母
+   → 红 1 条：绑定检查（文本框写错的表现是「填了目录不生效」）
+
+I7. Record 只判 null 不判空白串
+   → 红 2 条：空白目录被当成已配置
+
+全部命中后还原，grep -rn MUTATION src/ tests/ 无输出。
+另核对 5 个被改过的文件均无 BOM（head -c 3 全是 75 73 69 / 3c 57 69）。
+
+
+三、一次「假失败」的教训（记录在案）
+------------------------------------
+注入 I7 还原源码后，直接用了 --no-build 跑全量，结果
+AccountErrorLogTests.没配目录时记了也不落盘 报 Expected 0 / Actual 1。
+那是**旧 DLL 还在跑 I7 的版本**，不是产品代码错。
+教训：注入还原后必须先 build 再跑，--no-build 会把上一次的注入当成产品缺陷来查。
+
+
+四、Chrome 集测暂缓的原因（实据）
+----------------------------------
+全量跑（含 Chrome）多次卡死，已收集到的实据：
+
+1) --blame --blame-hang-timeout 90s 一次运行在 2 分 57 秒中止，
+   顺序文件里唯一 Completed 不为 True 的是：
+     FbAuto.Tests.VideoUploadFlowIntegrationTests.描述为空时不填但流程照走
+   此前已记录 549 条。同一次运行 620 条（排除 4 个新增类）却 2 分 42 秒全绿。
+
+2) 另外几次卡住时，通过各浏览器的 DevToolsActivePort 查到页面分别停在：
+     upload.html / upload-nodesc.html / upload-schedule.html
+   —— 都在 VideoUploadFlowIntegrationTests 这一个类里，但不固定是哪一条。
+   说明是该类共用的那一个浏览器实例被拖住，不是某一条用例的固定缺陷。
+
+3) 单独跑该类：5 次里 4 次 9 条全绿（23~32 秒），
+   1 次以 Assert.True(result.Published) 失败（39 秒）而不是卡死。
+   同一份代码两种表现 → 抖动，不是确定性缺陷。
+
+4) 已排除：残留测试 Chrome（跑前按 CommandLine 匹配清过，0 个）、
+   残留临时目录（清过 54 个约 670MB）、残留 testhost（0 个）。
+
+结论：集成测试夹具层面的不稳定，与本步改动无关（S14 未触及上传流程与页面层）。
+恢复 Chrome 集测前需先定位它，否则全量结果不可信。

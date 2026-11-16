@@ -55,17 +55,36 @@ public sealed class ProfileEditExecutor : ITaskExecutor
         var profile = Profile;
         logger.Info($"按 {profile.DisplayName} 取配置：签名文件 {profile.SignatureFile}，图片目录 {profile.ImageDirectory}");
 
-        var (signature, sourceLines) = SignatureSource.Read(profile.SignatureFile);
+        // 开关先写一行「本次要改哪几项」。没有这一行，用户看到一串「已跳过」时
+        // 分不清是「没勾」还是「没数据」—— 这两种在日志里是同一句原版串。
+        var enabled = profile.EnabledEditItems;
+        logger.Info(enabled.Count == 0
+            ? "七项修改都未勾选：本次不会修改任何内容"
+            : $"本次要改 {enabled.Count} 项：{string.Join("、", enabled)}");
+
+        // 没勾的项连数据都不读：否则「图片目录指向了一个坏路径」会在只改签名时
+        // 报一句「头像与背景图两项将跳过」，让人以为漏了配置 —— 其实是这次压根不改那两项。
+        var wantImages = profile.EditCoverImage || profile.EditAvatar;
+        var wantSignature = profile.EditSignature;
+        var wantName = profile.EditPageName;
+
+        var (signature, sourceLines) = wantSignature
+            ? SignatureSource.Read(profile.SignatureFile)
+            : (string.Empty, (IReadOnlyList<string>)[]);
         foreach (var line in sourceLines)
         {
             logger.Info(line);
         }
 
-        var images = BuildImageCandidates(context.Account.Alias, profile.ImageDirectory, logger);
+        var images = wantImages
+            ? BuildImageCandidates(context.Account.Alias, profile.ImageDirectory, logger)
+            : [];
 
         // 名字按别名挑一行：逐任务执行时只有当前账号一个别名，按行号取会永远是第一行，
         // 表现是「所有账号改成同一个名字」（头像图片踩过同一个坑）。
-        var nameSelection = NameSource.Pick(profile.NamesFile, context.Account.Alias);
+        var nameSelection = wantName
+            ? NameSource.Pick(profile.NamesFile, context.Account.Alias)
+            : new NameSelection(null, []);
         foreach (var line in nameSelection.LogLines)
         {
             logger.Info(line);
@@ -76,14 +95,22 @@ public sealed class ProfileEditExecutor : ITaskExecutor
             logger.Warn("没有配置主页名称密码：主页名字会提交，但很可能不会生效，请在页面上人工核对");
         }
 
+        // 全部用具名实参：这里有 6 个连续的 bool，位置写错不会有任何编译期或运行期提示，
+        // 表现是「勾了 A 结果改了 B」，而日志上看不出来。具名之后这类错位不可能发生。
         var request = new ProfileEditRequest(
-            signature,
-            profile.ProfileCategory,
-            profile.UpdatePostingSettings,
-            images,
-            profile.CommentsBlockWords,
-            nameSelection.Name ?? string.Empty,
-            profile.PageNamePassword);
+            Signature: signature,
+            Category: profile.ProfileCategory,
+            UpdatePostingSettings: profile.UpdatePostingSettings,
+            ImageCandidates: images,
+            BlockWords: profile.CommentsBlockWords,
+            PageName: nameSelection.Name ?? string.Empty,
+            PageNamePassword: profile.PageNamePassword,
+            EditCoverImage: profile.EditCoverImage,
+            EditAvatar: profile.EditAvatar,
+            EditFollowersContent: profile.EditFollowersContent,
+            EditSignature: profile.EditSignature,
+            EditCategory: profile.EditCategory,
+            EditPageName: profile.EditPageName);
 
         var page = new PlaywrightPageInterop(context.Page);
 
