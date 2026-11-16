@@ -1,5 +1,9 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
+using FbAuto.Application.Dialogs;
 using FbAuto.Presentation.ViewModels;
 
 namespace FbAuto.Presentation.Views;
@@ -13,6 +17,60 @@ public partial class MainWindow : Window
         InitializeComponent();
         _viewModel = viewModel;
         DataContext = viewModel;
+
+        // 界面建好之后数一遍「选择...」按钮。WPF 的绑定失败是静默的：
+        // 按钮照样显示、点下去什么都不发生。文本守卫只能证明 XAML 里写了，
+        // 这里证明的是**运行时真的连上了**，而且每次启动都会留一行日志。
+        Loaded += (_, _) =>
+        {
+            var (total, wired) = CountPickerButtons();
+            _viewModel.VerifyPickerWiring(total, wired);
+        };
+    }
+
+    /// <summary>统计界面上「选择...」按钮的总数与其中拿到命令的数量。</summary>
+    private (int Total, int Wired) CountPickerButtons()
+    {
+        var found = new HashSet<Button>();
+        var visited = new HashSet<DependencyObject>();
+
+        Collect(this);
+
+        return (found.Count, found.Count(b => b.Command is not null));
+
+        void Collect(DependencyObject node)
+        {
+            // 逻辑树与可视化树会大量重叠，不记录访问过的话同一棵子树会被反复遍历。
+            if (!visited.Add(node))
+            {
+                return;
+            }
+
+            if (node is Button button && button.Content as string == "选择...")
+            {
+                found.Add(button);
+            }
+
+            // 逻辑树里包含 RowDefinition / ColumnDefinition 这类**不是 Visual** 的东西，
+            // 直接递给 VisualTreeHelper 会抛「不是 Visual 或 Visual3D」——
+            // 这不是理论风险，第一版就撞上了，界面线程未处理异常弹窗。
+            foreach (var child in LogicalTreeHelper.GetChildren(node).OfType<DependencyObject>())
+            {
+                Collect(child);
+            }
+
+            if (node is not Visual and not Visual3D)
+            {
+                return;
+            }
+
+            var count = VisualTreeHelper.GetChildrenCount(node);
+
+            for (var i = 0; i < count; i++)
+            {
+                Collect(VisualTreeHelper.GetChild(node, i));
+            }
+        }
     }
 
     /// <summary>

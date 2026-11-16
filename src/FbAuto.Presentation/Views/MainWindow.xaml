@@ -199,7 +199,9 @@
                                         <TextBlock Text="视频路径：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding VideoDirectory, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="VideoDirectory"
+                                                ToolTip="选一个文件夹，该目录下的 mp4 会被全部上传" />
                                     </Grid>
 
                                     <Grid Margin="0,0,0,10">
@@ -211,7 +213,9 @@
                                         <TextBlock Text="视频描述：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding DescriptionFile, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="DescriptionFile"
+                                                ToolTip="选一个 .txt，整段作为一段描述" />
                                     </Grid>
 
                                     <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
@@ -228,7 +232,9 @@
                                         <TextBlock Text="比特视频：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding BitVideoDirectory, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="BitVideoDirectory"
+                                                ToolTip="比特版自己的视频目录，与谷歌版互不影响" />
                                     </Grid>
 
                                     <Grid Margin="0,0,0,10">
@@ -240,7 +246,9 @@
                                         <TextBlock Text="比特描述：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding BitDescriptionFile, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="BitDescriptionFile"
+                                                ToolTip="比特版的描述文件（.txt）" />
                                     </Grid>
 
                                                         <Grid Margin="0,0,0,10">
@@ -252,7 +260,9 @@
                                         <TextBlock Text="保存目录：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding SaveDirectory, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="SaveDirectory"
+                                                ToolTip="结果截图与导出文件放在这里" />
                                     </Grid>
 
                                     <Grid Margin="0,0,0,10">
@@ -296,6 +306,46 @@
                                         <DatePicker Grid.Column="1" HorizontalAlignment="Left" Width="160" Height="26"
                                                     SelectedDate="{Binding ScheduledDate}" />
                                     </Grid>
+
+                                    <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
+
+                                    <!--
+                                        这两项一直有配置键、却没有界面入口，只能手改 config.json。
+                                        都有合理默认（Chrome 自动查找 / 程序目录下的 accounts.csv），
+                                        所以平时不用管；换机器、Chrome 是免安装版、清单放在共享盘时才需要选。
+                                    -->
+                                    <TextBlock Text="程序设置（留空则用默认值，通常不用改）：" Style="{StaticResource FieldLabel}"
+                                               HorizontalAlignment="Left" Margin="0,0,0,6" />
+
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="86" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Chrome：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding ChromePath, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="ChromePath"
+                                                ToolTip="留空则自动查找 Chrome（注册表 + 常见安装位置）" />
+                                    </Grid>
+
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="86" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="账号清单：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding AccountsFile, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="AccountsFile"
+                                                ToolTip="留空则用程序目录下的 accounts.csv" />
+                                    </Grid>
+                                    <TextBlock Text="账号清单改路径后需重启程序才生效：清单在启动时读入，运行中换文件会让队列里的账号名对不上。"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
 
                                     <Border Height="1" Background="{StaticResource Brush.Border}" Margin="0,6,0,10" />
 
@@ -366,7 +416,9 @@
                                         <TextBlock Text="主页名称文件：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding NamesFile, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="NamesFile"
+                                                ToolTip="选一个 .txt，一行一个名字，按别名挑一行" />
                                     </Grid>
                                     <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
@@ -388,7 +440,9 @@
                                         <TextBlock Text="比特名称文件：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding BitNamesFile, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="BitNamesFile"
+                                                ToolTip="比特版的名称文件（.txt）" />
                                     </Grid>
                                     <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
@@ -408,7 +462,9 @@
                                         <TextBlock Text="签名文件：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding SignatureFile, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="SignatureFile"
+                                                ToolTip="选一个 .txt，整段作为一段个性签名" />
                                     </Grid>
                                     <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
@@ -419,7 +475,9 @@
                                         <TextBlock Text="比特签名文件：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding BitSignatureFile, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="BitSignatureFile"
+                                                ToolTip="比特版的签名文件（.txt）" />
                                     </Grid>
                                     <TextBlock Text="签名文件整段 txt 作为一段个性签名，所有账号共用；超过 255 字会在写入前被拦下。"
                                                Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
@@ -451,7 +509,9 @@
                                         <TextBlock Text="图片目录：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding ImageDirectory, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="ImageDirectory"
+                                                ToolTip="头像与背景图共用这一个目录" />
                                     </Grid>
                                     <TextBlock Text="头像与背景图共用这一个目录。同一账号固定取同一张，不同账号尽量不同；留空则两项都跳过。"
                                                Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
@@ -465,7 +525,9 @@
                                         <TextBlock Text="比特图片：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding BitImageDirectory, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="BitImageDirectory"
+                                                ToolTip="比特版的头像与背景图目录" />
                                     </Grid>
 
                                     <TextBlock Text="资料修改结果保存目录：" Style="{StaticResource FieldLabel}"
@@ -479,7 +541,9 @@
                                         <TextBlock Text="谷歌版：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding ProfileEditResultExportDir, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="ProfileEditResultExportDir"
+                                                ToolTip="留空则不导出失败清单" />
                                     </Grid>
                                     <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
@@ -490,7 +554,9 @@
                                         <TextBlock Text="比特版：" Style="{StaticResource FieldLabel}" />
                                         <TextBox Grid.Column="1" Text="{Binding BitProfileEditResultExportDir, UpdateSourceTrigger=PropertyChanged}" />
                                         <Button Grid.Column="2" Content="选择..." Style="{StaticResource SecondaryButton}"
-                                                Width="62" Height="26" Margin="6,0,0,0" />
+                                                Width="62" Height="26" Margin="6,0,0,0"
+                                                Command="{Binding PickPathCommand}" CommandParameter="BitProfileEditResultExportDir"
+                                                ToolTip="留空则不导出失败清单" />
                                     </Grid>
                                     <TextBlock Text="留空则不导出。填了就按 AccountErrors_日期.txt 一行一条记失败账号（浏览器、assetId、原因），同一天多次执行接在后面写，不覆盖。"
                                                Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />

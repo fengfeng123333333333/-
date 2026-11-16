@@ -11,6 +11,7 @@ using FbAuto.Infrastructure.Configuration;
 using FbAuto.Infrastructure.Logging;
 using FbAuto.Infrastructure.System;
 using FbAuto.Licensing;
+using FbAuto.Presentation.Services;
 using FbAuto.Presentation.ViewModels;
 using FbAuto.Presentation.Views;
 
@@ -105,7 +106,8 @@ public partial class App : System.Windows.Application
 
         var runner = new TaskQueueRunner(executors, channels, accounts, logger);
 
-        return new MainViewModel(configService, logger, runner, accounts, channels);
+        // 对话框只在界面层落地；ViewModel 只认 IPathPicker，所以这一处是唯一的装配点。
+        return new MainViewModel(configService, logger, runner, accounts, channels, new WpfPathPicker());
     }
 
     private void ShowLoginWindow(

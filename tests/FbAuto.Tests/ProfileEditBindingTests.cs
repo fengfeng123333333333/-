@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using FbAuto.Tests.Support;
 
 namespace FbAuto.Tests;
 
@@ -60,7 +61,10 @@ public sealed class ProfileEditBindingTests
         var block = ProfileEditTab();
 
         // {Binding Xxx} / {Binding Xxx, ...} —— 只取属性名，忽略后面的 UpdateSourceTrigger 之类。
-        var bound = Regex.Matches(block, @"\{Binding\s+([A-Za-z_][A-Za-z0-9_]*)")
+        // 排除 Command="{Binding XxxCommand}"：命令是行为，不是配置值，
+        // 既不该要求它「在 ViewModel 上有对应属性」，也不该要求它「写回 config.json」。
+        // 这条是 S17 接上「选择...」按钮之后暴露的 —— 原来那一页一个 Command 绑定都没有。
+        var bound = Regex.Matches(block, @"(?<!Command="")\{Binding\s+([A-Za-z_][A-Za-z0-9_]*)")
             .Select(m => m.Groups[1].Value)
             .Distinct(StringComparer.Ordinal)
             .ToArray();
@@ -122,7 +126,10 @@ public sealed class ProfileEditBindingTests
     {
         var block = ProfileEditTab();
 
-        var bound = Regex.Matches(block, @"\{Binding\s+([A-Za-z_][A-Za-z0-9_]*)")
+        // 排除 Command="{Binding XxxCommand}"：命令是行为，不是配置值，
+        // 既不该要求它「在 ViewModel 上有对应属性」，也不该要求它「写回 config.json」。
+        // 这条是 S17 接上「选择...」按钮之后暴露的 —— 原来那一页一个 Command 绑定都没有。
+        var bound = Regex.Matches(block, @"(?<!Command="")\{Binding\s+([A-Za-z_][A-Za-z0-9_]*)")
             .Select(m => m.Groups[1].Value)
             .Distinct(StringComparer.Ordinal)
             .ToArray();
@@ -145,60 +152,24 @@ public sealed class ProfileEditBindingTests
     /// 取出 <c>MainViewModel.PersistConfig</c> 的方法体（按大括号配对切，不靠缩进），并**去掉注释**。
     /// </summary>
     /// <remarks>
-    /// 去掉注释这一步是注入实验逼出来的：最初直接对原文做正则，
-    /// 把 <c>// config.BitProfileCategory = ...;</c> 注释掉之后用例照样绿 ——
-    /// 注释里的那几个字把「真写回」骗过去了。守卫分不清「写了」和「写着但注释了」，
-    /// 就等于这条守卫在最该管用的那一次不管用。
+    /// 去注释与切方法体都交给 <see cref="CsSource.MethodBody"/>，两个守卫类（本类与
+    /// <c>PathPickerWiringTests</c>）共用同一套规则 —— 免得一边修好了、另一边还留着同样的漏洞。
     /// </remarks>
     private static string PersistConfigBody()
     {
-        var source = File.ReadAllText(RepoFile("src", "FbAuto.Presentation", "ViewModels", "MainViewModel.cs"));
+        var source = File.ReadAllText(RepoFiles.Resolve("src", "FbAuto.Presentation", "ViewModels", "MainViewModel.cs"));
+        var body = CsSource.MethodBody(source, "public void PersistConfig()");
 
-        const string head = "public void PersistConfig()";
-        var start = source.IndexOf(head, StringComparison.Ordinal);
-        Assert.True(start >= 0, "MainViewModel 里没有 PersistConfig 方法");
+        // 解析器自己先证伪：一份正常的 PersistConfig 不可能只剩几个字符。
+        Assert.True(body.Length > 500, $"PersistConfig 方法体只取到 {body.Length} 个字符，提取规则大概坏了");
 
-        var open = source.IndexOf('{', start);
-        Assert.True(open > start, "PersistConfig 没有方法体");
-
-        var depth = 0;
-        var end = -1;
-        for (var i = open; i < source.Length; i++)
-        {
-            if (source[i] == '{')
-            {
-                depth++;
-            }
-            else if (source[i] == '}')
-            {
-                depth--;
-                if (depth == 0)
-                {
-                    end = i;
-                    break;
-                }
-            }
-        }
-
-        Assert.True(end > open, "PersistConfig 的大括号没有配对");
-
-        // 逐行去掉注释：整行注释直接丢，行尾注释切掉。方法体里没有含 // 的字符串字面量
-        // （路径都用赋值传进来，不写字面量），所以按 // 切是安全的。
-        var cleaned = source[open..(end + 1)]
-            .Split('\n')
-            .Select(line => line.TrimEnd('\r'))
-            .Where(line => !line.TrimStart().StartsWith("//", StringComparison.Ordinal))
-            .Select(line => line.Contains("//", StringComparison.Ordinal)
-                ? line[..line.IndexOf("//", StringComparison.Ordinal)]
-                : line);
-
-        return string.Join('\n', cleaned);
+        return body;
     }
 
     /// <summary>取出「资料修改」这一页的 XAML 原文。</summary>
     private static string ProfileEditTab()
     {
-        var xaml = File.ReadAllText(RepoFile("src", "FbAuto.Presentation", "Views", "MainWindow.xaml"));
+        var xaml = File.ReadAllText(RepoFiles.Resolve("src", "FbAuto.Presentation", "Views", "MainWindow.xaml"));
 
         const string head = "<TabItem Header=\"资料修改\">";
         var start = xaml.IndexOf(head, StringComparison.Ordinal);
@@ -216,7 +187,7 @@ public sealed class ProfileEditBindingTests
     /// </summary>
     private static HashSet<string> ViewModelPropertyNames()
     {
-        var source = File.ReadAllText(RepoFile("src", "FbAuto.Presentation", "ViewModels", "MainViewModel.cs"));
+        var source = File.ReadAllText(RepoFiles.Resolve("src", "FbAuto.Presentation", "ViewModels", "MainViewModel.cs"));
 
         var names = new HashSet<string>(StringComparer.Ordinal);
 
@@ -236,25 +207,5 @@ public sealed class ProfileEditBindingTests
         }
 
         return names;
-    }
-
-    /// <summary>
-    /// 按仓库根拼路径。用 <c>FbAuto.slnx</c> 当锚点往上找 ——
-    /// 测试输出在 <c>build/out/...</c>，改输出路径也不会失效。
-    /// 找不到就直接失败并打印起点：静默跳过等于这条用例不存在。
-    /// </summary>
-    private static string RepoFile(params string[] relative)
-    {
-        var dir = new DirectoryInfo(AppContext.BaseDirectory);
-        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "FbAuto.slnx")))
-        {
-            dir = dir.Parent;
-        }
-
-        Assert.True(dir is not null, $"从 {AppContext.BaseDirectory} 往上没找到 FbAuto.slnx");
-
-        var path = Path.Combine([dir!.FullName, .. relative]);
-        Assert.True(File.Exists(path), $"没找到 {path}");
-        return path;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FbAuto.Application.Dialogs;
 using FbAuto.Application.Execution;
 using FbAuto.Browser.Abstractions;
 using FbAuto.Core.Abstractions;
@@ -25,6 +26,7 @@ public sealed partial class MainViewModel : ObservableObject
     private readonly TaskQueueRunner _runner;
     private readonly IAccountDirectory _accounts;
     private readonly IBrowserChannelProvider _channels;
+    private readonly IPathPicker _pathPicker;
 
     /// <summary>「打开浏览器」开出去、还没关的会话。窗口关闭时统一收掉，避免残留进程。</summary>
     private readonly List<(IBrowserChannel Channel, BrowserSession Session)> _openedBrowsers = [];
@@ -36,13 +38,15 @@ public sealed partial class MainViewModel : ObservableObject
         IAppLogger logger,
         TaskQueueRunner runner,
         IAccountDirectory accounts,
-        IBrowserChannelProvider channels)
+        IBrowserChannelProvider channels,
+        IPathPicker pathPicker)
     {
         _configService = configService ?? throw new ArgumentNullException(nameof(configService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _runner = runner ?? throw new ArgumentNullException(nameof(runner));
         _accounts = accounts ?? throw new ArgumentNullException(nameof(accounts));
         _channels = channels ?? throw new ArgumentNullException(nameof(channels));
+        _pathPicker = pathPicker ?? throw new ArgumentNullException(nameof(pathPicker));
 
         var config = configService.Current;
         _concurrentCount = config.ConcurrentCount;
@@ -85,6 +89,8 @@ public sealed partial class MainViewModel : ObservableObject
         _bitProfileCategory = config.BitProfileCategory;
         _deleteMessageLimit = config.DeleteMessageLimit.ToString(System.Globalization.CultureInfo.InvariantCulture);
         _deleteMessageCookieRootPath = config.DeleteMessageCookieRootPath;
+        _chromePath = config.ChromePath;
+        _accountsFile = config.AccountsFile;
 
         LoadBrowsers();
 
@@ -129,6 +135,26 @@ public sealed partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private string _browserType;
+
+    /// <summary>
+    /// Chrome 可执行文件路径。留空则自动查找（注册表 + 常见安装位置）。
+    /// </summary>
+    /// <remarks>
+    /// 这一项在 S15 之前**界面上根本没有入口**，只能手改 config.json。
+    /// 自动查找覆盖的是标准安装；Chrome 装在别的盘、或是免安装版时就得选。
+    /// </remarks>
+    [ObservableProperty]
+    private string _chromePath;
+
+    /// <summary>
+    /// 账号清单 CSV 路径。留空则用程序目录下的 accounts.csv。
+    /// </summary>
+    /// <remarks>
+    /// 同上，S15 之前只有 config.json 能动。清单常放在共享盘或另一块盘，
+    /// 让人手打路径不现实 —— 一个字母错就是「账号清单里没有别名」这种隔了一层才看得懂的报错。
+    /// </remarks>
+    [ObservableProperty]
+    private string _accountsFile;
 
     [ObservableProperty]
     private DateTime? _scheduledDate;
@@ -386,6 +412,83 @@ public sealed partial class MainViewModel : ObservableObject
         removed.Model.Status = TaskRunStatus.Interrupted;
     }
 
+    /// <summary>
+    /// 界面上所有「选择...」按钮共用这一个命令，靠 <c>CommandParameter</c> 区分选哪一项。
+    /// </summary>
+    /// <remarks>
+    /// 取消时必须保留原值：对话框返回空就等于「这次不算数」。
+    /// 反过来把取消当清空，使用者手滑点一次取消，已经填好的目录就没了，而且没有任何提示。
+    /// </remarks>
+    [RelayCommand]
+    private void PickPath(string? key)
+    {
+        var request = PathPickerCatalog.TryResolve(key);
+
+        if (request is null || string.IsNullOrWhiteSpace(key))
+        {
+            // 走到这里说明 XAML 的 CommandParameter 与对照表对不上（拼错、改名没同步）。
+            // 界面上表现为「点了没反应」，只能靠这行日志定位，所以不能静默返回。
+            _logger.Warn($"「选择...」按钮的参数「{key}」没有登记，本次点击不生效（程序缺陷，请上报）");
+            return;
+        }
+
+        var picked = _pathPicker.Pick(request, CurrentPathOf(key));
+
+        if (string.IsNullOrWhiteSpace(picked))
+        {
+            return;
+        }
+
+        ApplyPath(key, picked.Trim());
+    }
+
+    /// <summary>取某个 key 对应的现有路径，用作对话框的起始位置。未知 key 返回 null。</summary>
+    private string? CurrentPathOf(string? key) => key switch
+    {
+        nameof(VideoDirectory) => VideoDirectory,
+        nameof(DescriptionFile) => DescriptionFile,
+        nameof(BitVideoDirectory) => BitVideoDirectory,
+        nameof(BitDescriptionFile) => BitDescriptionFile,
+        nameof(SaveDirectory) => SaveDirectory,
+        nameof(NamesFile) => NamesFile,
+        nameof(BitNamesFile) => BitNamesFile,
+        nameof(SignatureFile) => SignatureFile,
+        nameof(BitSignatureFile) => BitSignatureFile,
+        nameof(ImageDirectory) => ImageDirectory,
+        nameof(BitImageDirectory) => BitImageDirectory,
+        nameof(ProfileEditResultExportDir) => ProfileEditResultExportDir,
+        nameof(BitProfileEditResultExportDir) => BitProfileEditResultExportDir,
+        nameof(ChromePath) => ChromePath,
+        nameof(AccountsFile) => AccountsFile,
+        _ => null,
+    };
+
+    /// <summary>把选中的路径写回对应属性。未知 key 记一条警告，不猜着写。</summary>
+    private void ApplyPath(string key, string value)
+    {
+        switch (key)
+        {
+            case nameof(VideoDirectory): VideoDirectory = value; break;
+            case nameof(DescriptionFile): DescriptionFile = value; break;
+            case nameof(BitVideoDirectory): BitVideoDirectory = value; break;
+            case nameof(BitDescriptionFile): BitDescriptionFile = value; break;
+            case nameof(SaveDirectory): SaveDirectory = value; break;
+            case nameof(NamesFile): NamesFile = value; break;
+            case nameof(BitNamesFile): BitNamesFile = value; break;
+            case nameof(SignatureFile): SignatureFile = value; break;
+            case nameof(BitSignatureFile): BitSignatureFile = value; break;
+            case nameof(ImageDirectory): ImageDirectory = value; break;
+            case nameof(BitImageDirectory): BitImageDirectory = value; break;
+            case nameof(ProfileEditResultExportDir): ProfileEditResultExportDir = value; break;
+            case nameof(BitProfileEditResultExportDir): BitProfileEditResultExportDir = value; break;
+            case nameof(ChromePath): ChromePath = value; break;
+            case nameof(AccountsFile): AccountsFile = value; break;
+            default:
+                _logger.Warn($"「选择...」选中的路径没有对应属性：「{key}」（程序缺陷，请上报）");
+                break;
+        }
+    }
+
     [RelayCommand(CanExecute = nameof(CanStart))]
     private async Task StartTasksAsync()
     {
@@ -506,6 +609,32 @@ public sealed partial class MainViewModel : ObservableObject
     }
 
     /// <summary>
+    /// 启动自检：界面上的「选择...」按钮必须都有命令、且数量与对照表一致。
+    /// </summary>
+    /// <param name="totalButtons">窗口遍历可视化树数出来的按钮个数。</param>
+    /// <param name="wiredButtons">其中 <c>Command</c> 非空的个数。</param>
+    /// <remarks>
+    /// 为什么要在运行时数一遍：XAML 里 <c>Command="{Binding PickPathCommand}"</c> 是字符串绑定，
+    /// 属性名写错、命令没生成，WPF **不报任何错** —— 按钮照样显示、有按下动画、点下去什么都不发生。
+    /// 这种情况只能靠「启动时数一遍并留一行日志」，否则等使用者反馈「按钮没反应」时，
+    /// 已经不知道是哪一版坏的了。
+    /// </remarks>
+    public void VerifyPickerWiring(int totalButtons, int wiredButtons)
+    {
+        var expected = PathPickerCatalog.Keys.Count;
+
+        if (totalButtons == expected && wiredButtons == expected)
+        {
+            _logger.Info($"界面自检通过：{totalButtons} 个「选择...」按钮都接上了路径选择命令");
+            return;
+        }
+
+        _logger.Warn(
+            $"界面自检失败：「选择...」按钮应有 {expected} 个且全部接命令，实际 {totalButtons} 个、其中 {wiredButtons} 个接了命令" +
+            "（这些按钮点下去不会有反应，属于程序缺陷）");
+    }
+
+    /// <summary>
     /// 把界面上的值写回配置并落盘。窗口关闭时调用，对应验收「改 config.json 重启后生效」的反向路径。
     /// </summary>
     public void PersistConfig()
@@ -562,6 +691,8 @@ public sealed partial class MainViewModel : ObservableObject
         }
 
         config.DeleteMessageCookieRootPath = DeleteMessageCookieRootPath ?? string.Empty;
+        config.ChromePath = ChromePath ?? string.Empty;
+        config.AccountsFile = AccountsFile ?? string.Empty;
 
         _configService.Save();
     }
