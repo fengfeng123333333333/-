@@ -68,3 +68,4 @@ captures/
 *.7z
 _orig/
 _runtest/
+env-report.txt

@@ -34,6 +34,8 @@ if errorlevel 1 (
 echo [3/3] Copying helper files
 if exist "%~dp0..\docs\accounts.sample.csv" copy /y "%~dp0..\docs\accounts.sample.csv" "%DIST%\accounts.sample.csv" >nul
 if exist "%~dp0..\docs\accounts-HOWTO.md" copy /y "%~dp0..\docs\accounts-HOWTO.md" "%DIST%\accounts-HOWTO.md" >nul
+if exist "%~dp0check-env.cmd" copy /y "%~dp0check-env.cmd" "%DIST%\check-env.cmd" >nul
+if exist "%~dp0check-env.ps1" copy /y "%~dp0check-env.ps1" "%DIST%\check-env.ps1" >nul
 
 echo.
 echo [OK] %DIST%
