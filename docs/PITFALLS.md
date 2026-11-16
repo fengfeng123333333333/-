@@ -218,6 +218,10 @@
 - **自包含发布包里 `license.dat` 不能跟着走**（S18）。凭证密钥由机器码派生，换机器解不开，
   带了也没用；而 `.playwright\` 目录必须跟走，缺了页面操作全废（但报错是「浏览器起不来」，
   不会直说驱动缺失）。`build\publish.cmd` 已经把这两条写进注释。
+- **Playwright 驱动的真实路径是 `.playwright\node\win32_x64\node.exe`，不是 `.playwright\node\node.exe`**（S18）。
+  按常识猜路径写出来的检查脚本会报「驱动缺失」，把人往「发布包不完整」的错误方向带 ——
+  实测包里 78MB 驱动好好的。`.playwright\package\cli.js` 也在。写这类完整性检查时**先 `find` 一遍再写路径**，
+  不要凭印象拼。
 
 ## 五、环境（本机特有）
 
