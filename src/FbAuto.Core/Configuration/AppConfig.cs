@@ -280,9 +280,15 @@ public sealed class AppConfig
     public string LicenseServerBaseUrl { get; set; } = string.Empty;
 
     /// <summary>
-    /// 开发期跳过激活直接进主界面。S3 完成后默认改 false，发布版必须为 false。
+    /// 开发期跳过激活直接进主界面。**只在 Debug 构建里有效**，Release 构建忽略此键
+    /// （见 <see cref="FbAuto.Core.Licensing.ActivationGate"/>）。
     /// </summary>
-    public bool SkipActivationInDevelopment { get; set; } = true;
+    /// <remarks>
+    /// 这个键能被使用者手改 config.json，所以不能只靠「发布时记得置 false」——
+    /// 那样等于把授权开关交给客户端。真正的闸门在编译期：Release 构建里
+    /// <see cref="FbAuto.Core.Licensing.ActivationGate.BuildAllowsSkip"/> 恒为 false。
+    /// </remarks>
+    public bool SkipActivationInDevelopment { get; set; }
 
     /// <summary>日志保留天数，S9 部署时按此滚动。</summary>
     public int LogRetentionDays { get; set; } = 30;

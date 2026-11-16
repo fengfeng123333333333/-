@@ -54,11 +54,20 @@ public partial class App : System.Windows.Application
             Path.Combine(baseDirectory, "license.dat"), machineCode, logger);
         var licenseService = new OfflineLicenseService(licenseStore, logger);
 
-        if (configService.Current.SkipActivationInDevelopment)
+        // 这个开关只对 Debug 构建有效。发布版无论 config.json 怎么写都不跳激活——
+        // 详见 ActivationGate 的注释：把授权闸门放在可编辑的配置文件里等于没做授权。
+        var wantsSkip = configService.Current.SkipActivationInDevelopment;
+
+        if (ActivationGate.ShouldSkip(wantsSkip))
         {
-            logger.Warn("开发模式：跳过激活直接进入主界面（SkipActivationInDevelopment=true，发布前必须置 false）");
+            logger.Warn("开发模式：跳过激活直接进入主界面（SkipActivationInDevelopment=true，仅 Debug 构建有效）");
             ShowMainWindow(configService, logger);
             return;
+        }
+
+        if (wantsSkip)
+        {
+            logger.Warn("config.json 里 SkipActivationInDevelopment=true，但这是 Release 构建，该键已忽略，仍然需要激活");
         }
 
         // 已激活且未到期就直接进主界面，不必每次开机重新输码

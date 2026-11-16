@@ -2,6 +2,7 @@
 bin/
 obj/
 build/out/
+build/dist/
 *.user
 *.suo
 .vs/
