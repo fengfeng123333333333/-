@@ -1,6 +1,6 @@
 # S14 · 七项开关与资料修改结果导出
 
-2026-11-16 · 提交见文末 · 不依赖 Chrome 的 **579 条全绿**（Chrome 集测 63 条暂缓，见 6.9）
+2026-11-16 · 提交 `f9116aa` · 不依赖 Chrome 的 **579 条全绿**（Chrome 集测 63 条暂缓，见 6.9）
 
 ---
 
@@ -257,6 +257,7 @@ Chrome 集测暂缓前，S13 的全量口径是 611 条。本步新增 4 个测�
 - `tests/FbAuto.Tests/AccountErrorLogTests.cs`
 - `tests/FbAuto.Tests/TaskRunOptionsTests.cs`
 - `tests/FbAuto.Tests/ProfileEditSwitchTests.cs`（开关行为）
+- `build/test-nochrome.cmd`（只跑不依赖 Chrome 的 579 条，纯 ASCII）
 - `docs/plans/S14-EDIT-SWITCHES-EXPORT.md`（本文）
 
 改动：
