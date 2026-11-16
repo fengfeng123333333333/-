@@ -1,0 +1,98 @@
+S16 并发风控补全（同账号串行、截图不重名）—— 测试与注入证据
+=====================================================
+
+一、结果
+--------
+命令：dotnet test --filter 排除 7 个需真 Chrome 的集成类（等价 build\test-nochrome.cmd）
+时间：2026-11-16 15:0x，耗时 4 秒 / 6 秒（连跑两轮）
+结果：失败 0，通过 598，跳过 0，总计 598（两轮一致）
+
+原始输出末行：
+  已通过! - 失败:     0，通过:   598，已跳过:     0，总计:   598
+
+S15 是 589 条，本步净增 9 条。需真 Chrome 的 63 条按需求方指示暂缓，合计 661 条。
+
+新增 1 个测试类 + 4 条用例：
+  TaskExecutionContextScreenshotTests   5（新建）
+  TaskQueueRunnerTests                 +4
+
+二、本步新增用例
+----------------
+TaskQueueRunnerTests
+  并发数为二时同一账号的两条任务仍然串行
+      断言 peak = 1；且两条都执行完（LaunchCount = 2、CloseCount = 2）
+      —— 串行不等于少跑，这条一起钉住，否则「只跑一条」也能让 peak 变 1。
+  同账号排队时写一行说明原因的日志
+      断言日志里含「排队等待」且含别名；再断言该文案**只出现一次**
+      —— 直接进的那条不该也打一句。
+  并发数大于任务数时日志写实际并发
+      配 5 条并发、2 条任务 → 断言日志含「实际并发 2」。
+  取消时卡在账号锁上的任务也落到中断态
+      同账号两条、200 ms 后取消 → 两条都 Interrupted、summary.Interrupted = 2、
+      LaunchCount 与 CloseCount 相等（没留下「开了没关」的账）。
+
+TaskExecutionContextScreenshotTests
+  同一秒内的两次失败截图不会互相覆盖
+      同一上下文连调两次 FailAsync（必然同秒）→ 两个路径不相等，目录里正好 2 个 png。
+  别名含非法文件名字符时截图仍然能保存（Theory）
+      acc/01、acc:01、acc*01 三种形态 → 截图存在、文件名里不含任何非法字符。
+  别名为空时文件名用固定占位而不是空白
+      断言文件名含 unknown。
+
+三、一个被用例抓到的真 bug（不是注入造出来的）
+----------------------------------------------
+第一版实现里，「账号锁是否持有」是用 `accountGate is not null` 判断的。
+跑全量时 `取消时卡在账号锁上的任务也落到中断态` 变红，异常是：
+
+  System.Threading.SemaphoreFullException : Adding the specified count to the
+  semaphore would cause it to exceed its maximum count.
+     at System.Threading.SemaphoreSlim.Release(Int32 releaseCount)
+     at TaskQueueRunner.RunOneGuardedAsync(...)
+
+成因：`accountGate.WaitAsync(0, token)` 在令牌已取消时直接抛 OCE，
+此时对象已被 TryGetValue 赋值却没拿到锁；finally 只看非空就 Release，
+把信号量放到超过上限，而这条异常从 finally 冒出去会打挂整轮 Task.WhenAll。
+修法：单独记 heldAccountGate。修完重跑全绿，再用注入 M5 把同一异常复现一次，
+证明这条用例真的在管这件事。
+
+四、反向注入（6 项，全部命中后还原）
+------------------------------------
+注入方式：用编辑器工具改产品代码 → build\dotnet.cmd build FbAuto.slnx → 跑对应用例 → 还原。
+每项都重新 build 了整个 slnx（只 build 测试项目会跑旧 DLL）。
+
+M1  闸门表建好后 accountGates.Clear()（等于没有账号锁）
+    命中：并发数为二时同一账号的两条任务仍然串行
+    报错：Assert.Equal() Failure: Values differ / Expected: 1 / Actual: 2
+
+M2  开始执行日志改回固定写「并发 {concurrency}」
+    命中：并发数大于任务数时日志写实际并发
+    报错：Assert.Contains() Failure: Filter not matched in collection
+
+M3  截图文件名退回 yyyyMMdd_HHmmss_{Kind}_{别名}（去掉毫秒与 Id）
+    命中：同一秒内的两次失败截图不会互相覆盖
+    报错：Assert.NotEqual() Failure: Strings are equal
+
+M4  截图文件名去掉 SafeFileName，直接拼别名
+    命中 4 条：别名含非法文件名字符时截图仍然能保存（acc:01 / acc*01 / acc/01 三条）
+              + 别名为空时文件名用固定占位而不是空白
+    报错：Assert.NotNull() Failure: Value is null（截图被 catch 吞掉）
+          Assert.DoesNotContain() Failure: Filter matched in collection
+    注：acc/01 那条是路径变成子目录、Directory 不存在；另两条是文件名含非法字符。
+
+M5  释放条件改回 heldAccountGate || accountGate is not null
+    命中：取消时卡在账号锁上的任务也落到中断态
+    报错：System.Threading.SemaphoreFullException（与第 3 节同一个异常）
+
+M6  「排队等待」日志移到 WaitAsync(0) 之前，无条件打印
+    命中：同账号排队时写一行说明原因的日志
+    报错：Assert.Single() Failure: The collection contained 2 matching items
+
+全部还原后 grep -rn "MUTATION" src/ tests/ 无输出。
+
+五、为什么这一步不「照原版补」
+------------------------------
+回 _analysis/u16_all.txt 按词计数：风控 0、间隔 0、延迟 0、冷却 0、频繁 0、验证 0；
+「重试」5 处全是页面级等弹窗（第 3168 / 3229 / 3231 / 3415 / 3452 行）；
+「并发」1 处是日志串「个任务，并发数:」；「随机」3 处均与请求节奏无关。
+结论：原版的风控手段只有并发数（默认 1）与启动间隔（默认 3 秒），两者 S4 已实现且有 5 条用例。
+所以本步的内容不是补仿制，而是补并发下会真出事的缺陷（见 S16 文档第 1 节）。

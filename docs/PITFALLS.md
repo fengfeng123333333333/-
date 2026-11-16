@@ -172,13 +172,28 @@
 - **「原版没有的东西」不要想当然按「不改」处理**（S15）。原版把类别硬编码成「戏剧」
   （`has-text('戏剧')`、`未找到【戏剧】选项`、`已选择【戏剧】`，且 settings.json 22 个键里没有类别）。
   做成可配置之后，**留空必须回落那个词，不能理解成「跳过」** —— 跳过等于让开关空转。
+- **信号量「拿到了没有」不能用引用非空判断**（S16）。`SemaphoreSlim.WaitAsync(0, token)`
+  在令牌已取消时会直接抛 `OperationCanceledException`，此时闸门对象早已被 `TryGetValue` 赋了值
+  却没拿到锁；`finally` 里只看非空就 `Release()` 会抛 `SemaphoreFullException`
+  （`Adding the specified count to the semaphore would cause it to exceed its maximum count`），
+  而且这条异常从 `finally` 冒出去会把整轮 `Task.WhenAll` 打挂。
+  **必须单独记一个 `heldXxx` 布尔**。这个 bug 是 S16 第一版代码里真实存在的，被新用例抓住后
+  又用注入 M5 复现了一次。
+- **同账号并发会互相打死浏览器**（S16）。两条同账号任务各启一个 Chrome 指同一个 `user-data-dir`：
+  Chrome 把第二个实例的启动请求转发给第一个之后自己退出，而启动前那句「清残留
+  `DevToolsActivePort`」删的是**第一个实例正在用的**文件 —— 先开的读不到端口、后开的报
+  「启动后立即退出」，两条一起废。调度层必须按账号串行，且**账号锁要放在并发槽之前**，
+  否则会占着并发槽干等，并发形同虚设。
+- **静默吞异常的地方必须落盘断言**（S16）。失败截图是故意吞异常的（截图失败不该让任务崩溃变程序崩溃），
+  代价是它坏掉时只有一句 `Warn`。所以它的用例不能只断言「返回路径不为 null」，
+  要真写文件、数目录里的文件个数，否则「两条任务覆盖成一张图」这种情况永远测不出来。
 - **Chrome 集成测试在「全量跑」时会偶发卡死，单跑该类却基本正常**（S14，尚未定位根因）。
   症状：`--blame --blame-hang-timeout 90s` 会点名 `VideoUploadFlowIntegrationTests` 里的某一条，
   但不固定是哪一条（停过的页面有 `upload.html` / `upload-nodesc.html` / `upload-schedule.html`），
   已排除残留 Chrome、残留临时目录、残留 testhost。单跑该类 5 次里 4 次全绿、1 次以
   `Assert.True(result.Published)` 失败 —— 抖动而非确定性缺陷。
   需求方 2026-11-16 指示「需要调 Chrome 的测试暂时先不用」，日常改用 `build\test-nochrome.cmd`
-  （排除 7 个类共 63 条，579 条 4~6 秒全绿）。**恢复前必须先定位它**，否则全量结论不可信。
+  （排除 7 个类共 63 条，598 条 4~6 秒全绿）。**恢复前必须先定位它**，否则全量结论不可信。
   排查入口：`tests/FbAuto.Tests/TestResults/<guid>/Sequence_*.xml` 里找唯一
   `Completed` 不为 `True` 的那条。
 
