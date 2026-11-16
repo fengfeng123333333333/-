@@ -206,9 +206,18 @@
   已排除残留 Chrome、残留临时目录、残留 testhost。单跑该类 5 次里 4 次全绿、1 次以
   `Assert.True(result.Published)` 失败 —— 抖动而非确定性缺陷。
   需求方 2026-11-16 指示「需要调 Chrome 的测试暂时先不用」，日常改用 `build\test-nochrome.cmd`
-  （排除 7 个类共 63 条，647 条 5~6 秒全绿）。**恢复前必须先定位它**，否则全量结论不可信。
+  （排除 7 个类共 63 条，654 条 5~6 秒全绿）。**恢复前必须先定位它**，否则全量结论不可信。
   排查入口：`tests/FbAuto.Tests/TestResults/<guid>/Sequence_*.xml` 里找唯一
   `Completed` 不为 `True` 的那条。
+- **「开发期跳过激活」这类开关不能放在可编辑的配置文件里**（S18，交付前发现）。
+  `SkipActivationInDevelopment` 原本默认 `true` 且从 `config.json` 读，打成发布包之后
+  里面就写着 `true` —— 拿到包的人改都不用改，不输授权码就能用，签名/密钥/机器绑码全部作废。
+  修法是把闸门放到**编译期**（`ActivationGate.BuildAllowsSkip` 在 Release 下恒 `false`），
+  配置里那个键只对 Debug 构建生效。教训：**凡是「为方便开发而留的后门」，判定必须依赖
+  构建类型，不能依赖运行时能改的文件**；而且「发布前记得改成 false」这种口头约定一定会忘。
+- **自包含发布包里 `license.dat` 不能跟着走**（S18）。凭证密钥由机器码派生，换机器解不开，
+  带了也没用；而 `.playwright\` 目录必须跟走，缺了页面操作全废（但报错是「浏览器起不来」，
+  不会直说驱动缺失）。`build\publish.cmd` 已经把这两条写进注释。
 
 ## 五、环境（本机特有）
 

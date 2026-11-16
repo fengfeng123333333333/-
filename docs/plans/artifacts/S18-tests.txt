@@ -1,0 +1,66 @@
+S18 交付准备（发布包 + 授权闸门修复 + 远程验收步骤）—— 测试与注入证据
+=====================================================
+
+一、结果
+--------
+命令：build\test-nochrome.cmd（排除 7 个需真 Chrome 的集成类）
+时间：2026-11-16 15:5x
+结果：失败 0，通过 654，跳过 0，总计 654（多轮一致，单轮 4~8 秒）
+  已通过! - 失败:     0，通过:   654，已跳过:     0，总计:   654
+
+S17 是 647 条，本步净增 7 条（ActivationGateTests）。
+需真 Chrome 的 63 条按需求方指示暂缓，合计 717 条。
+
+新增 1 个测试类：
+  ActivationGateTests   7（新建）
+    发布构建即使配置写了跳过也不跳
+    调试构建且配置写了跳过才跳
+    配置没写跳过就不跳（Theory ×2）
+    单参重载走的是当前构建的闸门而不是只看配置
+    启动流程必须经由闸门判定而不是直接读配置
+    配置项的默认值不是跳过
+
+
+二、发布产物核对
+----------------
+build\publish.cmd → build\dist\FbAuto
+  文件数 269，体积 220MB，含 coreclr.dll（自包含）
+  含 .playwright\node\（Playwright 驱动）
+  含 accounts.sample.csv / accounts-HOWTO.md
+  不含 license.dat（机器绑码，跨机解不开）
+  不含 config.json（首次运行生成）
+
+发布包直接启动（无授权凭证）：
+  日志到「机器码」为止，之后既无「界面自检」也无「账号清单为空」
+  → 主界面没被创建，停在激活窗
+
+
+三、运行期验证（Release 发布包，两种方向都跑了）
+------------------------------------------------
+A) 无 license.dat + config.json 里 SkipActivationInDevelopment=true
+   日志：
+     [WRN] config.json 里 SkipActivationInDevelopment=true，但这是 Release 构建，
+           该键已忽略，仍然需要激活
+   结果：停在激活窗（无「界面自检」、无「账号清单为空」）
+
+B) 放回本机有效的 license.dat（config.json 仍写着 true）
+   日志：
+     [INF] 授权状态：Active ... 到期 2026-12-12，剩余 26 天
+     [WRN] config.json 里 SkipActivationInDevelopment=true，但这是 Release 构建，该键已忽略
+     [INF] 本地授权有效，剩余 26 天，直接进入主界面
+     [INF] 界面自检通过：15 个「选择...」按钮都接上了路径选择命令
+   结果：正常进主界面
+
+
+四、反向注入（证伪）
+--------------------
+| 注入 | 改坏什么 | 结果 | 命中的用例与报错 |
+| G1 | ShouldSkip(配置,构建) 直接返回配置值 | 红 | 发布构建即使配置写了跳过也不跳：Assert.False() Failure Expected: False, Actual: True |
+| G2 | App.xaml.cs 改回 if (wantsSkip) | 红 | 启动流程必须经由闸门判定而不是直接读配置：Assert.Contains() Failure Sub-string not found |
+| G3 | AppConfig 加回 = true 初值器 | 先绿后红 | 第一版守卫按「属性名后第一个分号」截断，截到 { get; 的分号，= true 没进比对 → 修守卫成「先剥访问器再断言」后：Assert.DoesNotContain() Failure Sub-string found |
+| G4 | BuildAllowsSkip 去掉 #if，恒 true | 红（运行期） | 打发布包 → 无 license.dat + 配置写 true → 进主界面，日志出现「账号清单为空」与「界面自检通过：15 个…」 |
+
+G3 是守卫自身的假绿，靠注入才暴露（第三次同类问题：S15 没剥注释、S17 命令当配置、
+S18 截取范围错）。G4 把「编译期闸门」从读代码变成实测。
+
+还原后 grep -rn MUTATION src/ tests/ 无输出；重新 build + 全量 654 绿；重新打发布包。
