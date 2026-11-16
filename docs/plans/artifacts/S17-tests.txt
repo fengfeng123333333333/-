@@ -1,0 +1,121 @@
+S17 界面补齐（15 个「选择...」按钮接上对话框）—— 测试与注入证据
+=====================================================
+
+一、结果
+--------
+命令：dotnet test --filter 排除 7 个需真 Chrome 的集成类（等价 build\test-nochrome.cmd）
+时间：2026-11-16 15:1x，耗时 5 秒 / 6 秒（连跑两轮）
+结果：失败 0，通过 647，跳过 0，总计 647（两轮一致）
+
+原始输出末行：
+  已通过! - 失败:     0，通过:   647，已跳过:     0，总计:   647
+
+S16 是 598 条，本步净增 49 条。需真 Chrome 的 63 条按需求方指示暂缓，合计 710 条。
+
+新增 3 个测试类：
+  PathPickerCatalogTests     32（新建）
+  PathPickerWiringTests       8（新建）
+  PathStartFolderTests        9（新建）
+既有类修改（不增条数）：
+  ProfileEditBindingTests     正则加 (?<!Command=") 排除命令绑定
+
+测试设施抽取（两个守卫类共用，避免同一套规则写两遍、一边修好一边留着洞）：
+  tests/FbAuto.Tests/Support/RepoFiles.cs   按仓库根找文件（FbAuto.slnx 作锚点）
+  tests/FbAuto.Tests/Support/CsSource.cs    切方法体（大括号配对）+ 剥注释 + 收 nameof
+
+二、本步新增用例要点
+--------------------
+PathPickerCatalogTests
+  登记了十五个入口              少登记一个的表现是「按钮按下去没反应」。
+  每个入口的对话框种类正确      15 条 Theory，逐个钉住 Folder / File。
+  种类与筛选器一致              选目录不能带文件筛选器，选文件必须有；写反了界面不报错。
+  每个入口都有说明用途的标题    不能弹一个没标题的框；标题必须含「选择」两个字。
+  文件入口锁定了扩展名          8 条 Theory：6 个 txt、1 个 exe、1 个 csv。
+  无法识别的参数返回空          6 条：null / 空串 / 空白 / 大小写错 / 拼错 / 故意没登记的项。
+
+PathPickerWiringTests（文本级守卫，XAML 与源码当文本核对）
+  每个选择按钮都接了命令        按钮计数 = 15，接命令计数 = 15。
+  按钮的参数都能在对照表里查到  参数拼错的文件话，点下去只会留一行警告。
+  对照表里每一项都有按钮        反向：表里有、界面上没有 = 只能手打。
+  按钮参数与旁边输入框绑定同名  从按钮位置往前找最近的 Text="{Binding X,"，断言与参数相等。
+  选择命令在ViewModel上真的生成了  断言 [RelayCommand] 紧邻 private void PickPath(。
+  每个参数都能写回属性          ApplyPath 的每个 case 都得在；且每支都是 X = value。
+  每个参数都能取到当前值        CurrentPathOf 覆盖所有 key（否则对话框每次从默认位置开始）。
+  每个参数都被保存写回          PersistConfig 逐个 config.Xxx =，专治 ChromePath / AccountsFile 漏写。
+
+PathStartFolderTests
+  现有的目录直接用 / 现有的文件取它所在的目录 / 失效路径两种 / 空值四种 / 首尾空格被去掉。
+
+三、运行期验证（不在 xunit 里）
+--------------------------------
+本步改的是界面，文本守卫证明不了「按钮真的拿到了命令」，所以加了一条启动自检：
+MainWindow.Loaded 里遍历可视化树，数 Content == "选择..." 的按钮总数与其中 Command 非空的个数，
+交给 MainViewModel.VerifyPickerWiring 写日志。
+
+日志位置：build/out/FbAuto.Presentation/Debug/net10.0-windows/Logs/App_20261116.log
+
+  正常启动（15:13:48 / 15:15:37）
+    [INF] 界面自检通过：15 个「选择...」按钮都接上了路径选择命令
+    主窗口标题＝自动化工具_Facebook，句柄非零，日志 0 条 ERR
+
+  注入 N8 后启动（15:14:24）
+    [WRN] 界面自检失败：「选择...」按钮应有 15 个且全部接命令，实际 15 个、其中 14 个接了命令
+          （这些按钮点下去不会有反应，属于程序缺陷）
+
+四、反向注入（8 项，全部命中后还原）
+------------------------------------
+注入方式：编辑器工具改产品代码 → build\dotnet.cmd build FbAuto.slnx → 跑对应用例（N8 是启动程序）→ 还原。
+
+N1  摘掉 VideoDirectory 按钮的 Command
+    命中 3 条：每个选择按钮都接了命令
+    报错：Assert.Equal() Failure / Expected: 15 / Actual: 14
+
+N2  CommandParameter "VideoDirectory" 改成 "VideoDir"
+    命中 3 条：按钮参数与旁边输入框绑定同名
+    报错：Expected: "VideoDirectory" / Actual: "VideoDir"
+
+N3  对照表把 DescriptionFile 从 File 改成 Folder
+    命中 2 条：每个入口的对话框种类正确（Expected: File / Actual: Folder）
+              文件入口锁定了扩展名（Filter 里找不到 *.txt）
+
+N4  注释掉 case nameof(SaveDirectory): SaveDirectory = value;
+    命中 1 条：每个参数都能写回属性
+    报错：这些 key 能弹对话框，但 ApplyPath 里没有对应分支，选完不写回：SaveDirectory
+    注：**用注释注入是有意的** —— 同时验证「守卫先剥注释再匹配」真的生效（S15 的 J5 就是栽在这）。
+
+N5  注释掉 config.ChromePath = ...
+    命中 1 条：每个参数都被保存写回
+    报错：这些路径界面上能选，但 PersistConfig 没有写回，重启就丢：ChromePath
+    注：同 N4，验证剥注释。
+
+N6  SaveDirectory 按钮的 CommandParameter 改成 VideoDirectory（模拟复制粘贴接错行）
+    命中 2 条：按钮参数与旁边输入框绑定同名
+    报错：Expected: "SaveDirectory" / Actual: "VideoDirectory"
+
+N7  PathStartFolder 不再识别文件路径（File.Exists 分支返回 null）
+    命中 1 条：现有的文件取它所在的目录
+    报错：Expected: "C:\Users\...\Temp\FbAutoTests\..." / Actual: null
+
+N8  摘掉 ChromePath 按钮的命令后启动程序（运行期注入，唯一一条）
+    命中：界面自检日志从「通过」变成「失败：…实际 15 个、其中 14 个接了命令」
+
+全部还原后 grep -rn "MUTATION" src/ tests/ 无输出。
+
+五、这一步踩到的一个真 bug（不是注入造出来的）
+----------------------------------------------
+遍历按钮的第一版写成「逻辑树 + 可视化树都走」：
+  LogicalTreeHelper.GetChildren 会返回 RowDefinition / ColumnDefinition 这类**不是 Visual** 的元素，
+  直接递给 VisualTreeHelper.GetChildrenCount 抛
+  InvalidOperationException:「System.Windows.Controls.RowDefinition」不是 Visual 或 Visual3D。
+  表现为界面线程未处理异常弹窗（日志 15:11:36 / 15:12:31 两条 ERR）。
+
+修法：走可视化树之前先判 node is Visual or Visual3D；另外逻辑树与可视化树大量重叠，
+必须记 visited 集合，否则同一棵子树被反复遍历（深度 15 层会放大成指数级）。
+
+六、未完成（已写进 S17 第 6 节）
+--------------------------------
+对话框本身没有被自动化验证：本机没有 pywinauto / comtypes / uiautomation，
+Add-Type 被安全策略禁掉、截屏也走不通。能证明的是「按钮拿到了命令」，
+证明不了「点下去弹出了系统对话框」—— 需要真人点一次。
+WpfPathPicker 里两行对话框调用同理没有单测（起始目录推导已挪到 Application 层并被覆盖）。
+DeleteMessageCookieRootPath 故意不加按钮：它当前只写日志不注入，加了会让人以为配了就生效。

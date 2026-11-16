@@ -187,13 +187,26 @@
 - **静默吞异常的地方必须落盘断言**（S16）。失败截图是故意吞异常的（截图失败不该让任务崩溃变程序崩溃），
   代价是它坏掉时只有一句 `Warn`。所以它的用例不能只断言「返回路径不为 null」，
   要真写文件、数目录里的文件个数，否则「两条任务覆盖成一张图」这种情况永远测不出来。
+- **WPF 的绑定失败是静默的，界面自检是唯一的运行期证据**（S17）。`Command="{Binding Xxx}"` 里
+  属性名写错、命令没生成，不抛异常、不报编译错误 —— 按钮照样显示、有按下动画、点下去什么都不发生。
+  文本级守卫只能证明「XAML 里写了这几个字」。所以 `MainWindow.Loaded` 里遍历可视化树数一遍
+  「选择...」按钮有没有 `Command`，把结果写进日志。S17 的注入 N8 证明了这条自检不是永远绿：
+  摘掉一个按钮的命令后日志立刻变成「应有 15 个…实际 15 个、其中 14 个接了命令」。
+- **逻辑树里混着非 Visual 的元素**（S17）。`LogicalTreeHelper.GetChildren` 会返回
+  `RowDefinition` / `ColumnDefinition`，把它们直接递给 `VisualTreeHelper.GetChildrenCount`
+  会抛 `InvalidOperationException: 「…RowDefinition」不是 Visual 或 Visual3D`，
+  而且是界面线程未处理异常。遍历前先判 `node is Visual or Visual3D`。
+  另外逻辑树与可视化树大量重叠，必须记访问过的节点，否则同一棵子树被反复遍历。
+- **同一页的「数据绑定」守卫会把命令绑定也算进去**（S17）。`ProfileEditBindingTests` 用
+  `{Binding (\w+)}` 收集绑定名，接上「选择...」按钮之后它开始要求「PickPathCommand 要写回 config.json」。
+  命令是行为、不是配置值，正则加 `(?<!Command=")` 排除。
 - **Chrome 集成测试在「全量跑」时会偶发卡死，单跑该类却基本正常**（S14，尚未定位根因）。
   症状：`--blame --blame-hang-timeout 90s` 会点名 `VideoUploadFlowIntegrationTests` 里的某一条，
   但不固定是哪一条（停过的页面有 `upload.html` / `upload-nodesc.html` / `upload-schedule.html`），
   已排除残留 Chrome、残留临时目录、残留 testhost。单跑该类 5 次里 4 次全绿、1 次以
   `Assert.True(result.Published)` 失败 —— 抖动而非确定性缺陷。
   需求方 2026-11-16 指示「需要调 Chrome 的测试暂时先不用」，日常改用 `build\test-nochrome.cmd`
-  （排除 7 个类共 63 条，598 条 4~6 秒全绿）。**恢复前必须先定位它**，否则全量结论不可信。
+  （排除 7 个类共 63 条，647 条 5~6 秒全绿）。**恢复前必须先定位它**，否则全量结论不可信。
   排查入口：`tests/FbAuto.Tests/TestResults/<guid>/Sequence_*.xml` 里找唯一
   `Completed` 不为 `True` 的那条。
 
