@@ -585,4 +585,103 @@ public sealed class TaskQueueRunnerTests
         Assert.Contains("acc99", text);
         Assert.Contains("账号清单里没有别名", text);
     }
+
+    /// <summary>
+    /// 同账号的两条任务，并发开到 2 也必须串行。
+    /// </summary>
+    /// <remarks>
+    /// 这不是保守，是血账：两条同账号任务并行会各自启动一个 Chrome 指向同一个 user-data-dir，
+    /// Chrome 把第二个实例的启动请求转发给第一个、然后自己退出；
+    /// 而 <c>ChromeChannel</c> 启动前「清掉残留的 DevToolsActivePort」删的是**第一个实例正在用的**文件，
+    /// 于是先开的那条读不到端口、后开的那条报「启动后立即退出」，两条一起废。
+    /// </remarks>
+    [Fact]
+    public async Task 并发数为二时同一账号的两条任务仍然串行()
+    {
+        var current = 0;
+        var peak = 0;
+        var executor = new StubTaskExecutor(TaskKind.VideoUploadGoogle, async (_, ct) =>
+        {
+            RaisePeak(ref peak, Interlocked.Increment(ref current));
+            await Task.Delay(150, ct);
+            Interlocked.Decrement(ref current);
+            return TaskExecutionResult.Ok("ok");
+        });
+
+        using var h = new Harness(executor);
+
+        await h.Runner.RunAsync(
+            [NewTask("acc01"), NewTask("acc01")],
+            new TaskRunOptions { ConcurrentCount = 2, LaunchIntervalSeconds = 0 });
+
+        Assert.Equal(1, Volatile.Read(ref peak));
+
+        // 串行 ≠ 少跑：两条都执行完，各启过一次浏览器。
+        Assert.Equal(2, h.Channel.LaunchCount);
+        Assert.Equal(2, h.Channel.CloseCount);
+    }
+
+    /// <summary>排队必须留痕，否则使用者看到任务迟迟不开始会以为卡死。</summary>
+    [Fact]
+    public async Task 同账号排队时写一行说明原因的日志()
+    {
+        var executor = new StubTaskExecutor(TaskKind.VideoUploadGoogle, async (_, ct) =>
+        {
+            await Task.Delay(120, ct);
+            return TaskExecutionResult.Ok("ok");
+        });
+
+        using var h = new Harness(executor);
+
+        await h.Runner.RunAsync(
+            [NewTask("acc01"), NewTask("acc01")],
+            new TaskRunOptions { ConcurrentCount = 2, LaunchIntervalSeconds = 0 });
+
+        Assert.Contains(h.Logger.Entries, e => e.Contains("排队等待") && e.Contains("acc01"));
+
+        // 只有真排队的那条写一行。第一条直接进，不该也来一句「排队等待」。
+        Assert.Single(h.Logger.Entries, e => e.Contains("排队等待"));
+    }
+
+    /// <summary>并发数比任务多时日志必须写实际并发，否则事后对账会以为丢了任务。</summary>
+    [Fact]
+    public async Task 并发数大于任务数时日志写实际并发()
+    {
+        using var h = new Harness(new StubTaskExecutor(TaskKind.VideoUploadGoogle));
+
+        await h.Runner.RunAsync(
+            [NewTask("acc01"), NewTask("acc02")],
+            new TaskRunOptions { ConcurrentCount = 5, LaunchIntervalSeconds = 0 });
+
+        Assert.Contains(h.Logger.Entries, e => e.Contains("实际并发 2"));
+    }
+
+    /// <summary>
+    /// 取消时账号锁不能泄漏：卡在「等账号锁」上的任务要被取消成中断态，
+    /// 而不是永远等下去（那会让整轮 WhenAll 永不返回）。
+    /// </summary>
+    [Fact]
+    public async Task 取消时卡在账号锁上的任务也落到中断态()
+    {
+        var executor = new StubTaskExecutor(TaskKind.VideoUploadGoogle, async (_, ct) =>
+        {
+            await Task.Delay(3000, ct);
+            return TaskExecutionResult.Ok("不该走到这里");
+        });
+
+        using var h = new Harness(executor);
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
+
+        var tasks = new[] { NewTask("acc01"), NewTask("acc01") };
+        var summary = await h.Runner.RunAsync(
+            tasks,
+            new TaskRunOptions { ConcurrentCount = 2, LaunchIntervalSeconds = 0 },
+            cts.Token);
+
+        Assert.All(tasks, t => Assert.Equal(TaskRunStatus.Interrupted, t.Status));
+        Assert.Equal(2, summary.Interrupted);
+
+        // 只启了一个浏览器：第二条根本没轮上，不该留下「开了没关」的账。
+        Assert.Equal(h.Channel.LaunchCount, h.Channel.CloseCount);
+    }
 }

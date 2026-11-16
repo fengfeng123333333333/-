@@ -6,7 +6,7 @@ using FbAuto.Core.Models;
 namespace FbAuto.Application.Execution;
 
 /// <summary>
-/// 队列执行器。职责就五件：挑待执行的、按并发与间隔跑、把状态写回去、异常转失败、**无论如何关掉浏览器**。
+/// 队列执行器。职责就六件：挑待执行的、按并发与间隔跑、**同账号串行**、把状态写回去、异常转失败、**无论如何关掉浏览器**。
 ///
 /// 刻意不做的事：
 /// - 不碰 UI 线程（只发事件，界面自己 marshal）；
@@ -76,10 +76,28 @@ public sealed class TaskQueueRunner
         _lastLaunchAt = DateTimeOffset.MinValue;
 
         var concurrency = Math.Max(1, options.ConcurrentCount);
-        _logger.Info($"开始执行：待执行 {pending.Count} 条，并发 {concurrency}，启动间隔 {options.LaunchIntervalSeconds} 秒");
+
+        // 并发槽最多只有待执行条数那么多。日志写用户填的 5 而实际只跑 2 条，事后对账会以为丢任务。
+        var effectiveConcurrency = Math.Min(concurrency, pending.Count);
+        _logger.Info(
+            concurrency > pending.Count
+                ? $"开始执行：待执行 {pending.Count} 条，并发数配的是 {concurrency}，实际并发 {effectiveConcurrency}，启动间隔 {options.LaunchIntervalSeconds} 秒"
+                : $"开始执行：待执行 {pending.Count} 条，并发 {concurrency}，启动间隔 {options.LaunchIntervalSeconds} 秒");
 
         var gate = new SemaphoreSlim(concurrency, concurrency);
         var counters = new Counters();
+
+        // 账号级闸门：同一个别名同时只跑一条。**这是并发下最容易踩的坑**——
+        // 两条同账号任务并行会各自启动一个 Chrome 指向同一个 user-data-dir，
+        // Chrome 会把第二个实例的启动请求转发给第一个然后自己退出，
+        // 而启动前那句「清掉残留的 DevToolsActivePort」删的是**第一个实例正在用的**端口文件，
+        // 结果是两条一起废（一条报「启动后立即退出」，另一条读不到端口）。
+        // 按别名建表而不是按目录：别名是账号清单的主键，一个别名只对应一个账号。
+        var accountGates = pending
+            .Select(t => t.AccountAlias)
+            .Where(a => !string.IsNullOrWhiteSpace(a))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(a => a, _ => new SemaphoreSlim(1, 1), StringComparer.OrdinalIgnoreCase);
 
         // 一轮一份失败清单：并发任务各自往里记，本轮结束一次性写盘。
         // 逐个任务读-改-写会互相覆盖（原版只暴露 WriteAllText，没有追加写）。
@@ -88,13 +106,16 @@ public sealed class TaskQueueRunner
         try
         {
             var jobs = pending
-                .Select(task => RunOneGuardedAsync(task, options, gate, counters, errorLog, cancellationToken))
+                .Select(task => RunOneGuardedAsync(task, options, gate, accountGates, counters, errorLog, cancellationToken))
                 .ToList();
             await Task.WhenAll(jobs);
         }
         finally
         {
             gate.Dispose();
+
+            // 账号闸门不 Dispose：每轮都是新建的，规模等于本轮的账号数，
+            // 让 GC 收比在这里赌「确定没有等待者」更安全。
 
             // 写盘放在 finally：本轮被取消时已经记下的失败仍然该留档。
             foreach (var path in errorLog.Flush(DateTime.Now, _logger.Warn))
@@ -114,13 +135,39 @@ public sealed class TaskQueueRunner
         AutomatedTask task,
         TaskRunOptions options,
         SemaphoreSlim gate,
+        IReadOnlyDictionary<string, SemaphoreSlim> accountGates,
         Counters counters,
         AccountErrorLog errorLog,
         CancellationToken cancellationToken)
     {
         var acquired = false;
+        var accountGate = default(SemaphoreSlim);
+
+        // 必须单独记「真拿到了」：WaitAsync(0, token) 在令牌已取消时会直接抛 OCE，
+        // 此时 accountGate 已经被 TryGetValue 赋了值却没拿到锁，
+        // 只看非空就去 Release，会把信号量放到超上限并抛 SemaphoreFullException，
+        // 那条异常还会从 finally 冒出去把整轮 WhenAll 打挂。
+        var heldAccountGate = false;
         try
         {
+            // 账号闸门在并发闸门**之前**：同账号第二条任务应当在这里排队，
+            // 不占着并发槽干等（占槽等会让别的账号也跑不动，并发形同虚设）。
+            // 两层锁不会死锁：持账号锁的一方随后去抢并发槽，而并发槽的持有者一定会跑完退出。
+            if (!string.IsNullOrWhiteSpace(task.AccountAlias)
+                && accountGates.TryGetValue(task.AccountAlias, out accountGate))
+            {
+                // WaitAsync(0) 只为区分「直接进」和「要排队」——只有排队时才值得写一行日志，
+                // 否则每条任务都多一行「排队等待」，日志里全是噪音。
+                if (!await accountGate.WaitAsync(0, cancellationToken))
+                {
+                    _logger.Info(
+                        $"{task.DisplayName}（{task.AccountAlias}）排队等待：同账号已有任务在跑，同时开两个浏览器会抢同一个配置目录");
+                    await accountGate.WaitAsync(cancellationToken);
+                }
+
+                heldAccountGate = true;
+            }
+
             // 并发闸门。停止时这里会抛 OCE —— 任务根本没开始，记中断而不是失败。
             await gate.WaitAsync(cancellationToken);
             acquired = true;
@@ -141,6 +188,12 @@ public sealed class TaskQueueRunner
             if (acquired)
             {
                 gate.Release();
+            }
+
+            // 账号锁最后放：先放并发槽再放账号锁，别的同账号任务拿到锁时槽已经腾出来了。
+            if (heldAccountGate)
+            {
+                accountGate!.Release();
             }
         }
     }

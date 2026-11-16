@@ -66,7 +66,12 @@ public sealed class TaskExecutionContext
             try
             {
                 Directory.CreateDirectory(ScreenshotDirectory);
-                var name = $"{DateTime.Now:yyyyMMdd_HHmmss}_{Task.Kind}_{Task.AccountAlias}.png";
+
+                // 文件名必须唯一：原来只到秒，同一秒内两条任务失败（并发下很常见）会互相覆盖，
+                // 事后只剩一份截图却显示三条任务都「有截图」。
+                // 别名直接拼进文件名也不安全——它来自手工维护的 CSV，可能出现 \ / : 等非法字符，
+                // 那种情况下截图会整个抛异常被吞掉，使用者只看到「没截图」。
+                var name = $"{DateTime.Now:yyyyMMdd_HHmmssfff}_{Task.Kind}_{SafeFileName(Task.AccountAlias)}_{Task.Id.ToString("N")[..6]}.png";
                 shot = Path.Combine(ScreenshotDirectory, name);
                 await Page.ScreenshotAsync(new PageScreenshotOptions { Path = shot, FullPage = false });
             }
@@ -79,5 +84,26 @@ public sealed class TaskExecutionContext
 
         Logger.Warn($"{Task.DisplayName} 失败：{message}｜页面 {url ?? "（取不到）"}");
         return TaskExecutionResult.Fail(message, url, shot);
+    }
+
+    /// <summary>把账号别名变成可放进文件名的片段。空别名给一个固定占位，不留双下划线。</summary>
+    private static string SafeFileName(string alias)
+    {
+        if (string.IsNullOrWhiteSpace(alias))
+        {
+            return "unknown";
+        }
+
+        var invalid = Path.GetInvalidFileNameChars();
+        var buffer = alias.Trim().ToCharArray();
+        for (var i = 0; i < buffer.Length; i++)
+        {
+            if (Array.IndexOf(invalid, buffer[i]) >= 0)
+            {
+                buffer[i] = '_';
+            }
+        }
+
+        return new string(buffer);
     }
 }
