@@ -118,6 +118,11 @@ public sealed class ChannelProfileTests
             BitUpdatePostingSettings = true,
             CommentsBlockWords = ["g1", "g2"],
             BitCommentsBlockWords = ["b1"],
+
+            // 类别两侧各填一个不同的值：只断「比特版为空」看不出「比特版拿到了谷歌版的值」，
+            // 而后者才是回落缺陷的真实表现。
+            ProfileCategory = "教育",
+            BitProfileCategory = "戏剧",
         };
 
         var google = config.ForChannel(BrowserChannelKind.Google);
@@ -137,6 +142,8 @@ public sealed class ChannelProfileTests
         Assert.True(bit.UpdatePostingSettings);
         Assert.Equal(["g1", "g2"], google.CommentsBlockWords);
         Assert.Equal(["b1"], bit.CommentsBlockWords);
+        Assert.Equal("教育", google.ProfileCategory);
+        Assert.Equal("戏剧", bit.ProfileCategory);
     }
 
     /// <summary>

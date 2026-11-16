@@ -39,6 +39,21 @@ public sealed class ProfileEditBindingTests
         "ProfileEditResultExportDir", "BitProfileEditResultExportDir",
     ];
 
+    /// <summary>
+    /// 资料修改页的「填值」类绑定：目标类别与两个通道各自的屏蔽词。
+    /// </summary>
+    /// <remarks>
+    /// 这四个是专门补上的缺口：<c>ProfileCategory</c> / <c>BitProfileCategory</c> /
+    /// <c>BitCommentsBlockWords</c> / 原先**只有配置键、没有界面入口**，
+    /// 表现是「修改类别勾了却永远跳过」「比特版粉丝公开内容永远用默认词」。
+    /// 列在这里的每一项都必须同时满足：控件在、属性在、保存时写回。
+    /// </remarks>
+    private static readonly string[] ValueBindings =
+    [
+        "ProfileCategory", "BitProfileCategory",
+        "CommentsBlockWords", "BitCommentsBlockWords",
+    ];
+
     [Fact]
     public void 资料修改页的绑定都对应ViewModel属性()
     {
@@ -82,6 +97,102 @@ public sealed class ProfileEditBindingTests
                 known.Contains(expected),
                 $"MainViewModel 上没有 {expected} 属性");
         }
+
+        foreach (var expected in ValueBindings)
+        {
+            Assert.True(
+                bound.Contains(expected, StringComparer.Ordinal),
+                $"资料修改页少了 {expected} 这个绑定 —— 这一项没有界面入口，只能手改 config.json");
+            Assert.True(
+                known.Contains(expected),
+                $"MainViewModel 上没有 {expected} 属性");
+        }
+    }
+
+    /// <summary>
+    /// 资料修改页绑定的每一项都必须在 <c>PersistConfig</c> 里写回配置。
+    /// </summary>
+    /// <remarks>
+    /// 「绑定写错」会静默失效，「绑定对了但忘了写回」同样静默 —— 后者更坑：
+    /// 界面上改得动、看着生效了，关掉程序再打开又变回旧值。这类漏项靠人点界面发现不了，
+    /// 只能靠把「界面上的名字」和「写回配置的名字」对一遍。
+    /// </remarks>
+    [Fact]
+    public void 资料修改页的每个绑定都被保存写回()
+    {
+        var block = ProfileEditTab();
+
+        var bound = Regex.Matches(block, @"\{Binding\s+([A-Za-z_][A-Za-z0-9_]*)")
+            .Select(m => m.Groups[1].Value)
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+
+        var body = PersistConfigBody();
+
+        // 解析器自证：正常的方法体不可能只有几行。
+        Assert.True(body.Length > 500, $"PersistConfig 方法体只取到 {body.Length} 个字符，提取规则大概坏了");
+
+        var missing = bound
+            .Where(name => !Regex.IsMatch(body, @"config\." + Regex.Escape(name) + @"\s*="))
+            .ToArray();
+
+        Assert.True(
+            missing.Length == 0,
+            $"这些绑定在界面上能改，但 PersistConfig 没有写回，重启就会丢：{string.Join("、", missing)}");
+    }
+
+    /// <summary>
+    /// 取出 <c>MainViewModel.PersistConfig</c> 的方法体（按大括号配对切，不靠缩进），并**去掉注释**。
+    /// </summary>
+    /// <remarks>
+    /// 去掉注释这一步是注入实验逼出来的：最初直接对原文做正则，
+    /// 把 <c>// config.BitProfileCategory = ...;</c> 注释掉之后用例照样绿 ——
+    /// 注释里的那几个字把「真写回」骗过去了。守卫分不清「写了」和「写着但注释了」，
+    /// 就等于这条守卫在最该管用的那一次不管用。
+    /// </remarks>
+    private static string PersistConfigBody()
+    {
+        var source = File.ReadAllText(RepoFile("src", "FbAuto.Presentation", "ViewModels", "MainViewModel.cs"));
+
+        const string head = "public void PersistConfig()";
+        var start = source.IndexOf(head, StringComparison.Ordinal);
+        Assert.True(start >= 0, "MainViewModel 里没有 PersistConfig 方法");
+
+        var open = source.IndexOf('{', start);
+        Assert.True(open > start, "PersistConfig 没有方法体");
+
+        var depth = 0;
+        var end = -1;
+        for (var i = open; i < source.Length; i++)
+        {
+            if (source[i] == '{')
+            {
+                depth++;
+            }
+            else if (source[i] == '}')
+            {
+                depth--;
+                if (depth == 0)
+                {
+                    end = i;
+                    break;
+                }
+            }
+        }
+
+        Assert.True(end > open, "PersistConfig 的大括号没有配对");
+
+        // 逐行去掉注释：整行注释直接丢，行尾注释切掉。方法体里没有含 // 的字符串字面量
+        // （路径都用赋值传进来，不写字面量），所以按 // 切是安全的。
+        var cleaned = source[open..(end + 1)]
+            .Split('\n')
+            .Select(line => line.TrimEnd('\r'))
+            .Where(line => !line.TrimStart().StartsWith("//", StringComparison.Ordinal))
+            .Select(line => line.Contains("//", StringComparison.Ordinal)
+                ? line[..line.IndexOf("//", StringComparison.Ordinal)]
+                : line);
+
+        return string.Join('\n', cleaned);
     }
 
     /// <summary>取出「资料修改」这一页的 XAML 原文。</summary>

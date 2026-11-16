@@ -31,7 +31,7 @@ public sealed class AppConfig
     /// </summary>
     public string SignatureFile { get; set; } = string.Empty;
 
-    /// <summary>资料修改要设置的主页类别，留空表示不改类别。</summary>
+    /// <summary>资料修改要设置的主页类别，**留空按原版写死的「戏剧」改**（见 <c>CategoryEditor</c>）。</summary>
     public string ProfileCategory { get; set; } = string.Empty;
 
     /// <summary>资料修改时是否把「谁能在你的公共主页发帖」改为仅限自己。</summary>
@@ -111,7 +111,14 @@ public sealed class AppConfig
     /// <summary>比特版的签名文件。</summary>
     public string BitSignatureFile { get; set; } = string.Empty;
 
-    /// <summary>比特版资料修改要设置的主页类别，空表示不改。</summary>
+    /// <summary>
+    /// 比特版资料修改要设置的主页类别，**留空按原版写死的「戏剧」改**。
+    /// </summary>
+    /// <remarks>
+    /// 原版没有类别配置：两份 settings.json 的 22 个键里都没有，界面也没有输入框，
+    /// 选择器与日志里直接写 <c>戏剧</c>。所以留空不是「不改」，得回落到那个词，
+    /// 见 <c>CategoryEditor.ResolveTarget</c>。
+    /// </remarks>
     public string BitProfileCategory { get; set; } = string.Empty;
 
     /// <summary>比特版是否把发帖权限改成仅限自己。</summary>

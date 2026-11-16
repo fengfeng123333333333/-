@@ -80,6 +80,9 @@ public sealed partial class MainViewModel : ObservableObject
         _profileEditResultExportDir = config.ProfileEditResultExportDir;
         _bitProfileEditResultExportDir = config.BitProfileEditResultExportDir;
         _commentsBlockWords = string.Join(",", config.CommentsBlockWords);
+        _bitCommentsBlockWords = string.Join(",", config.BitCommentsBlockWords);
+        _profileCategory = config.ProfileCategory;
+        _bitProfileCategory = config.BitProfileCategory;
         _deleteMessageLimit = config.DeleteMessageLimit.ToString(System.Globalization.CultureInfo.InvariantCulture);
         _deleteMessageCookieRootPath = config.DeleteMessageCookieRootPath;
 
@@ -239,6 +242,32 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>评论屏蔽词（不是「删除消息」的屏蔽词 —— 原版键名是 CommentsBlockText）。</summary>
     [ObservableProperty]
     private string _commentsBlockWords;
+
+    /// <summary>
+    /// 目标类别（谷歌版）。填 FB 类别页上的原文；**留空按原版默认值「戏剧」改**。
+    /// </summary>
+    /// <remarks>
+    /// 这个输入框是补上的：S14 加了「修改类别」勾选框，但类别值一直没有界面入口。
+    /// 更关键的是原版压根没有类别配置 —— 它把「戏剧」写死在选择器与日志里
+    /// （<c>has-text('戏剧')</c> / <c>未找到【戏剧】选项</c>）。
+    /// 所以留空不能理解成「不改」，要回落到那个词，见 <c>CategoryEditor.DefaultCategory</c>。
+    /// </remarks>
+    [ObservableProperty]
+    private string _profileCategory;
+
+    /// <summary>目标类别（比特版）。</summary>
+    [ObservableProperty]
+    private string _bitProfileCategory;
+
+    /// <summary>
+    /// 评论屏蔽词（比特版）。
+    /// </summary>
+    /// <remarks>
+    /// 谷歌版有输入框、比特版没有，于是比特版账号的「粉丝公开内容」永远用默认词 ——
+    /// 两个通道共用一份词表也不行：它们的粉丝页可能语言不同，词也就不该一样。
+    /// </remarks>
+    [ObservableProperty]
+    private string _bitCommentsBlockWords;
 
     /// <summary>每个账号最多删除多少条消息。0 表示不限。</summary>
     [ObservableProperty]
@@ -519,6 +548,12 @@ public sealed partial class MainViewModel : ObservableObject
 
         config.CommentsBlockWords = CommentsBlockWords
             .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        config.BitCommentsBlockWords = BitCommentsBlockWords
+            .Split([',', '，'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        config.ProfileCategory = ProfileCategory ?? string.Empty;
+        config.BitProfileCategory = BitProfileCategory ?? string.Empty;
 
         if (int.TryParse(DeleteMessageLimit, out var limit))
         {

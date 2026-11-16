@@ -95,11 +95,21 @@ public sealed class ProfileEditExecutor : ITaskExecutor
             logger.Warn("没有配置主页名称密码：主页名字会提交，但很可能不会生效，请在页面上人工核对");
         }
 
+        // 类别留空时回落到原版硬编码的「戏剧」，而不是空着让 CategoryEditor 跳过。
+        // 原版没有类别配置键，选择器与日志里写死这个词；留空即跳过会让
+        // 「修改类别」勾了却永远不改 —— 界面上看不出任何异常，只是那一项从来没生效过。
+        var category = CategoryEditor.ResolveTarget(profile.ProfileCategory);
+
+        if (profile.EditCategory && string.IsNullOrWhiteSpace(profile.ProfileCategory))
+        {
+            logger.Info($"没有配置类别，按原版默认值「{CategoryEditor.DefaultCategory}」修改");
+        }
+
         // 全部用具名实参：这里有 6 个连续的 bool，位置写错不会有任何编译期或运行期提示，
         // 表现是「勾了 A 结果改了 B」，而日志上看不出来。具名之后这类错位不可能发生。
         var request = new ProfileEditRequest(
             Signature: signature,
-            Category: profile.ProfileCategory,
+            Category: category,
             UpdatePostingSettings: profile.UpdatePostingSettings,
             ImageCandidates: images,
             BlockWords: profile.CommentsBlockWords,

@@ -175,6 +175,13 @@ public sealed class JsonConfigServiceTests : IDisposable
         config.BitPageNamePassword = "b-pw";
         config.ProfileEditResultExportDir = @"D://g-export";
         config.BitProfileEditResultExportDir = @"D://b-export";
+
+        // 类别与屏蔽词也要走一遍往返：前者是资料修改「修改类别」的唯一输入，
+        // 后者是 JSON 数组（不是字符串），落盘再读回来最容易在类型上出岔子。
+        config.ProfileCategory = "教育";
+        config.BitProfileCategory = "戏剧";
+        config.CommentsBlockWords = ["g1", "g2"];
+        config.BitCommentsBlockWords = ["b3", "b4"];
         first.Save();
 
         var reloaded = new JsonConfigService(_dir.Path, new TestLogger()).Load();
@@ -189,6 +196,10 @@ public sealed class JsonConfigServiceTests : IDisposable
         Assert.Equal("b-pw", reloaded.BitPageNamePassword);
         Assert.Equal(@"D://g-export", reloaded.ProfileEditResultExportDir);
         Assert.Equal(@"D://b-export", reloaded.BitProfileEditResultExportDir);
+        Assert.Equal("教育", reloaded.ProfileCategory);
+        Assert.Equal("戏剧", reloaded.BitProfileCategory);
+        Assert.Equal(["g1", "g2"], reloaded.CommentsBlockWords);
+        Assert.Equal(["b3", "b4"], reloaded.BitCommentsBlockWords);
     }
 
     [Fact]

@@ -41,6 +41,30 @@ public static class CategoryEditor
     /// </remarks>
     public const string SkipLine = "已跳过【修改类别】";
 
+    /// <summary>
+    /// 原版硬编码的类别值。
+    /// </summary>
+    /// <remarks>
+    /// 证据：原版 DLL 里类别**没有配置键**（两份 settings.json 的 22 个键里都没有类别），
+    /// 也没有界面输入框，选择器与日志里直接写死这一句
+    /// （<c>div[role='option']:has-text('戏剧')</c>、<c>未找到【戏剧】选项</c>、<c>已选择【戏剧】</c>）。
+    ///
+    /// 本实现把它做成可配置（<c>ProfileCategory</c> / <c>BitProfileCategory</c>），
+    /// 但**留空时回落到这个词**，而不是「跳过」——原版的语义就是永远按戏剧改，
+    /// 留空即跳过等于让勾了「修改类别」的任务永远什么都不做。
+    /// </remarks>
+    public const string DefaultCategory = "戏剧";
+
+    /// <summary>
+    /// 把配置里的类别值解析成真正要填的值：留空回落到 <see cref="DefaultCategory"/>。
+    /// </summary>
+    /// <remarks>
+    /// 抽成纯函数是为了能测：<see cref="RunAsync"/> 要真页面，测不了；
+    /// 而「留空到底算跳过还是算戏剧」这个判断恰恰是最容易写反的一处。
+    /// </remarks>
+    public static string ResolveTarget(string? configured) =>
+        string.IsNullOrWhiteSpace(configured) ? DefaultCategory : configured.Trim();
+
     public static async Task<ProfileFieldResult> RunAsync(
         IPageInterop page,
         string profileId,

@@ -17,7 +17,10 @@ namespace FbAuto.Core.Configuration;
 /// <param name="VideoDirectory">视频目录。</param>
 /// <param name="DescriptionFile">描述文件（.txt，整段一份）。</param>
 /// <param name="SignatureFile">签名文件（.txt，整段一份）。</param>
-/// <param name="ProfileCategory">资料修改要设置的主页类别，空表示不改。</param>
+/// <param name="ProfileCategory">
+/// 资料修改要设置的主页类别。**留空不是「不改」**：原版把类别写死在代码里，
+/// 执行器会回落到那个词（<c>CategoryEditor.ResolveTarget</c>）。
+/// </param>
 /// <param name="UpdatePostingSettings">是否把发帖权限改成仅限自己。</param>
 /// <param name="CommentsBlockWords">
 /// 屏蔽关键词，「资料修改 → 粉丝公开内容」用（原版 <c>Google/BitCommentsBlockText</c>）。

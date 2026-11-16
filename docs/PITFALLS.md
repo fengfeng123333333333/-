@@ -156,6 +156,22 @@
 - **注入还原之后必须重新 build，"`--no-build` 跑全量等于在查上一个注入"**（S14）。
   注入 I7 还原源码后直接 `--no-build` 跑，`没配目录时记了也不落盘` 报 Expected 0 / Actual 1，
   差点被当成产品缺陷去改。判据很简单：**报错位置正好是刚才注入的那一行**，先怀疑 DLL 过期。
+- **注入后没变红，先怀疑「代码真的编译进去了没有」，再怀疑用例**（S15）。J1 注入后 9 条全绿，
+  原因是编译命令写成了 `./.dotnet/dotnet.exe`（少一层目录，`build/*.cmd` 的 SDK 根是 `..\..\.dotnet`），
+  编译压根没跑；而 `grep "error CS"` 又没有输出，看起来「编译成功」。判据：**注入后编译必须有产物时间变化**，
+  最稳的是统一用 `build\dotnet.cmd build FbAuto.slnx`，别在 bash 里手拼 SDK 路径。
+- **文本级守卫分不清「写了」和「写着但注释了」**（S15）。`ProfileEditBindingTests` 检查
+  `PersistConfig` 是否写回每个绑定，把 `config.BitProfileCategory = ...;` 注释掉之后用例照样绿 ——
+  注释行里仍含 `config.Xxx =`，正则照样匹配。**守卫要先剥注释再匹配**，否则它恰好在最该管用的
+  那一次不管用。这条是被注入 J5 逼出来的：写完守卫就该立刻注入一次，别等「以后」。
+- **配置键存在 ≠ 界面能填**（S15）。`ProfileCategory` / `BitProfileCategory` / `BitCommentsBlockWords`
+  三个键一直在 `AppConfig` 里，但 `MainWindow.xaml` 从来没有它们的绑定，
+  于是「修改类别」勾上之后永远走到「类别为空，跳过该项」—— 开关是开的、日志正常、那一项从没生效。
+  审计办法：把 `AppConfig` 的属性名与 XAML 的 `{Binding ...}` 名对一遍，
+  再对一遍 `PersistConfig` 里的 `config.Xxx =`。三者缺一都是静默失效。
+- **「原版没有的东西」不要想当然按「不改」处理**（S15）。原版把类别硬编码成「戏剧」
+  （`has-text('戏剧')`、`未找到【戏剧】选项`、`已选择【戏剧】`，且 settings.json 22 个键里没有类别）。
+  做成可配置之后，**留空必须回落那个词，不能理解成「跳过」** —— 跳过等于让开关空转。
 - **Chrome 集成测试在「全量跑」时会偶发卡死，单跑该类却基本正常**（S14，尚未定位根因）。
   症状：`--blame --blame-hang-timeout 90s` 会点名 `VideoUploadFlowIntegrationTests` 里的某一条，
   但不固定是哪一条（停过的页面有 `upload.html` / `upload-nodesc.html` / `upload-schedule.html`），

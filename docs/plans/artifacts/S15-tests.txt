@@ -1,0 +1,83 @@
+S15 配置界面补齐（类别值与比特屏蔽词）—— 测试与注入证据
+=====================================================
+
+一、结果
+--------
+命令：dotnet test --filter 排除 7 个需真 Chrome 的集成类（等价 build\test-nochrome.cmd）
+时间：2026-11-16 14:2x，耗时 8 秒 / 5 秒（连跑两轮）
+结果：失败 0，通过 589，跳过 0，总计 589（两轮一致）
+
+原始输出末行：
+  已通过! - 失败:     0，通过:   589，已跳过:     0，总计:   589
+
+S14 是 579 条，本步净增 10 条。需真 Chrome 的 63 条按需求方指示暂缓，合计 652 条。
+
+新增 1 个测试类 + 1 条守卫用例：
+  CategoryEditorTests              9（新建）
+  ProfileEditBindingTests         +1（每个绑定都被保存写回）
+
+既有用例扩容（不增条数）：
+  ProfileEditBindingTests   绑定清单加 ProfileCategory / BitProfileCategory /
+                            CommentsBlockWords / BitCommentsBlockWords 四项
+  ChannelProfileTests       两套参数各自独立赋值：类别两侧各赋不同值
+  JsonConfigServiceTests    往返加类别两键 + 两个屏蔽词数组
+
+二、各用例类单独结果
+--------------------
+  CategoryEditorTests        已通过，9 条，242 ms
+  ProfileEditBindingTests    已通过，2 条，25 ms
+  ChannelProfileTests        已通过，11 条，62 ms
+  JsonConfigServiceTests     已通过，10 条，497 ms
+  ProfileEditTests           已通过，53 条，1 s
+
+三、反向注入（7 项，全部命中后还原）
+------------------------------------
+注入方式：用编辑器工具改产品代码 → build\dotnet.cmd build FbAuto.slnx → 跑对应用例 → 还原。
+
+J1  ResolveTarget 留空返回 string.Empty（等价「留空即跳过」）
+    命中 4 条：留空按原版默认类别处理而不是跳过（null / "" / "   " / "\t\n"）
+    记录：**第一次没打红**。原因是我用 ./.dotnet/dotnet.exe 编译，路径少一层目录，
+          编译根本没跑；grep "error CS" 又没有输出，于是 --no-build 跑的还是旧 DLL。
+          改用 build\dotnet.cmd 重新编译后一次命中 4 条。
+
+J2  ResolveTarget 去掉 .Trim()
+    命中 1 条：首尾空白被去掉
+
+J3  DefaultCategory 改成「教育」
+    命中 5 条：J1 那四条 + 原版默认类别是戏剧
+
+J4  XAML 绑定名改成 ProfileCategoryX
+    命中 2 条：资料修改页的绑定都对应ViewModel属性
+              资料修改页的每个绑定都被保存写回
+    报错原文：这些绑定在 MainViewModel 上没有对应属性：ProfileCategoryX
+
+J5  注释掉 config.BitProfileCategory = ... 写回
+    命中 1 条：资料修改页的每个绑定都被保存写回
+    报错原文：重启就会丢：BitProfileCategory
+    记录：**第一次也没打红，这次是用例的漏洞** —— 注释行里仍含有
+          "config.BitProfileCategory ="，正则照样匹配。
+          修法：PersistConfigBody 逐行剥掉注释（整行注释丢弃、行尾注释切掉）后再匹配。
+          这条正是「测试必须能被证伪」的价值：注入帮我发现守卫在最该管用的那次不管用。
+
+J6  ForChannel 比特侧传 ProfileCategory（回落谷歌版）
+    命中 2 条：比特通道不会读到谷歌版的路径
+              两套参数各自独立赋值
+
+J7  BitCommentsBlockWords 的 getter 返回 CommentsBlockWords、setter 置空
+    命中 2 条：两套参数各自独立赋值
+              谷歌版与比特版配置互不覆盖
+
+还原核对：
+  grep -rn "MUTATION" src/ tests/   → 无输出
+  三个被改过的文件首字节均为 75 73 69（"usi"，无 BOM）
+
+四、为什么这一步叫「配置界面补齐」而不是「调度」
+------------------------------------------------
+动手前查证据，发现原版没有「到点自动开始」：
+  - settings.json 里 ScheduledDate / ScheduledStartHour 的界面标签是「定时发布：」，
+    语义是视频在 FB 上的定时发布时间；
+  - DLL 字符串里「定时 / 调度 / 每天 / 每周」一条都没有；
+  - settings.json 的 22 个键里没有任务集合，任务只活在 TaskCollection 里。
+
+于是改为审计持久化链路。审计脚本把 AppConfig 的 46 个属性与 MainViewModel 的
+读取 / 写回逐个对照，找出 3 个「有配置键、无界面入口」的缺口（类别两个 + 比特屏蔽词）。

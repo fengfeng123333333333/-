@@ -423,6 +423,25 @@
                                     </Grid>
                                     <TextBlock Text="签名文件整段 txt 作为一段个性签名，所有账号共用；超过 255 字会在写入前被拦下。"
                                                Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
+
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="类别：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding ProfileCategory, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="比特类别：" Style="{StaticResource FieldLabel}" />
+                                        <TextBox Grid.Column="1" Text="{Binding BitProfileCategory, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Grid>
+                                    <TextBlock Text="类别要填 FB 类别页上的原文（如「戏剧」）。留空时按原版默认值「戏剧」修改 —— 原版把类别写死在代码里，没有这一项配置。"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,10" />
                                     <Grid Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="120" />
@@ -484,6 +503,14 @@
                                              VerticalContentAlignment="Top"
                                              Text="{Binding CommentsBlockWords, UpdateSourceTrigger=PropertyChanged}" />
                                     <TextBlock Text="原版默认：.com,https,pn,dn,inbox。这一项是「资料修改 → 粉丝公开内容」，不是视频上传用的。"
+                                               Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,6,0,10" />
+
+                                    <TextBlock Text="屏蔽关键词（比特版，逗号分隔）：" Style="{StaticResource FieldLabel}"
+                                               HorizontalAlignment="Left" Margin="0,0,0,6" />
+                                    <TextBox Height="56" AcceptsReturn="True" TextWrapping="Wrap"
+                                             VerticalContentAlignment="Top"
+                                             Text="{Binding BitCommentsBlockWords, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Text="两个通道各用各的词表：比特版账号的粉丝页语言可能与谷歌版不同，共用一份会漏掉一批。"
                                                Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,6,0,0" />
                                 </StackPanel>
                             </ScrollViewer>
