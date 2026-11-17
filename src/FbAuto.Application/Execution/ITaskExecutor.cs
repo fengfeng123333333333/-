@@ -24,6 +24,12 @@ public interface ITaskExecutor
 /// </summary>
 public sealed class TaskExecutionContext
 {
+    /// <summary>
+    /// 截图单调序号。毫秒位并不能保证唯一——同一个任务在同一毫秒内连续失败两次时，
+    /// 时间戳、类型、别名、Id 前 6 位全都相同，文件名必然撞车（快的机器上很容易复现）。
+    /// </summary>
+    private static long _screenshotSequence;
+
     public required AutomatedTask Task { get; init; }
 
     public required AccountEntry Account { get; init; }
@@ -71,7 +77,9 @@ public sealed class TaskExecutionContext
                 // 事后只剩一份截图却显示三条任务都「有截图」。
                 // 别名直接拼进文件名也不安全——它来自手工维护的 CSV，可能出现 \ / : 等非法字符，
                 // 那种情况下截图会整个抛异常被吞掉，使用者只看到「没截图」。
-                var name = $"{DateTime.Now:yyyyMMdd_HHmmssfff}_{Task.Kind}_{SafeFileName(Task.AccountAlias)}_{Task.Id.ToString("N")[..6]}.png";
+                var stamp = DateTime.Now.ToString("yyyyMMdd_HHmmssfff");
+                var sequence = Interlocked.Increment(ref _screenshotSequence);
+                var name = $"{stamp}_{Task.Kind}_{SafeFileName(Task.AccountAlias)}_{Task.Id.ToString("N")[..6]}_{sequence:D5}.png";
                 shot = Path.Combine(ScreenshotDirectory, name);
                 await Page.ScreenshotAsync(new PageScreenshotOptions { Path = shot, FullPage = false });
             }

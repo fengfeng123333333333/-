@@ -68,6 +68,30 @@ public sealed class TaskExecutionContextScreenshotTests
     }
 
     /// <summary>
+    /// 连续多次失败必须落成 N 个不同文件。
+    /// 只盯「两次」不够：毫秒位在慢机器上偶尔能分开，换台快的机器就撞车（2026-11-17 换机时实测复现）。
+    /// 这里连着失败 50 次，只要文件名里还有任何一处可能重复，几乎必然暴露。
+    /// </summary>
+    [Fact]
+    public async Task 连续多次失败的截图文件名两两不同()
+    {
+        const int count = 50;
+        using var temp = new TempDirectory();
+        var context = NewContext(temp, "acc01", out var shotDirectory);
+
+        var paths = new List<string>();
+        for (var i = 0; i < count; i++)
+        {
+            var result = await context.FailAsync($"第 {i} 次失败");
+            Assert.NotNull(result.ScreenshotPath);
+            paths.Add(result.ScreenshotPath!);
+        }
+
+        Assert.Equal(count, paths.Distinct(StringComparer.OrdinalIgnoreCase).Count());
+        Assert.Equal(count, Directory.GetFiles(shotDirectory, "*.png").Length);
+    }
+
+    /// <summary>
     /// 别名带路径分隔符时截图仍然要落盘。
     /// 别名来自手工维护的 CSV，写个 <c>acc/01</c> 完全可能；
     /// 直接拼进路径会变成子目录，Directory 不存在 → 抛异常 → 被 catch 吞掉 → 使用者只看到「没截图」。
