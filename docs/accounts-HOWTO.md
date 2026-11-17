@@ -17,7 +17,7 @@
 | :-- | :-- | :-- | :-- |
 | `别名` | 英文小写短名，如 `acc01` | 自定，**全表唯一** | 否 |
 | `通道` | `google` 或 `bit` | 看你用哪种浏览器环境 | 否 |
-| `user-data-dir` | Chrome 独立配置目录，如 `D:\FbProfiles\acc01` | 见下方"新建独立配置" | `bit` 行留空 |
+| `user-data-dir` | Chrome 独立配置目录，如 `C:\FbProfiles\acc01` | 见下方"新建独立配置" | `bit` 行留空 |
 | `比特窗口ID` | 32 位十六进制串 | 比特浏览器→窗口列表→对应窗口的 ID | `google` 行留空 |
 | `代理` | `http://127.0.0.1:7890` / `socks5://127.0.0.1:1080` | 你的代理软件设置里看 | 可空＝直连 |
 | `主页ID` | Facebook 主页的数字 ID | 主页后台网址里的那串数字 | 可空（运行时读取） |
@@ -30,19 +30,18 @@
 
 不用装任何东西，一条命令就能开一个完全隔离的浏览器（首次需要手动登录一次 Facebook）：
 
-**已备好双击脚本**：`D:\FbProfiles\启动acc01.cmd`，双击即开。
-
-等价命令：
+**云主机上直接执行（cmd）**：
 
 ```bat
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="D:\FbProfiles\acc01" --no-first-run --no-default-browser-check
+mkdir C:\FbProfiles\acc01
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="C:\FbProfiles\acc01" --no-first-run --no-default-browser-check https://www.facebook.com/
 ```
 
 > 后两个参数不能省：少了 `--no-first-run` 每次都会弹"设为默认浏览器"，自动化接管时会被这个弹窗挡住。
 
-打开后登录对应的 Facebook 账号，**然后正常关闭窗口**。目录 `D:\FbProfiles\acc01` 就固化下来了，之后程序每次接管都读这一份，登录态持久保留。
+打开后登录对应的 Facebook 账号，**然后正常关闭窗口**。目录 `C:\FbProfiles\acc01` 就固化下来了，之后程序每次接管都读这一份，登录态持久保留。
 
-再建第二个账号就换目录名：`acc02` → 用 `build\new-profile.cmd acc02` 生成同款启动器。
+再建第二个账号就换目录名 `acc02`，同一条命令换掉路径即可。开发机上另有 `build\new-profile.cmd acc02` 能生成双击启动器，但**它不在发布包里，云主机上没有**。
 
 > 程序启动时会自动带上 `--remote-debugging-port`，端口按账号顺序分配（acc01→9222、acc02→9223），你不用填。
 
@@ -60,12 +59,12 @@
 
 ```csv
 别名,通道,user-data-dir,比特窗口ID,代理,主页ID,主页名称,凭证引用,状态,备注
-acc01,google,D:\FbProfiles\acc01,,,,,,cred://acc01,待接入,第一个号
+acc01,google,C:\FbProfiles\acc01,,,,,cred://acc01,待接入,第一个号
 ```
 
 ## 填完自检三条
 
-1. 手动双击 `D:\FbProfiles\acc01` 对应的 Chrome 快捷方式，**打开 facebook.com 仍是登录态**——这条过不了，后面的自动化全是白跑。
+1. 手动双击 `C:\FbProfiles\acc01` 对应的 Chrome 快捷方式，**打开 facebook.com 仍是登录态**——这条过不了，后面的自动化全是白跑。
 2. 两个账号的目录**不是同一个**，且都不是 `C:\Users\...\AppData\Local\Google\Chrome\User Data`。
 3. CSV 里**没有任何密码明文**，`凭证引用` 列只是名字。
 
@@ -73,4 +72,6 @@ acc01,google,D:\FbProfiles\acc01,,,,,,cred://acc01,待接入,第一个号
 
 模板在 `docs/accounts.sample.csv`（入库，只有占位数据）。
 
-真实清单放**仓库外**：`D:\AI\workbuddy\短视频工具\profiles\accounts.csv`，该目录已在 `.gitignore` 中，不会被提交。
+真实清单放在**程序所在目录**：`C:\FbAuto\accounts.csv`（和 `accounts.sample.csv` 同级，程序只读这一份）。
+
+开发机上放仓库外的 `profiles\accounts.csv`（已 gitignore）；云主机上 `C:\FbAuto\` 本身不在任何仓库里，直接放即可。
