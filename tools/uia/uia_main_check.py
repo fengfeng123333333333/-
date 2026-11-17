@@ -5,12 +5,16 @@
 
 import sys
 import io
+from pathlib import Path
 
 from pywinauto import Application
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
-EXE = r"D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Presentation\Debug\net10.0-windows\FbAuto.Presentation.exe"
+# 路径全部按脚本位置推算（本文件在 FbAuto/tools/uia/ 下），换机器换盘符都不用改。
+REPO = Path(__file__).resolve().parents[2]
+EXE = str(REPO / "build" / "out" / "FbAuto.Presentation" / "Debug" / "net10.0-windows" / "FbAuto.Presentation.exe")
+OUT = REPO / "build" / "uia_main.txt"
 TITLE = "自动化工具_Facebook"
 
 app = Application(backend="uia").connect(path=EXE, timeout=20)
@@ -49,7 +53,7 @@ for ctype, name in tabs:
     print(f"  [{ctype}] {name}")
 
 print("\n--- 文本（去重，按位置）---")
-out = open(r"D://AI//workbuddy//短视频工具//FbAuto//build//uia_main.txt", "w", encoding="utf-8")
+out = open(OUT, "w", encoding="utf-8")
 out.write(f"窗口: {win.window_text()}  {rect.width()}x{rect.height()}\n")
 seen = set()
 for left, top, w, h, name in sorted(set(texts), key=lambda t: (t[1], t[0])):

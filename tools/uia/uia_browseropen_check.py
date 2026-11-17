@@ -10,12 +10,15 @@ import io
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 from pywinauto import Application
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
-EXE = r"D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Presentation\Debug\net10.0-windows\FbAuto.Presentation.exe"
+# 路径按脚本位置推算（本文件在 FbAuto/tools/uia/ 下），换机器换盘符都不用改。
+REPO = Path(__file__).resolve().parents[2]
+EXE = str(REPO / "build" / "out" / "FbAuto.Presentation" / "Debug" / "net10.0-windows" / "FbAuto.Presentation.exe")
 TITLE = "自动化工具_Facebook"
 PROFILE_MARK = "FbProfiles\\acc01"
 

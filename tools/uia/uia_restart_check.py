@@ -8,10 +8,13 @@ import os
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 from pywinauto import Application
 
-BASE = r"D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Presentation\Debug\net10.0-windows"
+# 路径按脚本位置推算（本文件在 FbAuto/tools/uia/ 下），换机器换盘符都不用改。
+REPO = Path(__file__).resolve().parents[2]
+BASE = str(REPO / "build" / "out" / "FbAuto.Presentation" / "Debug" / "net10.0-windows")
 EXE = os.path.join(BASE, "FbAuto.Presentation.exe")
 MAIN_SIZE = (1176, 752)
 

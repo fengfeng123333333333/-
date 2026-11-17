@@ -3,9 +3,13 @@
 只读式采集 + 一次按钮点击，不改程序、不碰任何外部系统。
 """
 
+from pathlib import Path
+
 from pywinauto import Application
 
-EXE = r"D:\AI\workbuddy\短视频工具\FbAuto\build\out\FbAuto.Presentation\Debug\net10.0-windows\FbAuto.Presentation.exe"
+# 路径按脚本位置推算（本文件在 FbAuto/tools/uia/ 下），换机器换盘符都不用改。
+REPO = Path(__file__).resolve().parents[2]
+EXE = str(REPO / "build" / "out" / "FbAuto.Presentation" / "Debug" / "net10.0-windows" / "FbAuto.Presentation.exe")
 TITLE = "自动化工具_Facebook"
 
 app = Application(backend="uia").connect(path=EXE, timeout=20)

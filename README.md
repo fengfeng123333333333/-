@@ -41,11 +41,11 @@ build\dotnet.cmd build FbAuto.slnx
 build\run.cmd                       :: 启动调试版（已内置 DOTNET_ROOT）
 ```
 
-`build\dotnet.cmd` 会把本地 SDK 临时加入 PATH 后调用 dotnet，等价于：
+`build\dotnet.cmd` 会把本地 SDK 临时加入 PATH 后调用 dotnet，等价于（路径按你机器上的工作区实际位置填）：
 
 ```bat
-set PATH=D:\AI\workbuddy\短视频工具\.dotnet;%PATH%
-set DOTNET_ROOT=D:\AI\workbuddy\短视频工具\.dotnet
+set PATH=<工作区>\.dotnet;%PATH%
+set DOTNET_ROOT=<工作区>\.dotnet
 ```
 
 ## 当前进度
