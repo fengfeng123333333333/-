@@ -177,6 +177,25 @@ public sealed class PathPickerWiringTests
             $"这些路径界面上能选，但 PersistConfig 没有写回，重启就丢：{string.Join("、", missing)}");
     }
 
+    /// <summary>
+    /// 点「开始任务」之前必须先把界面值写回配置。
+    /// </summary>
+    /// <remarks>
+    /// 真机首轮踩到：填完视频路径直接点开始，任务立刻失败，结果列写「没有配置视频目录」。
+    /// 根因不是路径没填对 —— 执行器持有的是启动时那份 AppConfig 实例，
+    /// 而界面值原先只在窗口关闭时才同步，于是第一次填的东西根本没进这一轮执行。
+    /// 表现极具误导性：界面上明明填着，日志说没配。
+    /// </remarks>
+    [Fact]
+    public void 开始任务前把界面值写回配置()
+    {
+        var body = CsSource.MethodBody(ViewModelSource(), "private async Task StartTasksAsync()");
+
+        Assert.True(body.Length > 200, $"StartTasksAsync 方法体只取到 {body.Length} 个字符，提取规则大概坏了");
+
+        Assert.Contains("PersistConfig()", body);
+    }
+
     /// <summary>XAML 里所有「选择...」按钮的参数值，按出现顺序。</summary>
     private static List<string> CommandParameters() =>
         Regex.Matches(Xaml(), @"Command=""\{Binding PickPathCommand\}"" CommandParameter=""(\w+)""")

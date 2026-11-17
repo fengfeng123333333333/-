@@ -498,6 +498,13 @@ public sealed partial class MainViewModel : ObservableObject
             return;
         }
 
+        // 先把手上的界面值写回配置，再开跑。
+        // 执行器（ExecutorCatalog.CreateAll）是在启动时拿的那一份 AppConfig 实例，
+        // 所以「界面改了但配置没改」时，执行器读到的仍然是旧值。
+        // 原先只在窗口关闭时同步一次：第一次填完路径直接点开始，会报「没有配置视频目录」——
+        // 看着像路径没填，实际是这次改动还没进配置。填完整关一次程序再开才能跑，属于界面骗人。
+        PersistConfig();
+
         _runCts?.Dispose();
         _runCts = new CancellationTokenSource();
         SetRunning(true);
