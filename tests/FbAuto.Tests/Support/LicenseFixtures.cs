@@ -13,18 +13,18 @@ public static class LicenseFixtures
 {
     /// <summary>用当前私钥签发的真码，120 字符，不可伪造。</summary>
     public const string GoldenCode =
-        "040MVG2JP40KP00Y00QD6AR3JMKPBJXQ3PP9039A4KF06QFP5F3PXD89KM9QD6F8MFA64ZDJZ6R72EK47ZZXXA53KPY8HH94" +
-        "781MX9TEXCP2YZQRJN0E9PKR";
+        "040GZXZ9Z40KP00Y02NMHMATRMS7D0NYMTD8AD3F5X7P164E46KV59ZDBD938C3ZB9HGENTE9H32DACW1V2ZYK4YEXG0M852" +
+        "0D0MYH7Y4AQHBCNNGH13YKGM";
 
     /// <summary>金样本里的随机序号。</summary>
-    public const uint GoldenSerial = 1304449713u;
+    public const uint GoldenSerial = 267905529u;
 
     /// <summary>
     /// 第二张真码，同样由当前私钥签发。用于验证「换一张码」时有效期重新计算。
     /// </summary>
     public const string SecondCode =
-        "040KHHZ4A00KP00Y0014D8VZ5AKN4YQB0DQ4MSSMXF8RDJM0TRKETTW6DPTYE6QT2MJD65HEK4KETFJY7DWFXT126TWANPY7" +
-        "X031BEK8NXV6A7TJYH7JCYN1";
+        "040N6WJ0QM0KP00Y03NDXYM5DFYR3CDRB98V26WXY65DVWFEF8FN1PW357263HM0DC16RYFAWVNTBZ4W65K9RNBBF7XYYY7P" +
+        "T91H5Z52JRM6SYYQFV9C43B7";
 
     /// <summary>金样本的签发日。</summary>
     public static readonly DateOnly GoldenIssuedOn = new(2026, 11, 12);

@@ -10,7 +10,7 @@ public static class LicensePublicKey
 {
     /// <summary>P-256 公钥的 SubjectPublicKeyInfo（DER）的 Base64。</summary>
     private const string SpkiBase64 =
-        "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEa6sBQBU+jwtv8y8TxAnA6Y4sHzhvzPAUv8483bQwWIusjNVN2Sv+slAmDXQAfhCOkuSlBo1xdj1kyr2zuqa8XQ==";
+        "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoRtCdoe2FeeEGUvmrE3EA8dMKmo2q7sz0IOR5IQof/PqgKiDirqCILs1BdEW9ZrJA+XB9g2y/pyG1tblYzIj9w==";
 
     /// <summary>公钥是否已被替换成真实值。</summary>
     public static bool IsConfigured =>
