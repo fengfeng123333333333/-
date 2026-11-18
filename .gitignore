@@ -69,3 +69,7 @@ captures/
 _orig/
 _runtest/
 env-report.txt
+
+# Python 编译缓存（py_compile 产物，不该进仓库）
+__pycache__/
+*.pyc
